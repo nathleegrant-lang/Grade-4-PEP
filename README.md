@@ -1,71 +1,47 @@
 # Grade 4 PEP Practice 🇯🇲
 
-This platform provides structured preparation for Grade 4 students 
-as they begin their journey toward the Primary Exit Profile (PEP) examinations.
+This platform provides structured preparation for Grade 4 students as they begin their journey toward the Primary Exit Profile (PEP) examinations in Jamaica.
 
-It mirrors the Grade 5 learning experience, while focusing on building 
-strong foundational skills needed for higher-level PEP success.
+It is designed to help students build confidence through guided practice, topic review, mock-style activities, and skill-building tasks in a child-friendly online environment.
 
----
-
-## 📚 Subjects Covered
+## Subjects Covered
 
 - Mathematics
 - Language Arts
-- Science
-- Social Studies
+- Performance Tasks
 
----
-
-## ✨ Features
+## Features
 
 - Topic-based practice questions
-- PEP-style assessments
-- Interactive learning activities
-- Guided practice with simple explanations
-- Early exposure to mock-style questions
+- Guided review activities
+- Mock-style test preparation
+- Performance task support
+- Progress-focused learning experience
+- Parent-friendly structure for home support
 
----
-
-## 🎯 Purpose
+## Purpose
 
 This platform helps students:
-- Build strong foundational understanding
-- Develop confidence in core subject areas
-- Begin structured PEP preparation early
 
----
+- strengthen core Grade 4 skills
+- build confidence before higher-level PEP preparation
+- practise regularly in a structured way
+- develop independence in learning
 
-## 💡 Learning Approach
+## Learning Approach
 
 - Practice → Feedback → Improvement
-- Gradual progression across topics
-- Encourages independent and consistent learning
+- Clear progression across topics
+- Encourages consistent home-based revision
 
----
+## Connection to LearnJA
 
-## 🔄 Connection to Grade 5
+Grade 4 PEP Practice is part of the wider **LearnJA** vision and is positioned as its own product. Access to Grade 4 is separate from Grade 5 and other LearnJA offerings.
 
-The Grade 4 platform is designed as a **direct pathway into Grade 5 PEP preparation**, 
-ensuring students transition smoothly into more advanced practice and mock exams.
+## Ownership
 
----
+A product of **Shazonique's Inspiration**.
 
-## 👨‍👩‍👧 Who It’s For
+## Status
 
-- Grade 4 students
-- Parents supporting structured home learning
-
----
-
-## 🏢 Ownership
-
-A product of **Shazonique's Inspiration** under the LearnJA platform.
-
----
-
-## 🚧 Status
-
-Currently under active development with continuous improvements.
-
----
+Currently under active development and continuous improvement.

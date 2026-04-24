@@ -1,159 +1,248 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react"
-import { User, SubscriptionTier, AuthState } from "@/lib/types"
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react"
+import type { AuthChangeEvent, Session } from "@supabase/supabase-js"
+import { getSupabaseBrowserClient } from "@/lib/supabase/client"
+import type { RegisterResult, StudentRecord, SubscriptionRecord, User, PlanCode, AuthState } from "@/lib/types"
+import { isSubscriptionActive } from "@/lib/subscriptions"
 
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<boolean>
-  register: (data: RegisterData) => Promise<boolean>
-  logout: () => void
-  upgradeSubscription: (tier: SubscriptionTier) => void
+  register: (data: RegisterData) => Promise<RegisterResult>
+  logout: () => Promise<void>
+  refreshUser: () => Promise<void>
+  addStudent: (childName: string) => Promise<{ success: boolean; error?: string }>
 }
 
 interface RegisterData {
   parentName: string
   childName: string
   email: string
+  phone?: string
   password: string
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+interface SupabaseProfileRow {
+  id: string
+  full_name: string
+  email: string | null
+  phone: string | null
+  role: "admin" | "parent"
+  created_at: string
+}
 
-const STORAGE_KEY = "pep_user"
+interface SupabaseStudentRow {
+  id: string
+  full_name: string
+  grade_level: number
+  subscription_id: string | null
+  created_at: string
+}
+
+interface SupabaseSubscriptionRow {
+  id: string
+  parent_id: string
+  grade: "grade4" | "grade5"
+  plan_code: PlanCode
+  status: "pending" | "active" | "expired" | "cancelled" | "suspended"
+  starts_at: string | null
+  expires_at: string | null
+  max_students: number
+  payment_id: string | null
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const PENDING_CHILD_PREFIX = "grade4_pending_child_"
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const supabase = useMemo(() => getSupabaseBrowserClient(), [])
   const [user, setUser] = useState<User | null>(null)
+  const [students, setStudents] = useState<StudentRecord[]>([])
+  const [activeSubscription, setActiveSubscription] = useState<SubscriptionRecord | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    // Load user from localStorage on mount
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored)
-        // Convert date strings back to Date objects
-        if (parsed.subscriptionExpiry) {
-          parsed.subscriptionExpiry = new Date(parsed.subscriptionExpiry)
-        }
-        parsed.createdAt = new Date(parsed.createdAt)
-        setUser(parsed)
-      } catch {
-        localStorage.removeItem(STORAGE_KEY)
+  const mapStudent = (row: SupabaseStudentRow): StudentRecord => ({
+    id: row.id,
+    fullName: row.full_name,
+    gradeLevel: row.grade_level,
+    subscriptionId: row.subscription_id,
+    createdAt: row.created_at,
+  })
+
+  const mapSubscription = (row: SupabaseSubscriptionRow | null): SubscriptionRecord | null => {
+    if (!row) return null
+    return {
+      id: row.id,
+      parentId: row.parent_id,
+      grade: row.grade,
+      planCode: row.plan_code,
+      status: row.status,
+      startsAt: row.starts_at,
+      expiresAt: row.expires_at,
+      maxStudents: row.max_students,
+      paymentId: row.payment_id,
+    }
+  }
+
+  const persistPendingChild = (email: string, childName: string) => {
+    if (typeof window === "undefined") return
+    localStorage.setItem(`${PENDING_CHILD_PREFIX}${email.toLowerCase()}`, childName)
+  }
+
+  const readPendingChild = (email: string) => {
+    if (typeof window === "undefined") return null
+    return localStorage.getItem(`${PENDING_CHILD_PREFIX}${email.toLowerCase()}`)
+  }
+
+  const clearPendingChild = (email: string) => {
+    if (typeof window === "undefined") return
+    localStorage.removeItem(`${PENDING_CHILD_PREFIX}${email.toLowerCase()}`)
+  }
+
+  const loadUser = async (session: Session | null) => {
+    if (!session?.user) {
+      setUser(null)
+      setStudents([])
+      setActiveSubscription(null)
+      setIsLoading(false)
+      return
+    }
+
+    setIsLoading(true)
+    const authUser = session.user
+
+    const [{ data: profile }, { data: subscriptionRows }, { data: studentRows }] = await Promise.all([
+      supabase.from("profiles").select("id, full_name, email, phone, role, created_at").eq("id", authUser.id).single<SupabaseProfileRow>(),
+      supabase
+        .from("subscriptions")
+        .select("id, parent_id, grade, plan_code, status, starts_at, expires_at, max_students, payment_id")
+        .eq("parent_id", authUser.id)
+        .eq("grade", "grade4")
+        .in("status", ["active", "pending"])
+        .order("created_at", { ascending: false })
+        .limit(1),
+      supabase
+        .from("students")
+        .select("id, full_name, grade_level, subscription_id, created_at")
+        .eq("parent_id", authUser.id)
+        .order("created_at", { ascending: true }),
+    ])
+
+    let resolvedStudents = (studentRows ?? []).map((row) => mapStudent(row as SupabaseStudentRow))
+
+    const pendingChild = authUser.email ? readPendingChild(authUser.email) : null
+    if (resolvedStudents.length === 0 && pendingChild) {
+      const { data: insertedStudent } = await supabase
+        .from("students")
+        .insert({ parent_id: authUser.id, full_name: pendingChild, grade_level: 4 })
+        .select("id, full_name, grade_level, subscription_id, created_at")
+        .single<SupabaseStudentRow>()
+
+      if (insertedStudent) {
+        resolvedStudents = [mapStudent(insertedStudent)]
+        if (authUser.email) clearPendingChild(authUser.email)
       }
     }
+
+    const subscription = mapSubscription((subscriptionRows?.[0] as SupabaseSubscriptionRow | undefined) ?? null)
+    const active = isSubscriptionActive(subscription)
+
+    setStudents(resolvedStudents)
+    setActiveSubscription(subscription)
+    setUser({
+      id: authUser.id,
+      parentName: profile?.full_name ?? authUser.user_metadata?.full_name ?? "Parent",
+      childName: resolvedStudents[0]?.fullName ?? "Student",
+      email: profile?.email ?? authUser.email ?? "",
+      role: profile?.role ?? "parent",
+      subscriptionTier: active ? subscription?.planCode ?? "free" : "free",
+      subscriptionExpiry: active && subscription?.expiresAt ? new Date(subscription.expiresAt) : undefined,
+      createdAt: profile?.created_at ? new Date(profile.created_at) : undefined,
+      maxStudents: subscription?.maxStudents ?? 1,
+    })
     setIsLoading(false)
-  }, [])
-
-  const saveUser = (userData: User) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(userData))
-    setUser(userData)
   }
 
-  const login = async (email: string, password: string): Promise<boolean> => {
-    // Get all registered users from localStorage
-    const usersData = localStorage.getItem("pep_users")
-    if (!usersData) return false
+  useEffect(() => {
+    let mounted = true
+    supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return
+      void loadUser(data.session)
+    })
 
-    try {
-      const users = JSON.parse(usersData)
-      const foundUser = users.find((u: User & { password: string }) => 
-        u.email.toLowerCase() === email.toLowerCase() && u.password === password
-      )
-      
-      if (foundUser) {
-        const { password: _, ...userData } = foundUser
-        userData.createdAt = new Date(userData.createdAt)
-        if (userData.subscriptionExpiry) {
-          userData.subscriptionExpiry = new Date(userData.subscriptionExpiry)
-        }
-        saveUser(userData)
-        return true
-      }
-    } catch {
-      return false
+    const { data: listener } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session) => {
+      void loadUser(session)
+    })
+
+    return () => {
+      mounted = false
+      listener.subscription.unsubscribe()
     }
-    return false
+  }, [supabase])
+
+  const login = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    return !error
   }
 
-  const register = async (data: RegisterData): Promise<boolean> => {
-    // Check if email already exists
-    const usersData = localStorage.getItem("pep_users")
-    const users = usersData ? JSON.parse(usersData) : []
-    
-    const emailExists = users.some((u: User) => 
-      u.email.toLowerCase() === data.email.toLowerCase()
-    )
-    
-    if (emailExists) return false
+  const register = async (data: RegisterData): Promise<RegisterResult> => {
+    persistPendingChild(data.email, data.childName)
 
-    const newUser: User & { password: string } = {
-      id: crypto.randomUUID(),
-      parentName: data.parentName,
-      childName: data.childName,
+    const { data: result, error } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
-      subscriptionTier: "free",
-      createdAt: new Date(),
-    }
+      options: {
+        data: {
+          full_name: data.parentName,
+          phone: data.phone ?? null,
+          role: "parent",
+        },
+      },
+    })
 
-    users.push(newUser)
-    localStorage.setItem("pep_users", JSON.stringify(users))
-
-    const { password: _, ...userData } = newUser
-    saveUser(userData)
-    return true
+    if (error) return { success: false, error: error.message }
+    if (result.session) await loadUser(result.session)
+    return { success: true, needsEmailConfirmation: !result.session }
   }
 
-  const logout = () => {
-    localStorage.removeItem(STORAGE_KEY)
+  const logout = async () => {
+    await supabase.auth.signOut()
     setUser(null)
+    setStudents([])
+    setActiveSubscription(null)
   }
 
-  const upgradeSubscription = (tier: SubscriptionTier) => {
-    if (!user) return
-
-    const expiry = new Date()
-    if (tier === "monthly") {
-      expiry.setMonth(expiry.getMonth() + 1)
-    } else if (tier === "yearly") {
-      expiry.setFullYear(expiry.getFullYear() + 1)
-    }
-
-    const updatedUser: User = {
-      ...user,
-      subscriptionTier: tier,
-      subscriptionExpiry: tier !== "free" ? expiry : undefined,
-    }
-
-    // Update in users array too
-    const usersData = localStorage.getItem("pep_users")
-    if (usersData) {
-      const users = JSON.parse(usersData)
-      const userIndex = users.findIndex((u: User) => u.id === user.id)
-      if (userIndex !== -1) {
-        users[userIndex] = { ...users[userIndex], ...updatedUser }
-        localStorage.setItem("pep_users", JSON.stringify(users))
-      }
-    }
-
-    saveUser(updatedUser)
+  const refreshUser = async () => {
+    const { data } = await supabase.auth.getSession()
+    await loadUser(data.session)
   }
 
-  const isPremium = user?.subscriptionTier === "monthly" || user?.subscriptionTier === "yearly"
+  const addStudent = async (childName: string) => {
+    if (!user) return { success: false, error: "Please sign in first." }
+    if (!childName.trim()) return { success: false, error: "Enter a student name." }
+
+    const allowed = activeSubscription?.maxStudents ?? 1
+    if (students.length >= allowed) {
+      return { success: false, error: `This plan allows up to ${allowed} student${allowed === 1 ? "" : "s"}.` }
+    }
+
+    const { error } = await supabase.from("students").insert({
+      parent_id: user.id,
+      subscription_id: activeSubscription?.id ?? null,
+      full_name: childName.trim(),
+      grade_level: 4,
+    })
+
+    if (error) return { success: false, error: error.message }
+    await refreshUser()
+    return { success: true }
+  }
+
+  const isPremium = isSubscriptionActive(activeSubscription)
+  const isAdmin = user?.role === "admin"
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        isLoading,
-        isAuthenticated: !!user,
-        isPremium,
-        login,
-        register,
-        logout,
-        upgradeSubscription,
-      }}
-    >
+    <AuthContext.Provider value={{ user, students, activeSubscription, isLoading, isAuthenticated: !!user, isPremium, isAdmin, login, register, logout, refreshUser, addStudent }}>
       {children}
     </AuthContext.Provider>
   )
@@ -161,8 +250,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext)
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider")
-  }
+  if (context === undefined) throw new Error("useAuth must be used within an AuthProvider")
   return context
 }

@@ -1,13 +1,57 @@
-export type SubscriptionTier = "free" | "monthly" | "yearly"
+export type AppRole = "admin" | "parent"
+export type GradeProduct = "grade4" | "grade5"
+export type PlanCode = "free" | "standard_weekly" | "standard_monthly" | "premium_family_monthly"
+export type PaymentStatus = "pending" | "verified" | "rejected" | "expired"
+export type SubscriptionStatus = "pending" | "active" | "expired" | "cancelled" | "suspended"
+
+export interface StudentRecord {
+  id: string
+  fullName: string
+  gradeLevel: number
+  subscriptionId?: string | null
+  createdAt?: string
+}
+
+export interface SubscriptionRecord {
+  id: string
+  parentId: string
+  grade: GradeProduct
+  planCode: PlanCode
+  status: SubscriptionStatus
+  startsAt?: string | null
+  expiresAt?: string | null
+  maxStudents: number
+  paymentId?: string | null
+}
+
+export interface PaymentRecord {
+  id: string
+  parentId: string
+  grade: GradeProduct
+  planCode: PlanCode
+  amountJmd: number
+  method: string
+  referenceCode?: string | null
+  proofUrl?: string | null
+  note?: string | null
+  status: PaymentStatus
+  submittedAt: string
+  verifiedAt?: string | null
+  rejectionReason?: string | null
+  parentEmail?: string | null
+  parentName?: string | null
+}
 
 export interface User {
   id: string
   parentName: string
   childName: string
   email: string
-  subscriptionTier: SubscriptionTier
+  role: AppRole
+  subscriptionTier: PlanCode
   subscriptionExpiry?: Date
-  createdAt: Date
+  createdAt?: Date
+  maxStudents: number
 }
 
 export interface AuthState {
@@ -15,22 +59,27 @@ export interface AuthState {
   isLoading: boolean
   isAuthenticated: boolean
   isPremium: boolean
+  isAdmin: boolean
+  students: StudentRecord[]
+  activeSubscription: SubscriptionRecord | null
+}
+
+export interface RegisterResult {
+  success: boolean
+  error?: string
+  needsEmailConfirmation?: boolean
 }
 
 export interface PricingTier {
-  id: SubscriptionTier
+  id: PlanCode
   name: string
   priceJMD: number
-  priceUSD: number
   period: string
   description: string
   features: string[]
   popular?: boolean
-}
-
-export interface FeatureItem {
-  text: string
-  included: boolean
+  maxStudents: number
+  badgeText?: string | null
 }
 
 export const PRICING_TIERS: PricingTier[] = [
@@ -38,49 +87,59 @@ export const PRICING_TIERS: PricingTier[] = [
     id: "free",
     name: "Free",
     priceJMD: 0,
-    priceUSD: 0,
-    period: "forever",
-    description: "Get started with basic learning",
+    period: "Free forever",
+    description: "Explore selected lessons and sample practice before upgrading.",
+    maxStudents: 1,
     features: [
-      "Access to all topic lessons",
-      "1 quiz per topic",
-      "Limited mock test questions",
+      "Selected lessons and sample practice",
+      "Free account dashboard",
       "Basic progress tracking",
+      "One student profile",
     ],
   },
   {
-    id: "monthly",
-    name: "Monthly",
+    id: "standard_weekly",
+    name: "Standard Weekly",
     priceJMD: 1000,
-    priceUSD: 6.50,
-    period: "per month",
-    description: "Full access for one month",
-    features: [
-      "Everything in Free, plus:",
-      "Unlimited quizzes",
-      "Full mock exams with analytics",
-      "Printable worksheets (PDF)",
-      "Writing practice with rubrics",
-      "Detailed progress reports",
-      "Achievement certificates",
-    ],
+    period: "per 7 days",
+    description: "Full Grade 4 access for one student for one week.",
+    maxStudents: 1,
+    badgeText: "Popular",
     popular: true,
+    features: [
+      "Full Grade 4 access",
+      "Unlimited quizzes and mock tests",
+      "Worksheets, study guides, and certificates",
+      "Payment approval sets expiry automatically",
+    ],
   },
   {
-    id: "yearly",
-    name: "Yearly",
-    priceJMD: 10000,
-    priceUSD: 65,
-    period: "per year",
-    description: "Best value - 2 months FREE!",
+    id: "standard_monthly",
+    name: "Standard Monthly",
+    priceJMD: 3000,
+    period: "per month",
+    description: "Full Grade 4 access for one student for one month.",
+    maxStudents: 1,
+    badgeText: "Best Value",
     features: [
-      "Everything in Monthly, plus:",
-      "2 months FREE (save $2,000 JMD)",
-      "Family account (up to 3 children)",
-      "Exclusive bonus content",
-      "Priority email support",
-      "Early access to new features",
-      "Downloadable study guides",
+      "Everything in Standard Weekly",
+      "30-day access after approval",
+      "Detailed progress review",
+      "One student included",
+    ],
+  },
+  {
+    id: "premium_family_monthly",
+    name: "Premium Family Monthly",
+    priceJMD: 10000,
+    period: "per month",
+    description: "Full Grade 4 access for up to 4 students in one household.",
+    maxStudents: 4,
+    features: [
+      "Full Grade 4 access for up to 4 students",
+      "Family-friendly monthly plan",
+      "All premium resources included",
+      "Great for siblings in one household",
     ],
   },
 ]
@@ -88,23 +147,22 @@ export const PRICING_TIERS: PricingTier[] = [
 export const FREE_EXCLUDED_FEATURES = [
   "Full mock exams",
   "Printable worksheets",
-  "Writing practice with rubrics",
+  "Study guides",
   "Certificates",
-  "Priority support",
+  "Multiple student profiles",
 ]
 
-// Progress Tracking Types
 export interface QuizAttempt {
   id: string
   userId: string
-  quizId: string // e.g., "grammar-nouns", "math-geometry"
+  quizId: string
   category: "language-arts" | "mathematics" | "mock-test"
   topic: string
   score: number
   totalQuestions: number
   percentage: number
   completedAt: Date
-  timeSpent?: number // in seconds
+  timeSpent?: number
 }
 
 export interface Certificate {

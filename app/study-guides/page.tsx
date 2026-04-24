@@ -657,7 +657,7 @@ export default function StudyGuidesPage() {
     return null
   }
 
-  const isYearly = user.subscriptionTier === "yearly"
+  const hasPaidAccess = isPremium
 
   const downloadGuide = (guide: StudyGuide) => {
     const printWindow = window.open("", "_blank")
@@ -702,35 +702,35 @@ export default function StudyGuidesPage() {
             <h1 className="text-2xl md:text-3xl font-bold text-slate-800">Study Guides</h1>
             <p className="text-gray-600">Comprehensive guides to help you prepare for PEP</p>
           </div>
-          {isYearly && (
+          {hasPaidAccess && (
             <Badge className="bg-amber-100 text-amber-700 border-amber-300 ml-auto">
               <Star className="h-3 w-3 mr-1" />
-              Yearly Exclusive
+              Paid Access Resource
             </Badge>
           )}
         </div>
 
-        {!isYearly ? (
+        {!hasPaidAccess ? (
           <Card className="border-sky-200 max-w-lg mx-auto">
             <CardContent className="p-8 text-center">
               <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-6">
                 <Lock className="h-10 w-10 text-slate-400" />
               </div>
               <h2 className="text-xl font-semibold text-slate-800 mb-3">
-                Study Guides are a Yearly Exclusive
+                Study Guides are a Paid Access Resource
               </h2>
               <p className="text-slate-600 mb-6">
-                Upgrade to the Yearly plan to access {studyGuides.length} comprehensive study guides covering all PEP topics!
+                Upgrade to a paid Grade 4 plan to access comprehensive study guides covering all PEP topics!
               </p>
               <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
                 <p className="text-amber-700 text-sm">
-                  <strong>Yearly Plan Benefits:</strong> Study guides + 2 months FREE + Family account + Priority support
+                  <strong>Paid Plan Benefits:</strong> Study guides + mock tests + printable resources + family access options
                 </p>
               </div>
               <Link href="/pricing">
                 <Button className="bg-amber-500 hover:bg-amber-600">
                   <Crown className="h-4 w-4 mr-2" />
-                  Upgrade to Yearly
+                  Upgrade Access
                 </Button>
               </Link>
             </CardContent>

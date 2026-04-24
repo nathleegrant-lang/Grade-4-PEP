@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,18 +9,19 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { useAuth } from "@/contexts/auth-context"
 import { PRICING_TIERS, FREE_EXCLUDED_FEATURES, SubscriptionTier } from "@/lib/types"
-import { Check, X, Crown, Sparkles, Shield, Star, CreditCard, Lock, Zap } from "lucide-react"
+import { Check, X, MessageCircleMore, Landmark, Shield } from "lucide-react"
 
 export default function PricingPage() {
   const router = useRouter()
   const { isAuthenticated, isPremium, user } = useAuth()
-  const [isProcessing, setIsProcessing] = useState<SubscriptionTier | null>(null)
 
-  const handleSelectPlan = async (tier: SubscriptionTier) => {
+  const handleSelectPlan = (tier: SubscriptionTier) => {
     if (tier === "free") {
       if (!isAuthenticated) {
         router.push("/register")
+        return
       }
+      router.push("/dashboard")
       return
     }
 
@@ -30,7 +30,6 @@ export default function PricingPage() {
       return
     }
 
-    setIsProcessing(tier)
     router.push(`/checkout?plan=${tier}`)
   }
 
@@ -39,49 +38,49 @@ export default function PricingPage() {
       <SiteHeader />
 
       <main className="container mx-auto px-4 py-10">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
-            Invest in Your Child&apos;s Success
-          </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Unlock full access to all PEP preparation materials and give your child the best chance to excel
+        <div className="text-center mb-8">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-700 mb-3">Grade 4 pricing</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Choose Grade 4 Access</h1>
+          <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+            Select the access level that fits your child. This pricing is for the Grade 4 PEP website only and does not include Grade 5 or any other LearnJA product.
           </p>
         </div>
 
-        {/* Auth Notice */}
+        <div className="max-w-4xl mx-auto mb-8">
+          <Card className="border-amber-300 bg-amber-50 shadow-sm">
+            <CardContent className="p-5 text-center">
+              <p className="text-slate-700 font-medium">
+                Important: Grade 4 is sold separately. Buying this product does not include Grade 5 PEP or full LearnJA access.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
         {!isAuthenticated && (
-          <div className="max-w-2xl mx-auto mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg text-center">
-            <p className="text-amber-800">
+          <div className="max-w-2xl mx-auto mb-8 p-4 bg-sky-50 border border-sky-200 rounded-lg text-center">
+            <p className="text-sky-800">
               Please{" "}
-              <Link href="/login" className="font-semibold text-amber-700 hover:underline">
+              <Link href="/login" className="font-semibold text-sky-700 hover:underline">
                 sign in
-              </Link>{" "}
-              or{" "}
-              <Link href="/register" className="font-semibold text-amber-700 hover:underline">
+              </Link>
+              {" "}or{" "}
+              <Link href="/register" className="font-semibold text-sky-700 hover:underline">
                 create an account
-              </Link>{" "}
-              first to purchase a subscription.
+              </Link>
+              {" "}before selecting a paid Grade 4 plan.
             </p>
           </div>
         )}
 
-        {/* Pricing Cards */}
         <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
           {PRICING_TIERS.map((tier) => (
-            <Card 
+            <Card
               key={tier.id}
-              className={`relative border-2 ${
-                tier.popular 
-                  ? "border-amber-400 shadow-xl md:scale-105" 
-                  : "border-sky-200"
-              }`}
+              className={`relative border-2 ${tier.popular ? "border-amber-400 shadow-xl md:scale-105" : "border-sky-200"}`}
             >
               {tier.popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <Badge className="bg-amber-500 text-white border-0 px-3 py-1">
-                    Most Popular
-                  </Badge>
+                  <Badge className="bg-amber-500 text-white border-0 px-3 py-1">Most Popular</Badge>
                 </div>
               )}
               <CardHeader className="text-center pb-2 pt-6">
@@ -91,21 +90,12 @@ export default function PricingPage() {
               <CardContent className="pt-2">
                 <div className="text-center mb-6">
                   <div className="flex items-baseline justify-center gap-1">
-                    <span className="text-4xl font-bold text-slate-800">
-                      {tier.priceJMD === 0 ? "Free" : `$${tier.priceJMD.toLocaleString()}`}
-                    </span>
-                    {tier.priceJMD > 0 && (
-                      <span className="text-slate-500 text-sm">JMD{tier.id === "monthly" ? "/month" : "/year"}</span>
-                    )}
+                    <span className="text-4xl font-bold text-slate-800">{tier.priceJMD === 0 ? "Free" : `$${tier.priceJMD.toLocaleString()}`}</span>
+                    {tier.priceJMD > 0 && <span className="text-slate-500 text-sm">JMD{tier.id === "monthly" ? "/month" : "/year"}</span>}
                   </div>
-                  {tier.priceUSD > 0 && (
-                    <p className="text-sm text-slate-500 mt-1">
-                      ~${tier.priceUSD.toFixed(2)} USD
-                    </p>
-                  )}
+                  {tier.priceUSD > 0 && <p className="text-sm text-slate-500 mt-1">~${tier.priceUSD.toFixed(2)} USD</p>}
                 </div>
 
-                {/* Features List */}
                 <ul className="space-y-3 mb-6">
                   {tier.features.map((feature, index) => (
                     <li key={index} className="flex items-start gap-2">
@@ -113,144 +103,131 @@ export default function PricingPage() {
                       <span className="text-sm text-slate-600">{feature}</span>
                     </li>
                   ))}
-                  
-                  {/* Show excluded features for free tier */}
-                  {tier.id === "free" && FREE_EXCLUDED_FEATURES.map((feature, index) => (
-                    <li key={`excluded-${index}`} className="flex items-start gap-2">
-                      <X className="h-5 w-5 text-slate-300 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-slate-400 line-through">{feature}</span>
-                    </li>
-                  ))}
+
+                  {tier.id === "free" &&
+                    FREE_EXCLUDED_FEATURES.map((feature, index) => (
+                      <li key={`excluded-${index}`} className="flex items-start gap-2">
+                        <X className="h-5 w-5 text-slate-300 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-slate-400 line-through">{feature}</span>
+                      </li>
+                    ))}
                 </ul>
 
                 <Button
                   onClick={() => handleSelectPlan(tier.id)}
-                  disabled={
-                    isProcessing === tier.id || 
-                    (user?.subscriptionTier === tier.id) ||
-                    (isPremium && tier.id === "free")
-                  }
+                  disabled={(user?.subscriptionTier === tier.id) || (isPremium && tier.id === "free")}
                   className={`w-full ${
                     tier.popular
                       ? "bg-amber-500 hover:bg-amber-600 text-white"
                       : tier.id === "yearly"
-                      ? "bg-sky-600 hover:bg-sky-700 text-white"
-                      : "bg-slate-200 hover:bg-slate-300 text-slate-700"
+                        ? "bg-sky-600 hover:bg-sky-700 text-white"
+                        : "bg-slate-200 hover:bg-slate-300 text-slate-700"
                   }`}
                 >
-                  {user?.subscriptionTier === tier.id ? (
-                    "Current Plan"
-                  ) : isProcessing === tier.id ? (
-                    "Processing..."
-                  ) : tier.id === "free" ? (
-                    isAuthenticated ? "Current Plan" : "Get Started Free"
-                  ) : (
-                    "Pay with PayPal"
-                  )}
+                  {user?.subscriptionTier === tier.id
+                    ? "Current Plan"
+                    : tier.id === "free"
+                      ? isAuthenticated
+                        ? "Go to Dashboard"
+                        : "Start Free"
+                      : `Choose ${tier.name} Grade 4 Access`}
                 </Button>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {/* Payment Info Section */}
-        <div className="mt-16 max-w-3xl mx-auto">
-          <Card className="border-sky-200 bg-sky-50/50">
+        <div className="mt-16 max-w-4xl mx-auto">
+          <Card className="border-sky-200 bg-sky-50/70">
             <CardContent className="p-8">
-              <h3 className="text-xl font-semibold text-slate-800 text-center mb-6 flex items-center justify-center gap-2">
-                <Lock className="h-5 w-5 text-sky-600" />
-                Secure Payment with PayPal
-              </h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="flex items-start gap-3">
-                  <CreditCard className="h-5 w-5 text-sky-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium text-slate-700">Pay with any NCB, Scotiabank, or JMMB Visa/Mastercard</p>
+              <h3 className="text-xl font-semibold text-slate-800 text-center mb-6">How payment works</h3>
+              <div className="grid md:grid-cols-3 gap-5">
+                <div className="rounded-xl bg-white p-5 border border-sky-100">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Landmark className="h-5 w-5 text-sky-600" />
+                    <p className="font-semibold text-slate-800">Banking details</p>
+                  </div>
+                  <div className="text-sm text-slate-600 space-y-1">
+                    <p><span className="font-medium text-slate-700">Bank:</span> NCB Bank</p>
+                    <p><span className="font-medium text-slate-700">Branch:</span> Matilda&apos;s Corner Branch</p>
+                    <p><span className="font-medium text-slate-700">Account name:</span> Nathlee Grant</p>
+                    <p><span className="font-medium text-slate-700">Account number:</span> 064479806</p>
+                    <p><span className="font-medium text-slate-700">Account type:</span> Savings</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Shield className="h-5 w-5 text-sky-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium text-slate-700">No PayPal account needed - pay as guest</p>
+                <div className="rounded-xl bg-white p-5 border border-sky-100">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Shield className="h-5 w-5 text-sky-600" />
+                    <p className="font-semibold text-slate-800">Make your payment</p>
                   </div>
+                  <p className="text-sm text-slate-600">
+                    Send the exact amount for your selected Grade 4 plan using the banking details shown here. Keep your receipt, transfer confirmation, or deposit slip.
+                  </p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Zap className="h-5 w-5 text-sky-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium text-slate-700">Instant account activation after payment</p>
+                <div className="rounded-xl bg-white p-5 border border-sky-100">
+                  <div className="flex items-center gap-3 mb-3">
+                    <MessageCircleMore className="h-5 w-5 text-sky-600" />
+                    <p className="font-semibold text-slate-800">Send receipt</p>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 text-sky-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-medium text-slate-700">7-day money-back guarantee</p>
-                  </div>
+                  <p className="text-sm text-slate-600 mb-3">
+                    Send your payment receipt by WhatsApp to confirm your purchase. Access is activated after payment verification.
+                  </p>
+                  <a href="https://wa.me/18765055212" target="_blank" rel="noreferrer" className="text-sm font-semibold text-sky-700 hover:underline">
+                    WhatsApp: 876-505-5212
+                  </a>
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* FAQ Section */}
         <div className="mt-16 max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-800 text-center mb-8">
-            Frequently Asked Questions
-          </h2>
+          <h2 className="text-2xl font-bold text-slate-800 text-center mb-8">Frequently Asked Questions</h2>
           <div className="space-y-4">
             <Card className="border-sky-200">
               <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-800 mb-2">How do I pay from Jamaica?</h4>
+                <h4 className="font-semibold text-slate-800 mb-2">Does this payment include Grade 5?</h4>
                 <p className="text-slate-600">
-                  You can pay using any Visa or MasterCard debit/credit card through PayPal. NCB, Scotiabank, JMMB, and other Jamaican bank cards are accepted. You don&apos;t need a PayPal account.
+                  No. This page is for Grade 4 PEP access only. Grade 5 is sold separately as its own product.
                 </p>
               </CardContent>
             </Card>
             <Card className="border-sky-200">
               <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-800 mb-2">How long does activation take?</h4>
+                <h4 className="font-semibold text-slate-800 mb-2">How is access activated?</h4>
                 <p className="text-slate-600">
-                  Your account is activated instantly after successful payment. You can start using all premium features right away!
+                  After payment is confirmed, your selected Grade 4 access will be activated. Please send your receipt by WhatsApp to 876-505-5212 after making payment.
                 </p>
               </CardContent>
             </Card>
             <Card className="border-sky-200">
               <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-800 mb-2">Can I cancel my subscription?</h4>
+                <h4 className="font-semibold text-slate-800 mb-2">Which payment methods are currently available?</h4>
                 <p className="text-slate-600">
-                  Yes, you can cancel anytime. Your access will continue until the end of your billing period.
+                  At this time, Grade 4 payments can be made by bank transfer or bank deposit to the NCB account listed on this page. Additional payment methods can be added later.
                 </p>
               </CardContent>
             </Card>
             <Card className="border-sky-200">
               <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-800 mb-2">Is there a refund policy?</h4>
+                <h4 className="font-semibold text-slate-800 mb-2">Can parents start with the free plan first?</h4>
                 <p className="text-slate-600">
-                  We offer a 7-day money-back guarantee if you&apos;re not satisfied with the premium features.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="border-sky-200">
-              <CardContent className="p-6">
-                <h4 className="font-semibold text-slate-800 mb-2">How many children can use one account?</h4>
-                <p className="text-slate-600">
-                  Monthly plans are for 1 child. Yearly plans include a Family Account for up to 3 children.
+                  Yes. The free plan allows families to explore the site before deciding whether to purchase paid Grade 4 access.
                 </p>
               </CardContent>
             </Card>
           </div>
         </div>
 
-        {/* Contact Section */}
-        <div className="mt-16 text-center">
-          <Card className="max-w-xl mx-auto border-sky-200">
-            <CardContent className="p-8">
-              <h3 className="text-xl font-semibold text-slate-800 mb-2">Have Questions?</h3>
-              <p className="text-slate-600 mb-4">
-                We&apos;re here to help! Reach out to us for any questions about subscriptions or payment.
-              </p>
-              <Button variant="outline" className="border-sky-400 text-sky-600 hover:bg-sky-50">
-                Contact Us
-              </Button>
+        <div className="mt-12 max-w-3xl mx-auto">
+          <Card className="border-amber-300 bg-amber-50">
+            <CardContent className="p-5 text-center text-slate-700">
+              <span className="font-semibold">Need payment help?</span>{" "}
+              Message us on{" "}
+              <a href="https://wa.me/18765055212" target="_blank" rel="noreferrer" className="font-semibold text-sky-700 hover:underline">
+                WhatsApp 876-505-5212
+              </a>
+              .
             </CardContent>
           </Card>
         </div>

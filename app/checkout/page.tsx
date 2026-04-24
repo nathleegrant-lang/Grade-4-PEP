@@ -1,29 +1,23 @@
 "use client"
 
-import { useEffect, useState, Suspense } from "react"
+import { Suspense, useEffect } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { useAuth } from "@/contexts/auth-context"
 import { PRICING_TIERS, SubscriptionTier } from "@/lib/types"
-import { Crown, Shield, ArrowLeft, CheckCircle, AlertCircle } from "lucide-react"
+import { Crown, ArrowLeft, Landmark, MessageCircleMore, ShieldCheck } from "lucide-react"
 
 function CheckoutContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { user, isAuthenticated, isLoading, upgradeSubscription } = useAuth()
-  const [paymentComplete, setPaymentComplete] = useState(false)
-  const [paymentError, setPaymentError] = useState<string | null>(null)
-  const [isProcessing, setIsProcessing] = useState(false)
+  const { user, isAuthenticated, isLoading } = useAuth()
 
   const planId = searchParams.get("plan") as SubscriptionTier
   const plan = PRICING_TIERS.find((t) => t.id === planId)
-
-  const paypalClientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || ""
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -44,60 +38,6 @@ function CheckoutContent() {
     return null
   }
 
-  const handlePaymentSuccess = (orderId: string) => {
-    console.log("[v0] Payment successful, order ID:", orderId)
-    upgradeSubscription(plan.id)
-    setPaymentComplete(true)
-    setIsProcessing(false)
-  }
-
-  const handlePaymentError = (error: string) => {
-    console.error("[v0] Payment error:", error)
-    setPaymentError(error)
-    setIsProcessing(false)
-  }
-
-  if (paymentComplete) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-sky-50 to-slate-50">
-        <SiteHeader />
-        <main className="container mx-auto px-4 py-10">
-          <div className="max-w-md mx-auto">
-            <Card className="border-green-200 shadow-lg">
-              <CardHeader className="text-center">
-                <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="h-10 w-10 text-green-600" />
-                </div>
-                <CardTitle className="text-2xl text-slate-800">Payment Successful!</CardTitle>
-                <CardDescription>
-                  Your account has been upgraded to {plan.name}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-center space-y-4">
-                <p className="text-slate-600">
-                  Thank you for subscribing! You now have full access to all premium features.
-                </p>
-                <div className="flex flex-col gap-3">
-                  <Link href="/dashboard">
-                    <Button className="w-full bg-slate-700 hover:bg-slate-800">
-                      Go to Dashboard
-                    </Button>
-                  </Link>
-                  <Link href="/mock-tests">
-                    <Button variant="outline" className="w-full">
-                      Start a Mock Test
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </main>
-        <SiteFooter />
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-slate-50">
       <SiteHeader />
@@ -110,172 +50,100 @@ function CheckoutContent() {
           </Button>
         </Link>
 
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-3xl mx-auto space-y-6">
           <Card className="border-sky-200 shadow-lg">
             <CardHeader className="text-center border-b">
               <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
                 <Crown className="h-8 w-8 text-amber-600" />
               </div>
-              <CardTitle className="text-2xl text-slate-800">Complete Your Purchase</CardTitle>
+              <CardTitle className="text-2xl text-slate-800">Complete Your Grade 4 Access Request</CardTitle>
               <CardDescription>
-                Upgrade to {plan.name} for {user?.childName}
+                {user?.childName ? `Selected for ${user.childName}` : "Selected plan"}: {plan.name}
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-6">
-              {/* Order Summary */}
-              <div className="bg-slate-50 rounded-lg p-4 mb-6">
-                <h3 className="font-semibold text-slate-800 mb-3">Order Summary</h3>
+            <CardContent className="p-6 space-y-6">
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-3">Plan Summary</h3>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-slate-600">{plan.name} Plan</span>
-                  <span className="font-medium text-slate-800">
-                    ${plan.priceJMD.toLocaleString()} JMD
-                  </span>
+                  <span className="text-slate-600">{plan.name} Grade 4 plan</span>
+                  <span className="font-medium text-slate-800">${plan.priceJMD.toLocaleString()} JMD</span>
                 </div>
                 <div className="flex justify-between items-center text-sm text-slate-500">
-                  <span>Billing Period</span>
+                  <span>Billing period</span>
                   <span className="capitalize">{plan.period}</span>
                 </div>
-                <div className="border-t mt-3 pt-3 flex justify-between items-center">
-                  <span className="font-semibold text-slate-800">Total</span>
-                  <div className="text-right">
-                    <p className="font-bold text-lg text-slate-800">
-                      ${plan.priceUSD.toFixed(2)} USD
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      (${plan.priceJMD.toLocaleString()} JMD)
-                    </p>
-                  </div>
-                </div>
               </div>
 
-              {/* Payment Error */}
-              {paymentError && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex items-start gap-3">
-                  <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-5">
+                <div className="flex items-start gap-3">
+                  <ShieldCheck className="h-5 w-5 text-emerald-600 mt-0.5" />
                   <div>
-                    <p className="font-medium text-red-800">Payment Failed</p>
-                    <p className="text-sm text-red-600">{paymentError}</p>
-                    <button 
-                      onClick={() => setPaymentError(null)}
-                      className="text-sm text-red-700 underline mt-1"
-                    >
-                      Try again
-                    </button>
+                    <p className="font-semibold text-slate-800 mb-1">Payment verification flow</p>
+                    <p className="text-sm text-slate-600">
+                      Pay for your selected Grade 4 plan using the banking details below, then send your receipt by WhatsApp for verification. Access will be activated after payment has been confirmed.
+                    </p>
                   </div>
                 </div>
-              )}
+              </div>
 
-              {/* PayPal Payment */}
-              <div className="space-y-4">
-                <div className="bg-sky-50 border border-sky-200 rounded-lg p-4">
-                  <h4 className="font-medium text-slate-800 mb-4 text-center">
-                    Pay Securely with PayPal
-                  </h4>
-                  
-                  {paypalClientId ? (
-                    <PayPalScriptProvider
-                      options={{
-                        clientId: paypalClientId,
-                        currency: "USD",
-                        intent: "capture",
-                      }}
-                    >
-                      <PayPalButtons
-                        style={{
-                          layout: "vertical",
-                          color: "blue",
-                          shape: "rect",
-                          label: "pay",
-                        }}
-                        disabled={isProcessing}
-                        createOrder={async () => {
-                          setIsProcessing(true)
-                          setPaymentError(null)
-                          try {
-                            const response = await fetch("/api/paypal/create-order", {
-                              method: "POST",
-                              headers: { "Content-Type": "application/json" },
-                              body: JSON.stringify({ plan: plan.id }),
-                            })
-                            const data = await response.json()
-                            if (!response.ok) {
-                              throw new Error(data.error || "Failed to create order")
-                            }
-                            return data.id
-                          } catch (error) {
-                            handlePaymentError(error instanceof Error ? error.message : "Failed to create order")
-                            throw error
-                          }
-                        }}
-                        onApprove={async (data) => {
-                          try {
-                            const response = await fetch("/api/paypal/capture-order", {
-                              method: "POST",
-                              headers: { "Content-Type": "application/json" },
-                              body: JSON.stringify({ orderID: data.orderID, plan: plan.id }),
-                            })
-                            const captureData = await response.json()
-                            if (!response.ok) {
-                              throw new Error(captureData.error || "Failed to capture payment")
-                            }
-                            handlePaymentSuccess(captureData.transactionId)
-                          } catch (error) {
-                            handlePaymentError(error instanceof Error ? error.message : "Failed to process payment")
-                          }
-                        }}
-                        onError={(err) => {
-                          handlePaymentError(
-                            err instanceof Error 
-                              ? err.message 
-                              : "An error occurred during payment. Please try again."
-                          )
-                        }}
-                        onCancel={() => {
-                          setIsProcessing(false)
-                          setPaymentError("Payment was cancelled. Please try again.")
-                        }}
-                      />
-                    </PayPalScriptProvider>
-                  ) : (
-                    <div className="text-center p-4 bg-amber-50 rounded-lg border border-amber-200">
-                      <AlertCircle className="h-8 w-8 text-amber-600 mx-auto mb-2" />
-                      <p className="text-amber-800 font-medium">PayPal Not Configured</p>
-                      <p className="text-sm text-amber-600 mt-1">
-                        Please contact support to complete your purchase.
-                      </p>
-                    </div>
-                  )}
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="rounded-xl border border-sky-100 bg-white p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Landmark className="h-5 w-5 text-sky-600" />
+                    <h4 className="font-semibold text-slate-800">Step 1</h4>
+                  </div>
+                  <div className="text-sm text-slate-600 space-y-1">
+                    <p><span className="font-medium text-slate-700">Bank:</span> NCB Bank</p>
+                    <p><span className="font-medium text-slate-700">Branch:</span> Matilda&apos;s Corner Branch</p>
+                    <p><span className="font-medium text-slate-700">Account name:</span> Nathlee Grant</p>
+                    <p><span className="font-medium text-slate-700">Account number:</span> 064479806</p>
+                    <p><span className="font-medium text-slate-700">Account type:</span> Savings</p>
+                  </div>
+                </div>
+                <div className="rounded-xl border border-sky-100 bg-white p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <ShieldCheck className="h-5 w-5 text-sky-600" />
+                    <h4 className="font-semibold text-slate-800">Step 2</h4>
+                  </div>
+                  <p className="text-sm text-slate-600">
+                    Pay the exact amount for your selected plan. Keep your deposit slip, transfer screenshot, or bank confirmation as proof of payment.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-sky-100 bg-white p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <MessageCircleMore className="h-5 w-5 text-sky-600" />
+                    <h4 className="font-semibold text-slate-800">Step 3</h4>
+                  </div>
+                  <p className="text-sm text-slate-600 mb-3">
+                    Send your receipt by WhatsApp so your Grade 4 access can be verified and activated.
+                  </p>
+                  <a href="https://wa.me/18765055212" target="_blank" rel="noreferrer" className="text-sm font-semibold text-sky-700 hover:underline">
+                    WhatsApp: 876-505-5212
+                  </a>
                 </div>
               </div>
 
-              {/* Security Note */}
-              <div className="mt-6 flex items-center justify-center gap-2 text-slate-500 text-sm">
-                <Shield className="h-4 w-4" />
-                <span>Secure payment processed by PayPal</span>
+              <div className="rounded-xl bg-sky-50 border border-sky-200 p-5">
+                <h4 className="font-semibold text-slate-800 mb-2">Payment note</h4>
+                <p className="text-sm text-slate-700 leading-relaxed">
+                  This payment gives access to your selected Grade 4 plan only. Grade 5 PEP and other LearnJA products are sold separately.
+                </p>
               </div>
 
-              {/* Plan Features */}
-              <div className="mt-6 pt-6 border-t">
-                <h4 className="font-medium text-slate-800 mb-3">What you&apos;ll get:</h4>
-                <ul className="space-y-2">
-                  {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-center gap-2 text-sm text-slate-600">
-                      <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link href="/pricing" className="flex-1">
+                  <Button variant="outline" className="w-full">
+                    Choose Another Plan
+                  </Button>
+                </Link>
+                <a href="https://wa.me/18765055212" target="_blank" rel="noreferrer" className="flex-1">
+                  <Button className="w-full bg-slate-800 hover:bg-slate-900 text-white">
+                    Send Receipt on WhatsApp
+                  </Button>
+                </a>
               </div>
             </CardContent>
           </Card>
-
-          {/* Help Text */}
-          <p className="text-center text-sm text-slate-500 mt-6">
-            Having trouble? Contact us at{" "}
-            <a href="mailto:support@grade4pep.com" className="text-sky-600 hover:text-sky-700">
-              support@grade4pep.com
-            </a>
-          </p>
         </div>
       </main>
 
@@ -286,11 +154,13 @@ function CheckoutContent() {
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-b from-sky-50 to-slate-50 flex items-center justify-center">
-        <p className="text-slate-600">Loading...</p>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gradient-to-b from-sky-50 to-slate-50 flex items-center justify-center">
+          <p className="text-slate-600">Loading checkout...</p>
+        </div>
+      }
+    >
       <CheckoutContent />
     </Suspense>
   )

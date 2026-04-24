@@ -1,8 +1,9 @@
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BookOpen, Calculator, ClipboardList } from "lucide-react"
+import { BookOpen, Calculator, ClipboardList, FileCheck2, MessageCircleMore } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { Button } from "@/components/ui/button"
 
 const subjects = [
   {
@@ -26,13 +27,20 @@ const subjects = [
     icon: ClipboardList,
     color: "bg-gold",
   },
+  {
+    title: "Mock Tests",
+    description: "Try mock-style activities to build confidence before formal assessment.",
+    href: "/mock-tests",
+    icon: FileCheck2,
+    color: "bg-emerald-600",
+  },
 ]
 
 const steps = [
   { number: 1, text: "Choose a subject" },
   { number: 2, text: "Review a topic" },
   { number: 3, text: "Complete practice activities" },
-  { number: 4, text: "Try a mock test" },
+  { number: 4, text: "Move on to mock tests" },
 ]
 
 export default function Home() {
@@ -40,18 +48,39 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-sky-light/30 to-gold-light/20">
       <SiteHeader />
 
-      {/* Hero Section */}
       <section className="bg-gradient-to-r from-navy to-sky text-white py-12 md:py-16">
         <div className="container mx-auto px-4 text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-gold-light mb-3">Grade 4 only</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">Welcome to Grade 4 PEP Practice</h2>
-          <p className="text-lg md:text-xl max-w-2xl mx-auto text-sky-light text-pretty">
-            Practice, review, and build confidence for the PEP examination through guided online learning activities and mock tests.
+          <p className="text-lg md:text-xl max-w-3xl mx-auto text-sky-light text-pretty">
+            Practice, review, and build confidence through guided online learning activities, performance tasks, and mock-style assessments created for Grade 4 learners in Jamaica.
           </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+            <Link href="/language-arts">
+              <Button size="lg" className="bg-amber-500 hover:bg-amber-600 text-white px-8">
+                Start Free Practice
+              </Button>
+            </Link>
+            <Link href="/pricing">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-navy px-8 bg-transparent">
+                View Grade 4 Pricing
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
       <main className="container mx-auto px-4 py-10">
-        {/* Welcome Section */}
+        <section className="mb-8">
+          <Card className="border-amber-300 bg-amber-50 shadow-sm">
+            <CardContent className="p-5 text-center">
+              <p className="text-slate-700 font-medium">
+                Grade 4 access is a separate product. Payment for this site does not include Grade 5 PEP or other LearnJA programmes.
+              </p>
+            </CardContent>
+          </Card>
+        </section>
+
         <section className="mb-12">
           <Card className="border-sky/30 bg-white/90 backdrop-blur shadow-lg">
             <CardHeader>
@@ -59,16 +88,15 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <p className="text-foreground leading-relaxed">
-                This website is designed to support students and parents with engaging practice activities in 
-                <strong className="text-navy"> Language Arts (Literacy)</strong> and <strong className="text-navy">Mathematics (Numeracy)</strong>. 
-                Grade 4 students will also practice <strong className="text-navy">Performance Tasks</strong> that assess reading, writing, and research skills. 
-                Each section offers opportunities to review concepts, strengthen skills, and prepare with confidence for the PEP examination.
+                This website is designed to support students and parents with engaging practice activities in
+                <strong className="text-navy"> Language Arts (Literacy)</strong> and <strong className="text-navy">Mathematics (Numeracy)</strong>.
+                Grade 4 students will also practise <strong className="text-navy">Performance Tasks</strong> that assess reading, writing, and research skills.
+                Each section offers opportunities to review concepts, strengthen skills, and prepare with confidence for the PEP examination pathway.
               </p>
             </CardContent>
           </Card>
         </section>
 
-        {/* How to Use Section */}
         <section className="mb-12">
           <h3 className="text-xl font-semibold text-navy mb-6 text-center">How to Use This Site</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -83,12 +111,57 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Subject Cards Section */}
+        <section className="mb-12">
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card className="border-sky/30 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-navy text-xl">For Students</CardTitle>
+                <CardDescription>Build confidence one topic at a time.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600">
+                  Start with a topic, answer the activities carefully, and revisit weak areas before moving on to mock tests.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="border-amber-300 shadow-sm bg-amber-50/50">
+              <CardHeader>
+                <CardTitle className="text-navy text-xl">For Parents</CardTitle>
+                <CardDescription>Support learning without confusion.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600">
+                  Use this site for Grade 4 practice only. When your child is ready, Grade 5 PEP will be purchased separately as its own programme.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        <section className="mb-12">
+          <Card className="border-sky-200 bg-sky-50/80 shadow-sm">
+            <CardContent className="p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <MessageCircleMore className="h-5 w-5 text-sky-700" />
+                  <p className="font-semibold text-slate-800">Need help with payment or access?</p>
+                </div>
+                <p className="text-slate-600 text-sm md:text-base">
+                  Message us on WhatsApp at 876-505-5212 after making your Grade 4 payment to confirm your receipt and activate access.
+                </p>
+              </div>
+              <a href="https://wa.me/18765055212" target="_blank" rel="noreferrer">
+                <Button className="bg-slate-800 hover:bg-slate-900 text-white">Chat on WhatsApp</Button>
+              </a>
+            </CardContent>
+          </Card>
+        </section>
+
         <section>
           <h3 className="text-xl font-semibold text-navy mb-6 text-center">Start Practicing</h3>
-          <p className="text-center text-muted-foreground mb-8">Choose a subject below to begin your review and online practice.</p>
-          
-          <div className="grid md:grid-cols-3 gap-6">
+          <p className="text-center text-muted-foreground mb-8">Choose a section below to begin your review and online practice.</p>
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
             {subjects.map((subject) => {
               const Icon = subject.icon
               return (
@@ -101,9 +174,7 @@ export default function Home() {
                       <CardTitle className="text-lg text-navy">{subject.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <CardDescription className="text-muted-foreground">
-                        {subject.description}
-                      </CardDescription>
+                      <CardDescription className="text-muted-foreground">{subject.description}</CardDescription>
                     </CardContent>
                   </Card>
                 </Link>
@@ -112,7 +183,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Brand Colors Banner */}
         <section className="mt-12">
           <div className="h-2 rounded-full overflow-hidden flex">
             <div className="flex-1 bg-navy"></div>

@@ -147,7 +147,7 @@ Bright lights from houses and hotels near the beach can confuse both nesting tur
 
 In some communities, groups of volunteers now patrol nesting beaches. They cover nests with protective screens, record when eggs are laid, and teach residents how to keep beaches dark and clean during nesting season. Students often join these projects by creating posters, helping with beach clean-ups, and sharing what they have learned with their families.
 
-Protecting sea turtles is not only about saving one animal. Healthy turtle populations help keep the ocean balanced. For example, some turtles eat seagrass and keep it from growing too thick. Seagrass beds are important homes for fish and other sea creatures. When turtles are protected, many other parts of the marine environment benefit too.",
+Protecting sea turtles is not only about saving one animal. Healthy turtle populations help keep the ocean balanced. For example, some turtles eat seagrass and keep it from growing too thick. Seagrass beds are important homes for fish and other sea creatures. When turtles are protected, many other parts of the marine environment benefit too.`,
     question: "Why does the writer include the detail that turtles may mistake plastic bags for jellyfish?",
     options: [
       "To explain one specific way human rubbish can harm turtles",
@@ -169,7 +169,7 @@ Bright lights from houses and hotels near the beach can confuse both nesting tur
 
 In some communities, groups of volunteers now patrol nesting beaches. They cover nests with protective screens, record when eggs are laid, and teach residents how to keep beaches dark and clean during nesting season. Students often join these projects by creating posters, helping with beach clean-ups, and sharing what they have learned with their families.
 
-Protecting sea turtles is not only about saving one animal. Healthy turtle populations help keep the ocean balanced. For example, some turtles eat seagrass and keep it from growing too thick. Seagrass beds are important homes for fish and other sea creatures. When turtles are protected, many other parts of the marine environment benefit too.",
+Protecting sea turtles is not only about saving one animal. Healthy turtle populations help keep the ocean balanced. For example, some turtles eat seagrass and keep it from growing too thick. Seagrass beds are important homes for fish and other sea creatures. When turtles are protected, many other parts of the marine environment benefit too.`,
     question: "What is the main idea of the third paragraph?",
     options: [
       "Hotels are being built too close to some beaches.",
@@ -191,7 +191,7 @@ Bright lights from houses and hotels near the beach can confuse both nesting tur
 
 In some communities, groups of volunteers now patrol nesting beaches. They cover nests with protective screens, record when eggs are laid, and teach residents how to keep beaches dark and clean during nesting season. Students often join these projects by creating posters, helping with beach clean-ups, and sharing what they have learned with their families.
 
-Protecting sea turtles is not only about saving one animal. Healthy turtle populations help keep the ocean balanced. For example, some turtles eat seagrass and keep it from growing too thick. Seagrass beds are important homes for fish and other sea creatures. When turtles are protected, many other parts of the marine environment benefit too.",
+Protecting sea turtles is not only about saving one animal. Healthy turtle populations help keep the ocean balanced. For example, some turtles eat seagrass and keep it from growing too thick. Seagrass beds are important homes for fish and other sea creatures. When turtles are protected, many other parts of the marine environment benefit too.`,
     question: "What can the reader infer about the writer's purpose in this passage?",
     options: [
       "To entertain readers with an imaginary story about turtles",
@@ -213,7 +213,7 @@ Bright lights from houses and hotels near the beach can confuse both nesting tur
 
 In some communities, groups of volunteers now patrol nesting beaches. They cover nests with protective screens, record when eggs are laid, and teach residents how to keep beaches dark and clean during nesting season. Students often join these projects by creating posters, helping with beach clean-ups, and sharing what they have learned with their families.
 
-Protecting sea turtles is not only about saving one animal. Healthy turtle populations help keep the ocean balanced. For example, some turtles eat seagrass and keep it from growing too thick. Seagrass beds are important homes for fish and other sea creatures. When turtles are protected, many other parts of the marine environment benefit too.",
+Protecting sea turtles is not only about saving one animal. Healthy turtle populations help keep the ocean balanced. For example, some turtles eat seagrass and keep it from growing too thick. Seagrass beds are important homes for fish and other sea creatures. When turtles are protected, many other parts of the marine environment benefit too.`,
     question: "Why is the fourth paragraph important to the passage as a whole?",
     options: [
       "It explains that turtles are not really in danger.",
@@ -235,7 +235,7 @@ Bright lights from houses and hotels near the beach can confuse both nesting tur
 
 In some communities, groups of volunteers now patrol nesting beaches. They cover nests with protective screens, record when eggs are laid, and teach residents how to keep beaches dark and clean during nesting season. Students often join these projects by creating posters, helping with beach clean-ups, and sharing what they have learned with their families.
 
-Protecting sea turtles is not only about saving one animal. Healthy turtle populations help keep the ocean balanced. For example, some turtles eat seagrass and keep it from growing too thick. Seagrass beds are important homes for fish and other sea creatures. When turtles are protected, many other parts of the marine environment benefit too.",
+Protecting sea turtles is not only about saving one animal. Healthy turtle populations help keep the ocean balanced. For example, some turtles eat seagrass and keep it from growing too thick. Seagrass beds are important homes for fish and other sea creatures. When turtles are protected, many other parts of the marine environment benefit too.`,
     question: "Which title best fits this passage?",
     options: [
       "How to Build a Hotel on the Beach",

@@ -254,21 +254,23 @@ function CheckoutContent() {
               )}
 
               {hasActiveSubscription && (
-                <div className="rounded-xl border border-green-200 bg-green-50 p-5">
-                  <p className="font-semibold text-slate-800 mb-1">Access already active</p>
-                  <p className="text-sm text-slate-600">
-                    Your Grade 4 access is already active.
-                    {activeSubscription?.expires_at && (
-                      <>
-                        {" "}It is active until{" "}
-                        <span className="font-medium text-slate-700">
-                          {new Date(activeSubscription.expires_at).toLocaleDateString()}
-                        </span>.
-                      </>
-                    )}
-                  </p>
-                </div>
-              )}
+  <div className="rounded-xl border-2 border-emerald-600 bg-emerald-100 p-5 shadow-md">
+    <p className="text-lg font-extrabold text-emerald-900 mb-2">
+      ✅ Access Already Active
+    </p>
+    <p className="text-sm text-emerald-900">
+      Your Grade 4 access is already active.
+      {activeSubscription?.expires_at && (
+        <>
+          {" "}It is active until{" "}
+          <span className="font-bold">
+            {new Date(activeSubscription.expires_at).toLocaleDateString()}
+          </span>.
+        </>
+      )}
+    </p>
+  </div>
+)}
 
               <div className="grid md:grid-cols-3 gap-4">
                 <div className="rounded-xl border border-sky-100 bg-white p-5">

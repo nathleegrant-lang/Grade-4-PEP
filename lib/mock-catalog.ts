@@ -1,13 +1,15 @@
-// lib/mock-catalog.ts
 import fs from "fs"
 import path from "path"
 
-export type LevelKey = "easy" | "moderate" | "difficult" | "mixed"
+export type GradeKey = "grade4" | "grade5"
 export type SubjectKey = "literacy" | "numeracy" | "performance"
+export type DifficultyKey = "easy" | "moderate" | "difficult" | "mixed"
 
-export type SubjectCatalog = Record<LevelKey, number[]>
+export const MAX_TEST_SLOTS = 10
 
-const LEVELS: LevelKey[] = ["easy", "moderate", "difficult", "mixed"]
+type SubjectCatalog = Record<DifficultyKey, number[]>
+
+const DIFFICULTIES: DifficultyKey[] = ["easy", "moderate", "difficult", "mixed"]
 
 function emptyCatalog(): SubjectCatalog {
   return {
@@ -18,8 +20,16 @@ function emptyCatalog(): SubjectCatalog {
   }
 }
 
-export function getSubjectCatalog(subject: SubjectKey): SubjectCatalog {
-  const basePath = path.join(process.cwd(), "app", "mock-tests", subject)
+function getSubjectBasePath(grade: GradeKey, subject: SubjectKey) {
+  if (grade === "grade4") {
+    return path.join(process.cwd(), "app", "mock-tests", subject)
+  }
+
+  return path.join(process.cwd(), "app", "grade-5", "mock-tests", subject)
+}
+
+function scanSubjectCatalog(grade: GradeKey, subject: SubjectKey): SubjectCatalog {
+  const basePath = getSubjectBasePath(grade, subject)
   const catalog = emptyCatalog()
 
   if (!fs.existsSync(basePath)) return catalog
@@ -32,17 +42,47 @@ export function getSubjectCatalog(subject: SubjectKey): SubjectCatalog {
     const match = entry.name.match(/^(easy|moderate|difficult|mixed)-(\d+)$/)
     if (!match) continue
 
-    const level = match[1] as LevelKey
-    const number = Number(match[2])
+    const difficulty = match[1] as DifficultyKey
+    const testNumber = Number(match[2])
 
-    if (!Number.isNaN(number)) {
-      catalog[level].push(number)
+    if (!Number.isNaN(testNumber)) {
+      catalog[difficulty].push(testNumber)
     }
   }
 
-  for (const level of LEVELS) {
-    catalog[level].sort((a, b) => a - b)
+  for (const difficulty of DIFFICULTIES) {
+    catalog[difficulty].sort((a, b) => a - b)
   }
 
   return catalog
+}
+
+export function getAvailableTests(
+  grade: GradeKey,
+  subject: SubjectKey,
+  difficulty: DifficultyKey,
+) {
+  return scanSubjectCatalog(grade, subject)[difficulty]
+}
+
+export function isTestAvailable(
+  grade: GradeKey,
+  subject: SubjectKey,
+  difficulty: DifficultyKey,
+  testNumber: number,
+) {
+  return getAvailableTests(grade, subject, difficulty).includes(testNumber)
+}
+
+export function getTestHref(
+  subject: SubjectKey,
+  difficulty: DifficultyKey,
+  testNumber: number,
+  grade: GradeKey = "grade4",
+) {
+  if (grade === "grade5") {
+    return `/grade-5/mock-tests/${subject}/${difficulty}-${testNumber}`
+  }
+
+  return `/mock-tests/${subject}/${difficulty}-${testNumber}`
 }

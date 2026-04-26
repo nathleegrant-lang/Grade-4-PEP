@@ -3,7 +3,7 @@ import { SiteFooter } from "@/components/site-footer"
 import SubjectLevelCard from "@/components/mock-tests/subject-level-card"
 import { getSubjectCatalog } from "@/lib/mock-catalog"
 
-export default function NumeracyCategoryPage() {
+export default function LiteracyCategoryPage() {
   const catalog = getSubjectCatalog("literacy")
 
   return (
@@ -13,41 +13,41 @@ export default function NumeracyCategoryPage() {
       <main className="container mx-auto px-4 py-10">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
-            <h1 className="text-4xl font-bold text-slate-800 mb-3">Numeracy Mock Tests</h1>
+            <h1 className="text-4xl font-bold text-slate-800 mb-3">Literacy Mock Tests</h1>
             <p className="text-slate-600">
-              Strengthen number sense, reasoning, and problem-solving with levelled practice.
+              Strengthen reading, vocabulary, grammar, and writing with levelled practice.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <SubjectLevelCard
-              subject="numeracy"
+              subject="literacy"
               level="easy"
               availableTests={catalog.easy}
               questions={40}
               minutes={60}
               description={[
-                "Direct calculations",
-                "Clear problem structure",
-                "Simple distractors",
+                "Shorter passages",
+                "Direct recall",
+                "Clear text clues",
               ]}
             />
 
             <SubjectLevelCard
-              subject="numeracy"
+              subject="literacy"
               level="moderate"
               availableTests={catalog.moderate}
               questions={40}
               minutes={60}
               description={[
                 "Closer to standard Grade 4 PEP level",
-                "More applied problem-solving",
+                "More inference and main idea",
                 "Some two-step thinking",
               ]}
             />
 
             <SubjectLevelCard
-              subject="numeracy"
+              subject="literacy"
               level="difficult"
               availableTests={catalog.difficult}
               questions={40}
@@ -55,12 +55,12 @@ export default function NumeracyCategoryPage() {
               description={[
                 "More reasoning-based",
                 "Stronger distractors",
-                "Closer reading of problems",
+                "Closer reading and editing in context",
               ]}
             />
 
             <SubjectLevelCard
-              subject="numeracy"
+              subject="literacy"
               level="mixed"
               availableTests={catalog.mixed}
               questions={40}

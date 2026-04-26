@@ -217,7 +217,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (rawError.includes("email rate limit exceeded")) {
         return {
           success: false,
-          error: "We couldn’t send another confirmation email right now. Please wait a few minutes and try again.",
+          error:
+            "This email may already be registered, or too many confirmation requests were made in a short time. Please sign in if you already have an account, or wait a few minutes and try again.",
         }
       }
 

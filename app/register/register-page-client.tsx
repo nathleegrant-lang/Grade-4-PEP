@@ -108,7 +108,6 @@ export default function RegisterPageClient() {
                 Set up your free Grade 4 parent account first, then submit payment for a paid plan.
               </CardDescription>
             </CardHeader>
-
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 {error && <div className="p-3 rounded-lg bg-red-50 text-red-700 text-sm">{error}</div>}
@@ -221,9 +220,7 @@ export default function RegisterPageClient() {
                 <div className="bg-sky-50 border border-sky-100 rounded-lg p-4 text-sm text-slate-600">
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-sky-600 mt-0.5" />
-                    <p>
-                      Create your free account first. Paid access begins only after payment is verified by the admin.
-                    </p>
+                    <p>Create your free account first. Paid access begins only after payment is verified by the admin.</p>
                   </div>
                 </div>
 

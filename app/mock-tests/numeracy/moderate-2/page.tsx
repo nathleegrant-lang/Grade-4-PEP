@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { Clock, ChevronLeft, ChevronRight, Flag, CheckCircle, XCircle, BookOpen, RotateCcw, Home, Lock, Crown, ArrowLeft, Printer } from "lucide-react"
+import { Clock, ChevronLeft, ChevronRight, Flag, CheckCircle, XCircle, Calculator, RotateCcw, Home, Lock, Crown, ArrowLeft, Printer } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/auth-context"
 
@@ -348,10 +348,10 @@ const numeracyModerate2Questions: Question[] = [
 ]
 
 const SECTION_CONFIG = [
-  { type: "number" as const, label: "Number", note: "place value, algebra, HCF, LCM, fractions, and decimals" },
+  { type: "number" as const, label: "Number Operations", note: "place value, algebra, HCF, LCM, fractions, and decimals" },
   { type: "measurement" as const, label: "Measurement", note: "area, perimeter, volume, time, capacity, and estimation" },
   { type: "geometry" as const, label: "Geometry", note: "shapes, transformations, angles, and 3D figures" },
-  { type: "statistics" as const, label: "Statistics", note: "mean, mode, median, range, graphs, and probability" },
+  { type: "statistics" as const, label: "Data & Statistics", note: "mean, mode, median, range, graphs, and probability" },
 ]
 
 export default function NumeracyModerate2MockTest() {
@@ -473,36 +473,36 @@ export default function NumeracyModerate2MockTest() {
         <SiteHeader />
 
         <main className="container mx-auto px-4 py-10">
-          <Link href="/mock-tests/numeracy" className="inline-flex items-center text-sky-600 hover:text-sky-800 mb-6">
+          <Link href="/mock-tests/numeracy" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Numeracy Mock Tests
           </Link>
 
           <Card className="max-w-2xl mx-auto shadow-lg">
-            <CardHeader className="text-center bg-sky-50 rounded-t-lg">
+            <CardHeader className="text-center bg-blue-50 rounded-t-lg">
               <div className="mx-auto mb-4 rounded-xl bg-black p-3 w-fit shadow-sm">
                 <Image
                   src="/images/shazoniques-inspiration-logo.png"
-                  alt="Shazonique&apos;s Inspiration logo"
+                  alt="Shazonique's Inspiration logo"
                   width={220}
                   height={100}
                   className="h-auto w-[180px] sm:w-[220px]"
                   priority
                 />
               </div>
-              <BookOpen className="h-16 w-16 mx-auto text-sky-600 mb-4" />
-              <CardTitle className="text-2xl text-sky-800">Numeracy Moderate 2</CardTitle>
+              <Calculator className="h-16 w-16 mx-auto text-blue-600 mb-4" />
+              <CardTitle className="text-2xl text-blue-800">Numeracy Moderate 2</CardTitle>
               <p className="text-gray-600 mt-2">Grade 4 PEP Moderate Practice</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="space-y-6">
                 <div className="grid grid-cols-2 gap-4 text-center">
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-2xl font-bold text-sky-600">{totalQuestions}</p>
+                    <p className="text-2xl font-bold text-blue-600">{totalQuestions}</p>
                     <p className="text-sm text-gray-600">Questions {!isPremium && "(Preview)"}</p>
                   </div>
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-2xl font-bold text-sky-600">{isPremium ? 60 : 10}</p>
+                    <p className="text-2xl font-bold text-blue-600">{isPremium ? 60 : 10}</p>
                     <p className="text-sm text-gray-600">Minutes</p>
                   </div>
                 </div>
@@ -527,8 +527,8 @@ export default function NumeracyModerate2MockTest() {
                   </div>
                 )}
 
-                <div className="bg-sky-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-sky-800 mb-2">Moderate-Level Focus:</h3>
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <h3 className="font-semibold text-blue-800 mb-2">Moderate-Level Focus:</h3>
                   <ul className="text-sm text-gray-700 space-y-1">
                     <li>- Algebra, HCF, LCM, factors, multiples, and ordering</li>
                     <li>- Fractions, decimals, percentages, and problem solving</li>
@@ -576,31 +576,31 @@ export default function NumeracyModerate2MockTest() {
 
         <main className="container mx-auto px-4 py-10">
           <Card className="max-w-3xl mx-auto shadow-lg">
-            <CardHeader className="text-center bg-sky-50 rounded-t-lg border-b">
+            <CardHeader className="text-center bg-blue-50 rounded-t-lg border-b">
               <div className="mx-auto mb-4 rounded-xl bg-black p-3 w-fit shadow-sm">
                 <Image
                   src="/images/shazoniques-inspiration-logo.png"
-                  alt="Shazonique&apos;s Inspiration logo"
+                  alt="Shazonique's Inspiration logo"
                   width={220}
                   height={100}
                   className="h-auto w-[180px] sm:w-[220px]"
                   priority
                 />
               </div>
-              <CheckCircle className="h-16 w-16 mx-auto text-sky-600 mb-4" />
-              <CardTitle className="text-2xl text-sky-800">Mock Test Completed</CardTitle>
+              <CheckCircle className="h-16 w-16 mx-auto text-blue-600 mb-4" />
+              <CardTitle className="text-2xl text-blue-800">Mock Test Completed</CardTitle>
               <p className="text-gray-600 mt-2">Grade 4 PEP Numeracy Moderate 2</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="text-center space-y-6">
                 <div className="bg-gray-50 p-6 rounded-lg">
-                  <p className="text-5xl font-bold text-sky-600">{score}/{totalQuestions}</p>
+                  <p className="text-5xl font-bold text-blue-600">{score}/{totalQuestions}</p>
                   <p className="text-gray-600 mt-2">Questions Correct</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-3xl font-bold text-sky-600">{percentage}%</p>
+                    <p className="text-3xl font-bold text-blue-600">{percentage}%</p>
                     <p className="text-sm text-gray-600">Score</p>
                   </div>
                   <div className="bg-gray-50 p-4 rounded-lg">
@@ -617,8 +617,8 @@ export default function NumeracyModerate2MockTest() {
                   {SECTION_CONFIG.map((section) => {
                     const stats = getSectionStats(section.type)
                     return (
-                      <div key={section.type} className="rounded-xl border border-sky-200 bg-sky-50 p-4">
-                        <p className="font-semibold text-sky-800">{section.label}</p>
+                      <div key={section.type} className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+                        <p className="font-semibold text-blue-800">{section.label}</p>
                         <p className="text-sm text-slate-600 mt-1">{section.note}</p>
                         <div className="mt-3 flex items-center justify-between">
                           <span className="text-sm text-slate-700">{stats.correct}/{stats.total} correct</span>
@@ -629,8 +629,8 @@ export default function NumeracyModerate2MockTest() {
                   })}
                 </div>
 
-                <div className="rounded-xl border border-sky-200 bg-sky-50 p-5 text-left">
-                  <h3 className="text-lg font-semibold text-sky-800 mb-2">Result Summary</h3>
+                <div className="rounded-xl border border-blue-200 bg-blue-50 p-5 text-left">
+                  <h3 className="text-lg font-semibold text-blue-800 mb-2">Result Summary</h3>
                   <p className="text-sm text-slate-700">
                     This moderate-level numeracy report includes section summaries and a full question-by-question review with explanations.
                   </p>
@@ -693,7 +693,7 @@ export default function NumeracyModerate2MockTest() {
                   <div className="rounded-xl bg-black p-3 shadow-sm">
                     <Image
                       src="/images/shazoniques-inspiration-logo.png"
-                      alt="Shazonique&apos;s Inspiration logo"
+                      alt="Shazonique's Inspiration logo"
                       width={220}
                       height={100}
                       className="h-auto w-[180px] sm:w-[220px]"
@@ -702,7 +702,7 @@ export default function NumeracyModerate2MockTest() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-slate-500">Managed by Shazonique&apos;s Inspiration</p>
-                    <CardTitle className="text-2xl text-sky-800 mt-1">Grade 4 PEP Numeracy Moderate 2 Report</CardTitle>
+                    <CardTitle className="text-2xl text-blue-800 mt-1">Grade 4 PEP Numeracy Moderate 2 Report</CardTitle>
                     <p className="text-sm text-gray-600 mt-2">
                       Student: <span className="font-medium">{user?.childName ?? "Student"}</span>
                     </p>
@@ -713,15 +713,15 @@ export default function NumeracyModerate2MockTest() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
-                  <div className="rounded-lg bg-sky-50 p-4 min-w-[90px]">
-                    <p className="text-2xl font-bold text-sky-700">{score}/{totalQuestions}</p>
+                  <div className="rounded-lg bg-blue-50 p-4 min-w-[90px]">
+                    <p className="text-2xl font-bold text-blue-700">{score}/{totalQuestions}</p>
                     <p className="text-xs text-slate-600">Score</p>
                   </div>
-                  <div className="rounded-lg bg-sky-50 p-4 min-w-[90px]">
-                    <p className="text-2xl font-bold text-sky-700">{percentage}%</p>
+                  <div className="rounded-lg bg-blue-50 p-4 min-w-[90px]">
+                    <p className="text-2xl font-bold text-blue-700">{percentage}%</p>
                     <p className="text-xs text-slate-600">Percent</p>
                   </div>
-                  <div className="rounded-lg bg-sky-50 p-4 min-w-[90px]">
+                  <div className="rounded-lg bg-blue-50 p-4 min-w-[90px]">
                     <p className={`text-lg font-bold ${color}`}>{grade}</p>
                     <p className="text-xs text-slate-600">Performance</p>
                   </div>
@@ -730,8 +730,8 @@ export default function NumeracyModerate2MockTest() {
             </CardHeader>
 
             <CardContent className="p-6">
-              <div className="mb-6 rounded-xl border border-sky-200 bg-sky-50 p-5">
-                <h3 className="text-lg font-semibold text-sky-800 mb-2">Performance Summary</h3>
+              <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-5">
+                <h3 className="text-lg font-semibold text-blue-800 mb-2">Performance Summary</h3>
                 <p className="text-sm text-slate-700">
                   This report shows the student&apos;s overall result, section-by-section performance, and a full question-by-question review with explanations.
                 </p>
@@ -741,8 +741,8 @@ export default function NumeracyModerate2MockTest() {
                 {SECTION_CONFIG.map((section) => {
                   const stats = getSectionStats(section.type)
                   return (
-                    <div key={section.type} className="rounded-xl border border-sky-200 bg-sky-50 p-4">
-                      <p className="font-semibold text-sky-800">{section.label}</p>
+                    <div key={section.type} className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+                      <p className="font-semibold text-blue-800">{section.label}</p>
                       <p className="text-sm text-slate-600 mt-1">{section.note}</p>
                       <div className="mt-3 flex items-center justify-between">
                         <span className="text-sm text-slate-700">{stats.correct}/{stats.total} correct</span>
@@ -776,18 +776,20 @@ export default function NumeracyModerate2MockTest() {
                         )}
 
                         <div className="flex-1">
-                          <p className="font-semibold text-slate-800 mb-1">Question {index + 1}</p>
-                          <p className="text-xs uppercase tracking-wide text-sky-700 font-medium mb-2">
-                            {q.type === "number"
-                              ? "Number"
-                              : q.type === "measurement"
-                              ? "Measurement"
-                              : q.type === "geometry"
-                              ? "Geometry"
-                              : q.type === "statistics"
-                              ? "Statistics"
-                              : ""}
-                          </p>
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <p className="font-semibold text-slate-800">Question {index + 1}</p>
+                            <span className="text-xs uppercase tracking-wide rounded-full bg-white px-2 py-1 text-slate-600 border">
+                              {q.type === "number"
+                                ? "Number Operations"
+                                : q.type === "measurement"
+                                ? "Measurement"
+                                : q.type === "geometry"
+                                ? "Geometry"
+                                : q.type === "statistics"
+                                ? "Data & Statistics"
+                                : ""}
+                            </span>
+                          </div>
                           <p className="text-slate-800 mb-3">{q.question}</p>
 
                           <div className="space-y-1 text-sm">
@@ -853,7 +855,7 @@ export default function NumeracyModerate2MockTest() {
               <Link href="/mock-tests/numeracy" className="p-2 hover:bg-white/10 rounded-lg transition-colors" title="Exit Test">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
-              <BookOpen className="h-8 w-8" />
+              <Calculator className="h-8 w-8" />
               <div>
                 <h1 className="text-lg font-bold">Numeracy Moderate 2</h1>
                 <p className="text-sky-100 text-xs">Question {currentQuestion + 1} of {totalQuestions}</p>
@@ -885,17 +887,17 @@ export default function NumeracyModerate2MockTest() {
       <main className="container mx-auto px-4 py-6">
         <div className="max-w-4xl mx-auto">
           <Card className="mb-6">
-            <CardHeader className="bg-sky-50">
+            <CardHeader className="bg-blue-50">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-emerald-700 uppercase">
+                <span className="text-sm font-medium text-blue-700 uppercase">
                   {question.type === "number"
-                    ? "Number"
+                    ? "Number Operations"
                     : question.type === "measurement"
                     ? "Measurement"
                     : question.type === "geometry"
                     ? "Geometry"
                     : question.type === "statistics"
-                    ? "Statistics"
+                    ? "Data & Statistics"
                     : ""}
                 </span>
                 <span className="text-sm text-gray-500">Question {currentQuestion + 1}</span>
@@ -919,11 +921,11 @@ export default function NumeracyModerate2MockTest() {
                     className={cn(
                       "w-full p-4 text-left rounded-lg border-2 transition-all",
                       answers[currentQuestion] === index
-                        ? "border-sky-500 bg-sky-50"
-                        : "border-gray-200 hover:border-emerald-300 hover:bg-sky-50/50"
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-200 hover:border-blue-300 hover:bg-blue-50/50"
                     )}
                   >
-                    <span className="font-medium text-emerald-700 mr-3">{String.fromCharCode(65 + index)}.</span>
+                    <span className="font-medium text-blue-700 mr-3">{String.fromCharCode(65 + index)}.</span>
                     {option}
                   </button>
                 ))}
@@ -967,7 +969,7 @@ export default function NumeracyModerate2MockTest() {
                       currentQuestion === index
                         ? "bg-slate-700 text-white"
                         : answers[index] !== null
-                        ? "bg-sky-100 text-emerald-700"
+                        ? "bg-blue-100 text-blue-700"
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                     )}
                   >
@@ -981,7 +983,7 @@ export default function NumeracyModerate2MockTest() {
                   <span>Current</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="w-3 h-3 rounded bg-sky-100"></div>
+                  <div className="w-3 h-3 rounded bg-blue-100"></div>
                   <span>Answered</span>
                 </div>
                 <div className="flex items-center gap-1">

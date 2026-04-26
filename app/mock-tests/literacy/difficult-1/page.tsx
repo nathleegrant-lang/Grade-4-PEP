@@ -37,7 +37,7 @@ One rainy Friday, the class had been restless. The drizzle tapped the windows, a
 
 Instead, Kareem pulled a slip that read, “Notice something beautiful on your way home.” At first he felt disappointed. The road home was muddy, and the sky still looked heavy. What beauty could possibly be hiding there?
 
-But as Kareem walked home, he began to pay attention. Raindrops clung to the fence like tiny beads of glass. A yellow mango leaf floated in a puddle like a little boat. Near the gate, a snail stretched its silver trail across a stone. By the time Kareem reached his yard, he was smiling. The day had not changed, but the way he looked at it had.",
+But as Kareem walked home, he began to pay attention. Raindrops clung to the fence like tiny beads of glass. A yellow mango leaf floated in a puddle like a little boat. Near the gate, a snail stretched its silver trail across a stone. By the time Kareem reached his yard, he was smiling. The day had not changed, but the way he looked at it had.`,
     question: "Why did Kareem first feel disappointed after choosing his slip?",
     options: [
       "He wanted a challenge that matched what he enjoyed doing.",
@@ -59,7 +59,7 @@ One rainy Friday, the class had been restless. The drizzle tapped the windows, a
 
 Instead, Kareem pulled a slip that read, “Notice something beautiful on your way home.” At first he felt disappointed. The road home was muddy, and the sky still looked heavy. What beauty could possibly be hiding there?
 
-But as Kareem walked home, he began to pay attention. Raindrops clung to the fence like tiny beads of glass. A yellow mango leaf floated in a puddle like a little boat. Near the gate, a snail stretched its silver trail across a stone. By the time Kareem reached his yard, he was smiling. The day had not changed, but the way he looked at it had.",
+But as Kareem walked home, he began to pay attention. Raindrops clung to the fence like tiny beads of glass. A yellow mango leaf floated in a puddle like a little boat. Near the gate, a snail stretched its silver trail across a stone. By the time Kareem reached his yard, he was smiling. The day had not changed, but the way he looked at it had.`,
     question: "Which sentence from the passage best shows that Kareem's feelings changed by the end?",
     options: [
       "The children called it the Surprise Jar, and they waited for it all week.",
@@ -81,7 +81,7 @@ One rainy Friday, the class had been restless. The drizzle tapped the windows, a
 
 Instead, Kareem pulled a slip that read, “Notice something beautiful on your way home.” At first he felt disappointed. The road home was muddy, and the sky still looked heavy. What beauty could possibly be hiding there?
 
-But as Kareem walked home, he began to pay attention. Raindrops clung to the fence like tiny beads of glass. A yellow mango leaf floated in a puddle like a little boat. Near the gate, a snail stretched its silver trail across a stone. By the time Kareem reached his yard, he was smiling. The day had not changed, but the way he looked at it had.",
+But as Kareem walked home, he began to pay attention. Raindrops clung to the fence like tiny beads of glass. A yellow mango leaf floated in a puddle like a little boat. Near the gate, a snail stretched its silver trail across a stone. By the time Kareem reached his yard, he was smiling. The day had not changed, but the way he looked at it had.`,
     question: "Why does the writer compare the raindrops to 'tiny beads of glass'?",
     options: [
       "To show that the fence was broken and dangerous",
@@ -103,7 +103,7 @@ One rainy Friday, the class had been restless. The drizzle tapped the windows, a
 
 Instead, Kareem pulled a slip that read, “Notice something beautiful on your way home.” At first he felt disappointed. The road home was muddy, and the sky still looked heavy. What beauty could possibly be hiding there?
 
-But as Kareem walked home, he began to pay attention. Raindrops clung to the fence like tiny beads of glass. A yellow mango leaf floated in a puddle like a little boat. Near the gate, a snail stretched its silver trail across a stone. By the time Kareem reached his yard, he was smiling. The day had not changed, but the way he looked at it had.",
+But as Kareem walked home, he began to pay attention. Raindrops clung to the fence like tiny beads of glass. A yellow mango leaf floated in a puddle like a little boat. Near the gate, a snail stretched its silver trail across a stone. By the time Kareem reached his yard, he was smiling. The day had not changed, but the way he looked at it had.`,
     question: "Which statement best gives the main message of the passage?",
     options: [
       "Rainy days should always be spent indoors.",
@@ -125,7 +125,7 @@ One rainy Friday, the class had been restless. The drizzle tapped the windows, a
 
 Instead, Kareem pulled a slip that read, “Notice something beautiful on your way home.” At first he felt disappointed. The road home was muddy, and the sky still looked heavy. What beauty could possibly be hiding there?
 
-But as Kareem walked home, he began to pay attention. Raindrops clung to the fence like tiny beads of glass. A yellow mango leaf floated in a puddle like a little boat. Near the gate, a snail stretched its silver trail across a stone. By the time Kareem reached his yard, he was smiling. The day had not changed, but the way he looked at it had.",
+But as Kareem walked home, he began to pay attention. Raindrops clung to the fence like tiny beads of glass. A yellow mango leaf floated in a puddle like a little boat. Near the gate, a snail stretched its silver trail across a stone. By the time Kareem reached his yard, he was smiling. The day had not changed, but the way he looked at it had.`,
     question: "Which word best describes the tone of the ending of the passage?",
     options: [
       "Hopeful",

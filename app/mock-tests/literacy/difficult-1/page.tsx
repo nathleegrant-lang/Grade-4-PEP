@@ -543,10 +543,10 @@ Protecting sea turtles is not only about saving one animal. Healthy turtle popul
     type: "writing",
     question: "Choose the sentence with quotation marks placed correctly.",
     options: [
-      "" + '"We should begin now," whispered Asha.' + "",
-      "" + 'We should begin now", whispered Asha."' + "",
-      "" + '"We should begin now" whispered, Asha.' + "",
-      "" + '"We should begin now, whispered Asha."' + ""
+      '"We should begin now," whispered Asha.',
+      'We should begin now", whispered Asha."',
+      '"We should begin now" whispered, Asha.',
+      '"We should begin now, whispered Asha."',
     ],
     correctAnswer: 0,
     explanation: "In direct speech, the spoken words go inside quotation marks, and the comma is placed before the closing quotation marks."

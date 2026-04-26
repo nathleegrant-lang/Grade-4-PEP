@@ -1,13 +1,14 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { Clock, ChevronLeft, ChevronRight, Flag, CheckCircle, XCircle, Calculator, RotateCcw, Home, Lock, Crown, ArrowLeft } from "lucide-react"
+import { Clock, ChevronLeft, ChevronRight, Flag, CheckCircle, XCircle, Calculator, RotateCcw, Home, Lock, Crown, ArrowLeft, Printer } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/auth-context"
 
@@ -350,13 +351,14 @@ const numeracyQuestions: Question[] = [
 ]
 
 export default function NumeracyMockTest() {
-  const { isPremium } = useAuth()
+  const { isPremium, user } = useAuth()
   const [testStarted, setTestStarted] = useState(false)
   const [testCompleted, setTestCompleted] = useState(false)
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<(number | null)[]>([])
   const [timeRemaining, setTimeRemaining] = useState(60 * 60)
   const [showReview, setShowReview] = useState(false)
+  const [completedAt, setCompletedAt] = useState("")
 
   // Free users only get preview questions
   const availableQuestions = isPremium ? numeracyQuestions : numeracyQuestions.slice(0, FREE_QUESTION_LIMIT)
@@ -418,7 +420,52 @@ export default function NumeracyMockTest() {
     return { grade: "Needs Improvement", color: "text-red-600" }
   }
 
+  const getSectionLabel = (type: Question["type"]) => {
+    switch (type) {
+      case "number":
+        return "Number Operations"
+      case "measurement":
+        return "Measurement"
+      case "geometry":
+        return "Geometry"
+      case "data":
+        return "Data & Statistics"
+      default:
+        return "Section"
+    }
+  }
+
+  const getSectionComment = (percentage: number) => {
+    if (percentage >= 85) return "Excellent understanding of this section."
+    if (percentage >= 70) return "Good work in this section."
+    if (percentage >= 50) return "Fair progress. More practice will help."
+    return "Needs more practice in this section."
+  }
+
+  const sectionOrder: Question["type"][] = ["number", "measurement", "geometry", "data"]
+
+  const getSectionSummary = (type: Question["type"]) => {
+    const sectionQuestions = availableQuestions.filter((q) => q.type === type)
+    const correct = sectionQuestions.reduce((count, q) => {
+      const index = availableQuestions.findIndex((item) => item.id === q.id)
+      return count + (answers[index] === q.correctAnswer ? 1 : 0)
+    }, 0)
+
+    const total = sectionQuestions.length
+    const percentage = total > 0 ? Math.round((correct / total) * 100) : 0
+
+    return {
+      type,
+      label: getSectionLabel(type),
+      correct,
+      total,
+      percentage,
+      comment: getSectionComment(percentage),
+    }
+  }
+
   const handleSubmit = () => {
+    setCompletedAt(new Date().toLocaleString())
     setTestCompleted(true)
   }
 
@@ -429,6 +476,7 @@ export default function NumeracyMockTest() {
     setAnswers(new Array(totalQuestions).fill(null))
     setTimeRemaining(isPremium ? 60 * 60 : 10 * 60)
     setShowReview(false)
+    setCompletedAt("")
   }
 
   const question = availableQuestions[currentQuestion]
@@ -447,6 +495,16 @@ export default function NumeracyMockTest() {
 
           <Card className="max-w-2xl mx-auto">
             <CardHeader className="text-center bg-blue-50 rounded-t-lg">
+              <div className="mx-auto mb-4 rounded-xl bg-black p-3 w-fit shadow-sm">
+                <Image
+                  src="/images/shazoniques-inspiration-logo.png"
+                  alt="Shazonique\'s Inspiration logo"
+                  width={220}
+                  height={100}
+                  className="h-auto w-[180px] sm:w-[220px]"
+                  priority
+                />
+              </div>
               <Calculator className="h-16 w-16 mx-auto text-blue-600 mb-4" />
               <CardTitle className="text-2xl text-blue-800">Numeracy Mock Test</CardTitle>
               <p className="text-gray-600 mt-2">Grade 4 PEP Assessment</p>
@@ -529,16 +587,28 @@ export default function NumeracyMockTest() {
     const score = calculateScore()
     const percentage = getScorePercentage()
     const { grade, color } = getGrade()
+    const sectionSummaries = sectionOrder.map(getSectionSummary)
 
     return (
       <div className="min-h-screen bg-gradient-to-b from-sky-50 to-slate-50">
         <SiteHeader />
 
         <main className="container mx-auto px-4 py-10">
-          <Card className="max-w-2xl mx-auto">
-            <CardHeader className="text-center bg-blue-50 rounded-t-lg">
+          <Card className="max-w-3xl mx-auto shadow-lg">
+            <CardHeader className="text-center bg-blue-50 rounded-t-lg border-b">
+              <div className="mx-auto mb-4 rounded-xl bg-black p-3 w-fit shadow-sm">
+                <Image
+                  src="/images/shazoniques-inspiration-logo.png"
+                  alt="Shazonique's Inspiration logo"
+                  width={220}
+                  height={100}
+                  className="h-auto w-[180px] sm:w-[220px]"
+                  priority
+                />
+              </div>
               <CheckCircle className="h-16 w-16 mx-auto text-blue-600 mb-4" />
-              <CardTitle className="text-2xl text-blue-800">Test Completed!</CardTitle>
+              <CardTitle className="text-2xl text-blue-800">Mock Test Completed</CardTitle>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Numeracy Mock 1</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="text-center space-y-6">
@@ -547,7 +617,7 @@ export default function NumeracyMockTest() {
                   <p className="text-gray-600 mt-2">Questions Correct</p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <p className="text-3xl font-bold text-blue-600">{percentage}%</p>
                     <p className="text-sm text-gray-600">Score</p>
@@ -556,16 +626,44 @@ export default function NumeracyMockTest() {
                     <p className={`text-2xl font-bold ${color}`}>{grade}</p>
                     <p className="text-sm text-gray-600">Performance</p>
                   </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm font-semibold text-slate-700">{completedAt || new Date().toLocaleDateString()}</p>
+                    <p className="text-sm text-gray-600">Completed</p>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-blue-200 bg-blue-50 p-5 text-left">
+                  <h3 className="text-lg font-semibold text-blue-800 mb-3">Section Summary</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {sectionSummaries.map((section) => (
+                      <div key={section.type} className="rounded-lg border border-blue-100 bg-white p-4">
+                        <p className="font-semibold text-slate-800">{section.label}</p>
+                        <p className="text-2xl font-bold text-blue-700 mt-1">
+                          {section.correct}/{section.total}
+                        </p>
+                        <p className="text-sm text-slate-600">{section.percentage}% correct</p>
+                        <p className="text-sm text-slate-500 mt-2">{section.comment}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-blue-200 bg-blue-50 p-5 text-left">
+                  <h3 className="text-lg font-semibold text-blue-800 mb-2">Result Summary</h3>
+                  <p className="text-sm text-slate-700">
+                    Review each question to see the student's answer, the correct answer, and an explanation.
+                    You can then print or save the full report as a PDF with the Shazonique's Inspiration logo.
+                  </p>
                 </div>
 
                 <div className="space-y-3">
-                  <Button 
+                  <Button
                     onClick={() => setShowReview(true)}
                     className="w-full bg-blue-600 hover:bg-blue-700"
                   >
-                    Review Answers
+                    Review Answers & Report
                   </Button>
-                  <Button 
+                  <Button
                     onClick={restartTest}
                     variant="outline"
                     className="w-full"
@@ -589,47 +687,151 @@ export default function NumeracyMockTest() {
   }
 
   if (showReview) {
+    const score = calculateScore()
+    const percentage = getScorePercentage()
+    const { grade, color } = getGrade()
+    const sectionSummaries = sectionOrder.map(getSectionSummary)
+
     return (
       <div className="min-h-screen bg-gradient-to-b from-sky-50 to-slate-50">
+        <style jsx global>{`
+          @media print {
+            header,
+            footer,
+            .no-print {
+              display: none !important;
+            }
+
+            body {
+              background: #ffffff !important;
+            }
+
+            .report-sheet {
+              box-shadow: none !important;
+              border: none !important;
+            }
+          }
+        `}</style>
+
         <SiteHeader />
 
         <main className="container mx-auto px-4 py-10">
-          <Card className="max-w-4xl mx-auto">
-            <CardHeader className="bg-blue-50 rounded-t-lg">
-              <CardTitle className="text-xl text-blue-800">Answer Review</CardTitle>
-              <p className="text-gray-600">Score: {calculateScore()}/{totalQuestions} ({getScorePercentage()}%)</p>
+          <Card className="max-w-5xl mx-auto report-sheet shadow-lg">
+            <CardHeader className="bg-white border-b rounded-t-lg">
+              <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                <div className="flex items-start gap-4">
+                  <div className="rounded-xl bg-black p-3 shadow-sm">
+                    <Image
+                      src="/images/shazoniques-inspiration-logo.png"
+                      alt="Shazonique's Inspiration logo"
+                      width={220}
+                      height={100}
+                      className="h-auto w-[180px] sm:w-[220px]"
+                      priority
+                    />
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-semibold text-slate-500">
+                      Managed by Shazonique&apos;s Inspiration
+                    </p>
+                    <CardTitle className="text-2xl text-blue-800 mt-1">
+                      Grade 4 PEP Numeracy Mock 1 Report
+                    </CardTitle>
+                    <p className="text-sm text-gray-600 mt-2">
+                      Student: <span className="font-medium">{user?.childName ?? "Student"}</span>
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Completed: <span className="font-medium">{completedAt || new Date().toLocaleString()}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+                  <div className="rounded-lg bg-blue-50 p-4 min-w-[90px]">
+                    <p className="text-2xl font-bold text-blue-700">{score}/{totalQuestions}</p>
+                    <p className="text-xs text-slate-600">Score</p>
+                  </div>
+                  <div className="rounded-lg bg-blue-50 p-4 min-w-[90px]">
+                    <p className="text-2xl font-bold text-blue-700">{percentage}%</p>
+                    <p className="text-xs text-slate-600">Percent</p>
+                  </div>
+                  <div className="rounded-lg bg-blue-50 p-4 min-w-[90px]">
+                    <p className={`text-lg font-bold ${color}`}>{grade}</p>
+                    <p className="text-xs text-slate-600">Performance</p>
+                  </div>
+                </div>
+              </div>
             </CardHeader>
+
             <CardContent className="p-6">
+              <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-5">
+                <h3 className="text-lg font-semibold text-blue-800 mb-3">Section Summary</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {sectionSummaries.map((section) => (
+                    <div key={section.type} className="rounded-lg border border-blue-100 bg-white p-4">
+                      <p className="font-semibold text-slate-800">{section.label}</p>
+                      <p className="text-2xl font-bold text-blue-700 mt-1">
+                        {section.correct}/{section.total}
+                      </p>
+                      <p className="text-sm text-slate-600">{section.percentage}% correct</p>
+                      <p className="text-sm text-slate-500 mt-2">{section.comment}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-5">
+                <h3 className="text-lg font-semibold text-blue-800 mb-2">Performance Summary</h3>
+                <p className="text-sm text-slate-700">
+                  This report shows the student's overall result and a full question-by-question review,
+                  including the student's answer, the correct answer, and an explanation for each item.
+                </p>
+              </div>
+
               <div className="space-y-6">
                 {availableQuestions.map((q, index) => {
                   const isCorrect = answers[index] === q.correctAnswer
+
                   return (
-                    <div key={q.id} className={cn(
-                      "p-4 rounded-lg border-2",
-                      isCorrect ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"
-                    )}>
+                    <div
+                      key={q.id}
+                      className={cn(
+                        "p-5 rounded-xl border-2",
+                        isCorrect ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"
+                      )}
+                    >
                       <div className="flex items-start gap-3">
                         {isCorrect ? (
                           <CheckCircle className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
                         ) : (
                           <XCircle className="h-5 w-5 text-red-600 mt-1 flex-shrink-0" />
                         )}
+
                         <div className="flex-1">
-                          <p className="font-medium text-gray-800">
-                            {index + 1}. {q.question}
+                          <p className="font-semibold text-slate-800 mb-2">
+                            Question {index + 1}
                           </p>
-                          <div className="mt-2 text-sm">
-                            <p className="text-gray-600">
-                              Your answer: <span className={isCorrect ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
-                                {answers[index] !== null ? q.options[answers[index]] : "Not answered"}
+
+                          <p className="text-slate-800 mb-3">{q.question}</p>
+
+                          <div className="space-y-1 text-sm">
+                            <p className="text-slate-700">
+                              <span className="font-medium">Student&apos;s Answer:</span>{" "}
+                              <span className={isCorrect ? "text-green-700 font-medium" : "text-red-700 font-medium"}>
+                                {answers[index] !== null ? q.options[answers[index]!] : "Not answered"}
                               </span>
                             </p>
-                            {!isCorrect && (
-                              <p className="text-green-600">
-                                Correct answer: {q.options[q.correctAnswer]}
-                              </p>
-                            )}
-                            <p className="text-gray-500 mt-1 italic">{q.explanation}</p>
+
+                            <p className="text-green-700">
+                              <span className="font-medium">Correct Answer:</span>{" "}
+                              {q.options[q.correctAnswer]}
+                            </p>
+
+                            <p className="text-slate-700 mt-2">
+                              <span className="font-medium">Explanation:</span>{" "}
+                              {q.explanation}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -638,24 +840,33 @@ export default function NumeracyMockTest() {
                 })}
               </div>
 
-              <div className="mt-6 flex gap-3">
-                <Button 
-                  onClick={restartTest}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700"
-                >
-                  <RotateCcw className="h-4 w-4 mr-2" />
-                  Take Test Again
-                </Button>
-                <Link href="/mock-tests" className="flex-1">
-                  <Button variant="outline" className="w-full">
-                    <Home className="h-4 w-4 mr-2" />
-                    Back to Mock Tests
-                  </Button>
-                </Link>
+              <div className="mt-8 pt-6 border-t text-center text-sm text-slate-500">
+                Managed by Shazonique&apos;s Inspiration · A heart&apos;s home of hope
               </div>
             </CardContent>
           </Card>
+
+          <div className="mt-6 flex flex-col sm:flex-row gap-3 no-print max-w-5xl mx-auto">
+            <Button onClick={() => window.print()} className="flex-1 bg-blue-600 hover:bg-blue-700">
+              <Printer className="h-4 w-4 mr-2" />
+              Download / Print Report
+            </Button>
+
+            <Button onClick={restartTest} variant="outline" className="flex-1">
+              <RotateCcw className="h-4 w-4 mr-2" />
+              Take Test Again
+            </Button>
+
+            <Link href="/mock-tests" className="flex-1">
+              <Button variant="outline" className="w-full">
+                <Home className="h-4 w-4 mr-2" />
+                Back to Mock Tests
+              </Button>
+            </Link>
+          </div>
         </main>
+
+        <SiteFooter />
       </div>
     )
   }

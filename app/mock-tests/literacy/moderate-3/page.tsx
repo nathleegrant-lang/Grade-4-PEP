@@ -553,7 +553,7 @@ export default function LiteracyModerate3MockTest() {
               <div className="mx-auto mb-4 rounded-xl bg-black p-3 w-fit shadow-sm">
                 <Image
                   src="/images/shazoniques-inspiration-logo.png"
-                  alt="Shazonique&apos;s Inspiration logo"
+                  alt="Shazonique's Inspiration logo"
                   width={220}
                   height={100}
                   className="h-auto w-[180px] sm:w-[220px]"
@@ -650,7 +650,7 @@ export default function LiteracyModerate3MockTest() {
               <div className="mx-auto mb-4 rounded-xl bg-black p-3 w-fit shadow-sm">
                 <Image
                   src="/images/shazoniques-inspiration-logo.png"
-                  alt="Shazonique&apos;s Inspiration logo"
+                  alt="Shazonique's Inspiration logo"
                   width={220}
                   height={100}
                   className="h-auto w-[180px] sm:w-[220px]"
@@ -763,7 +763,7 @@ export default function LiteracyModerate3MockTest() {
                   <div className="rounded-xl bg-black p-3 shadow-sm">
                     <Image
                       src="/images/shazoniques-inspiration-logo.png"
-                      alt="Shazonique&apos;s Inspiration logo"
+                      alt="Shazonique's Inspiration logo"
                       width={220}
                       height={100}
                       className="h-auto w-[180px] sm:w-[220px]"
@@ -846,18 +846,20 @@ export default function LiteracyModerate3MockTest() {
                         )}
 
                         <div className="flex-1">
-                          <p className="font-semibold text-slate-800 mb-1">Question {index + 1}</p>
-                          <p className="text-xs uppercase tracking-wide text-sky-700 font-medium mb-2">
-                            {q.type === "reading"
-                              ? "Reading"
-                              : q.type === "vocabulary"
-                              ? "Vocabulary"
-                              : q.type === "grammar"
-                              ? "Grammar"
-                              : q.type === "writing"
-                              ? "Writing"
-                              : ""}
-                          </p>
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <p className="font-semibold text-slate-800">Question {index + 1}</p>
+                            <span className="text-xs uppercase tracking-wide rounded-full bg-white px-2 py-1 text-slate-600 border">
+                              {q.type === "reading"
+                                ? "Reading"
+                                : q.type === "vocabulary"
+                                ? "Vocabulary"
+                                : q.type === "grammar"
+                                ? "Grammar"
+                                : q.type === "writing"
+                                ? "Writing"
+                                : ""}
+                            </span>
+                          </div>
                           <p className="text-slate-800 mb-3">{q.question}</p>
 
                           <div className="space-y-1 text-sm">

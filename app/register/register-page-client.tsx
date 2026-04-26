@@ -71,10 +71,17 @@ export default function RegisterPageClient() {
     })
 
     if (!result.success) {
-      setError(result.error || "Unable to create your account right now.")
-      setIsSubmitting(false)
-      return
-    }
+  const rawError = result.error?.toLowerCase() || ""
+
+  if (rawError.includes("email rate limit exceeded")) {
+    setError("Too many confirmation requests were made in a short time. Please wait a few minutes and try again.")
+  } else {
+    setError("We couldn’t create your account right now. Please try again.")
+  }
+
+  setIsSubmitting(false)
+  return
+}
 
     router.push("/register/success")
     return

@@ -4,7 +4,7 @@ import SubjectLevelCard from "@/components/mock-tests/subject-level-card"
 import { getSubjectCatalog } from "@/lib/mock-catalog"
 
 export default function NumeracyCategoryPage() {
-  const catalog = getSubjectCatalog("performance")
+  const catalog = getSubjectCatalog("performance-task")
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-slate-50">

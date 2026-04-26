@@ -51,7 +51,7 @@ But as Kareem walked home, he began to pay attention. Raindrops clung to the fen
   {
     id: 2,
     type: "reading",
-    passage: `The Surprise Jar
+    passage: "The Surprise Jar
 
 On Friday afternoons, Mrs. Campbell always placed a glass jar on the front table before the class packed their bags. Inside the jar, she put folded slips of paper with little challenges written on them. Some slips said, “Read to someone at home.” Others said, “Write three kind words about a friend.” The children called it the Surprise Jar, and they waited for it all week.
 

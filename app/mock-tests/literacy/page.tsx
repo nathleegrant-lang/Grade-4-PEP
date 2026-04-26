@@ -512,6 +512,64 @@ export default function LiteracyMockTest() {
     return { grade: "Needs Improvement", color: "text-red-600" }
   }
 
+  const getPerformanceNote = (percentage: number) => {
+    if (percentage >= 85) return "Excellent understanding shown in this section."
+    if (percentage >= 70) return "Good performance with only a few areas to review."
+    if (percentage >= 50) return "Fair effort. More practice will build confidence."
+    return "Needs more practice in this section."
+  }
+
+  const getSectionSummaries = () => {
+    const sections = [
+      {
+        type: "reading" as const,
+        title: "Reading",
+        description: "Comprehension, main idea, inference, and details",
+      },
+      {
+        type: "vocabulary" as const,
+        title: "Vocabulary",
+        description: "Word meaning, synonyms, antonyms, and usage",
+      },
+      {
+        type: "grammar" as const,
+        title: "Grammar",
+        description: "Sentence structure, punctuation, and language rules",
+      },
+      {
+        type: "writing" as const,
+        title: "Writing",
+        description: "Writing conventions, spelling, and expression",
+      },
+    ]
+
+    return sections
+      .map((section) => {
+        let total = 0
+        let correct = 0
+
+        availableQuestions.forEach((currentQuestionItem, index) => {
+          if (currentQuestionItem.type === section.type) {
+            total += 1
+            if (answers[index] === currentQuestionItem.correctAnswer) {
+              correct += 1
+            }
+          }
+        })
+
+        const percentage = total > 0 ? Math.round((correct / total) * 100) : 0
+
+        return {
+          ...section,
+          total,
+          correct,
+          percentage,
+          note: getPerformanceNote(percentage),
+        }
+      })
+      .filter((section) => section.total > 0)
+  }
+
   const handleSubmit = () => {
     setCompletedAt(new Date().toLocaleString())
     setTestCompleted(true)
@@ -636,6 +694,7 @@ export default function LiteracyMockTest() {
     const score = calculateScore()
     const percentage = getScorePercentage()
     const { grade, color } = getGrade()
+    const sectionSummaries = getSectionSummaries()
 
     return (
       <div className="min-h-screen bg-gradient-to-b from-sky-50 to-slate-50">
@@ -688,6 +747,27 @@ export default function LiteracyMockTest() {
                   </p>
                 </div>
 
+                <div className="rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm">
+                  <h3 className="text-lg font-semibold text-slate-800 mb-4">Section Summary</h3>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    {sectionSummaries.map((section) => (
+                      <div key={section.type} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            <p className="font-semibold text-slate-800">{section.title}</p>
+                            <p className="text-xs text-slate-500 mt-1">{section.description}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-lg font-bold text-sky-700">{section.correct}/{section.total}</p>
+                            <p className="text-xs text-slate-500">{section.percentage}%</p>
+                          </div>
+                        </div>
+                        <p className="text-sm text-slate-600 mt-3">{section.note}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="space-y-3">
                   <Button
                     onClick={() => setShowReview(true)}
@@ -722,6 +802,7 @@ export default function LiteracyMockTest() {
     const score = calculateScore()
     const percentage = getScorePercentage()
     const { grade, color } = getGrade()
+    const sectionSummaries = getSectionSummaries()
 
     return (
       <div className="min-h-screen bg-gradient-to-b from-sky-50 to-slate-50">
@@ -802,6 +883,27 @@ export default function LiteracyMockTest() {
                   This report shows the student&apos;s overall result and a full question-by-question review,
                   including the student&apos;s answer, the correct answer, and an explanation for each item.
                 </p>
+              </div>
+
+              <div className="mb-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                <h3 className="text-lg font-semibold text-slate-800 mb-4">Section Summary</h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {sectionSummaries.map((section) => (
+                    <div key={section.type} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="font-semibold text-slate-800">{section.title}</p>
+                          <p className="text-xs text-slate-500 mt-1">{section.description}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-sky-700">{section.correct}/{section.total}</p>
+                          <p className="text-xs text-slate-500">{section.percentage}%</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-600 mt-3">{section.note}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="space-y-6">

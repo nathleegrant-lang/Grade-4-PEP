@@ -5,9 +5,9 @@ export type GradeKey = "grade4" | "grade5"
 export type SubjectKey = "literacy" | "numeracy" | "performance"
 export type DifficultyKey = "easy" | "moderate" | "difficult" | "mixed"
 
-export const MAX_TEST_SLOTS = 10
+export type SubjectCatalog = Record<DifficultyKey, number[]>
 
-type SubjectCatalog = Record<DifficultyKey, number[]>
+export const MAX_TEST_SLOTS = 10
 
 const DIFFICULTIES: DifficultyKey[] = ["easy", "moderate", "difficult", "mixed"]
 
@@ -21,11 +21,11 @@ function emptyCatalog(): SubjectCatalog {
 }
 
 function getSubjectBasePath(grade: GradeKey, subject: SubjectKey) {
-  if (grade === "grade4") {
-    return path.join(process.cwd(), "app", "mock-tests", subject)
+  if (grade === "grade5") {
+    return path.join(process.cwd(), "app", "grade-5", "mock-tests", subject)
   }
 
-  return path.join(process.cwd(), "app", "grade-5", "mock-tests", subject)
+  return path.join(process.cwd(), "app", "mock-tests", subject)
 }
 
 function scanSubjectCatalog(grade: GradeKey, subject: SubjectKey): SubjectCatalog {
@@ -55,6 +55,13 @@ function scanSubjectCatalog(grade: GradeKey, subject: SubjectKey): SubjectCatalo
   }
 
   return catalog
+}
+
+export function getSubjectCatalog(
+  subject: SubjectKey,
+  grade: GradeKey = "grade4",
+): SubjectCatalog {
+  return scanSubjectCatalog(grade, subject)
 }
 
 export function getAvailableTests(

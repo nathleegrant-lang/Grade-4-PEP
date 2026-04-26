@@ -52,6 +52,11 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/privacy" className="hover:text-white transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
                 <Link href="/login" className="hover:text-white transition-colors">
                   Parent Sign In
                 </Link>

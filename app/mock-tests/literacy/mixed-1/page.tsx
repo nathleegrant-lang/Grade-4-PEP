@@ -661,9 +661,9 @@ export default function LiteracyMixed1MockTest() {
         <SiteHeader />
 
         <main className="container mx-auto px-4 py-10">
-          <Link href="/mock-tests" className="inline-flex items-center text-sky-600 hover:text-sky-800 mb-6">
+          <Link href="/mock-tests/literacy" className="inline-flex items-center text-sky-600 hover:text-sky-800 mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Mock Tests
+            Back to Literacy Mock Tests
           </Link>
 
           <Card className="max-w-2xl mx-auto">
@@ -680,7 +680,7 @@ export default function LiteracyMixed1MockTest() {
               </div>
               <BookOpen className="h-16 w-16 mx-auto text-sky-600 mb-4" />
               <CardTitle className="text-2xl text-sky-800">Literacy Mixed 1</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Realistic Simulation</p>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Mixed Practice</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="space-y-6">
@@ -740,9 +740,9 @@ export default function LiteracyMixed1MockTest() {
                   Start Test
                 </Button>
 
-                <Link href="/mock-tests">
+                <Link href="/mock-tests/literacy">
                   <Button variant="outline" className="w-full">
-                    Back to Mock Tests
+                    Back to Literacy Mock Tests
                   </Button>
                 </Link>
               </div>
@@ -814,8 +814,8 @@ export default function LiteracyMixed1MockTest() {
                 <div className="rounded-xl border border-sky-200 bg-sky-50 p-5 text-left">
                   <h3 className="text-lg font-semibold text-sky-800 mb-2">Result Summary</h3>
                   <p className="text-sm text-slate-700">
-                    This mixed paper blends easier, moderate, and more challenging questions to simulate a realistic exam-style experience.
-                    Review the report to see strengths, weak areas, and explanations for each answer.
+                    This mixed-level literacy report blends easier, moderate, and more challenging questions to simulate a realistic exam-style experience.
+                    Review the report to see strengths by section and read the explanations for each answer.
                   </p>
                 </div>
 
@@ -827,10 +827,10 @@ export default function LiteracyMixed1MockTest() {
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Take Test Again
                   </Button>
-                  <Link href="/mock-tests">
+                  <Link href="/mock-tests/literacy">
                     <Button variant="outline" className="w-full">
                       <Home className="h-4 w-4 mr-2" />
-                      Back to Mock Tests
+                      Back to Literacy Mock Tests
                     </Button>
                   </Link>
                 </div>
@@ -1018,10 +1018,10 @@ export default function LiteracyMixed1MockTest() {
               Take Test Again
             </Button>
 
-            <Link href="/mock-tests" className="flex-1">
+            <Link href="/mock-tests/literacy" className="flex-1">
               <Button variant="outline" className="w-full">
                 <Home className="h-4 w-4 mr-2" />
-                Back to Mock Tests
+                Back to Literacy Mock Tests
               </Button>
             </Link>
           </div>
@@ -1039,7 +1039,7 @@ export default function LiteracyMixed1MockTest() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Link
-                href="/mock-tests"
+                href="/mock-tests/literacy"
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                 title="Exit Test"
               >

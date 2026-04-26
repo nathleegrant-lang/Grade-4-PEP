@@ -1,4 +1,4 @@
-{activeSubscription ? (
+{hasActiveSubscription ? (
   <div className="space-y-4">
     <div className="rounded-xl border-2 border-emerald-600 bg-emerald-100 p-5 shadow-md">
       <p className="text-lg font-extrabold text-emerald-900 mb-2">

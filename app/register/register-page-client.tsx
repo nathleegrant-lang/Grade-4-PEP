@@ -79,10 +79,10 @@ export default function RegisterPageClient() {
     }
 
     if (result.needsEmailConfirmation) {
-      setSuccessMessage("Your account was created. Please confirm your email if prompted, then sign in to continue.")
-      setIsSubmitting(false)
-      return
-    }
+  setSuccessMessage("Your account was created. Please confirm your email if prompted, then sign in to continue.")
+  setIsSubmitting(false)
+  return
+}
 
     router.push(selectedPlan ? `/checkout?plan=${selectedPlan}` : "/dashboard")
   }

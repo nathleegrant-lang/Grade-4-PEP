@@ -724,7 +724,7 @@ export default function LiteracyEasy1MockTest() {
               </div>
               <BookOpen className="h-16 w-16 mx-auto text-sky-600 mb-4" />
               <CardTitle className="text-2xl text-sky-800">Literacy Easy 1</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Practice · Confidence Builder</p>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Easy Practice</p>
             </CardHeader>
             <CardContent className="p-6 space-y-6">
               <div className="grid grid-cols-2 gap-4 text-center">
@@ -811,8 +811,8 @@ export default function LiteracyEasy1MockTest() {
                 />
               </div>
               <CheckCircle className="h-16 w-16 mx-auto text-sky-600 mb-4" />
-              <CardTitle className="text-2xl text-sky-800">Literacy Easy 1 Completed</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Practice Report</p>
+              <CardTitle className="text-2xl text-sky-800">Mock Test Completed</CardTitle>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Literacy Easy 1</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="text-center space-y-6">
@@ -837,7 +837,10 @@ export default function LiteracyEasy1MockTest() {
                 </div>
 
                 <div className="rounded-xl border border-sky-200 bg-sky-50 p-5 text-left">
-                  <h3 className="text-lg font-semibold text-sky-800 mb-3">Section Summary</h3>
+                  <h3 className="text-lg font-semibold text-sky-800 mb-2">Result Summary</h3>
+                  <p className="text-sm text-slate-700 mb-4">
+                    This easy-level literacy report includes section summaries and a full question-by-question review with explanations.
+                  </p>
                   <div className="grid gap-3 sm:grid-cols-2">
                     {sectionSummaries.map((section) => (
                       <div key={section.label} className="rounded-lg border border-sky-100 bg-white p-4">
@@ -857,6 +860,12 @@ export default function LiteracyEasy1MockTest() {
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Take Test Again
                   </Button>
+                  <Link href="/mock-tests/literacy">
+                    <Button variant="outline" className="w-full">
+                      <Home className="h-4 w-4 mr-2" />
+                      Back to Literacy Mock Tests
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </CardContent>
@@ -941,7 +950,10 @@ export default function LiteracyEasy1MockTest() {
 
             <CardContent className="p-6">
               <div className="mb-6 rounded-xl border border-sky-200 bg-sky-50 p-5">
-                <h3 className="text-lg font-semibold text-sky-800 mb-3">Section Summary</h3>
+                <h3 className="text-lg font-semibold text-sky-800 mb-2">Performance Summary</h3>
+                <p className="text-sm text-slate-700 mb-4">
+                  This report shows the student&apos;s overall result, section-by-section performance, and a full question-by-question review with explanations.
+                </p>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   {sectionSummaries.map((section) => (
                     <div key={section.label} className="rounded-lg border border-sky-100 bg-white p-4">

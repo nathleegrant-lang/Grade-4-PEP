@@ -488,9 +488,9 @@ export default function NumeracyMixed1Page() {
         <SiteHeader />
 
         <main className="container mx-auto px-4 py-10">
-          <Link href="/mock-tests" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6">
+          <Link href="/mock-tests/numeracy" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Mock Tests
+            Back to Numeracy Mock Tests
           </Link>
 
           <Card className="max-w-2xl mx-auto shadow-lg">
@@ -507,7 +507,7 @@ export default function NumeracyMixed1Page() {
               </div>
               <Calculator className="h-16 w-16 mx-auto text-blue-600 mb-4" />
               <CardTitle className="text-2xl text-blue-800">Numeracy Mixed 1</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Mixed Practice Assessment</p>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Mixed Practice</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="space-y-6">
@@ -568,9 +568,9 @@ export default function NumeracyMixed1Page() {
                   Start Test
                 </Button>
 
-                <Link href="/mock-tests">
+                <Link href="/mock-tests/numeracy">
                   <Button variant="outline" className="w-full">
-                    Back to Mock Tests
+                    Back to Numeracy Mock Tests
                   </Button>
                 </Link>
               </div>
@@ -646,8 +646,7 @@ export default function NumeracyMixed1Page() {
               <div className="rounded-xl border border-blue-200 bg-blue-50 p-5 text-left">
                 <h3 className="text-lg font-semibold text-blue-800 mb-2">Result Summary</h3>
                 <p className="text-sm text-slate-700">
-                  This mixed test combines easier, standard, and more challenging numeracy items.
-                  Review each question to see the student&apos;s answer, the correct answer, and a clear explanation.
+                  This mixed-level numeracy report combines easier, standard, and more challenging items, with section summaries and a full question-by-question review with explanations.
                 </p>
               </div>
 
@@ -659,10 +658,10 @@ export default function NumeracyMixed1Page() {
                   <RotateCcw className="h-4 w-4 mr-2" />
                   Take Test Again
                 </Button>
-                <Link href="/mock-tests">
+                <Link href="/mock-tests/numeracy">
                   <Button variant="outline" className="w-full">
                     <Home className="h-4 w-4 mr-2" />
-                    Back to Mock Tests
+                    Back to Numeracy Mock Tests
                   </Button>
                 </Link>
               </div>
@@ -752,8 +751,7 @@ export default function NumeracyMixed1Page() {
               <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-5">
                 <h3 className="text-lg font-semibold text-blue-800 mb-2">Performance Summary</h3>
                 <p className="text-sm text-slate-700">
-                  This report shows the student&apos;s overall result and a full question-by-question review,
-                  including the student&apos;s answer, the correct answer, and an explanation for each item.
+                  This report shows the student&apos;s overall result, section-by-section performance, and a full question-by-question review with explanations.
                 </p>
               </div>
 
@@ -791,8 +789,12 @@ export default function NumeracyMixed1Page() {
                         )}
 
                         <div className="flex-1">
-                          <p className="font-semibold text-slate-800 mb-2">Question {index + 1}</p>
-                          <p className="text-xs font-medium uppercase tracking-wide text-blue-700 mb-2">{getSectionTitle(q.type)}</p>
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <p className="font-semibold text-slate-800">Question {index + 1}</p>
+                            <span className="text-xs uppercase tracking-wide rounded-full bg-white px-2 py-1 text-slate-600 border">
+                              {getSectionTitle(q.type)}
+                            </span>
+                          </div>
                           <p className="text-slate-800 mb-3">{q.question}</p>
 
                           <div className="space-y-1 text-sm">
@@ -837,10 +839,10 @@ export default function NumeracyMixed1Page() {
               Take Test Again
             </Button>
 
-            <Link href="/mock-tests" className="flex-1">
+            <Link href="/mock-tests/numeracy" className="flex-1">
               <Button variant="outline" className="w-full">
                 <Home className="h-4 w-4 mr-2" />
-                Back to Mock Tests
+                Back to Numeracy Mock Tests
               </Button>
             </Link>
           </div>
@@ -857,7 +859,7 @@ export default function NumeracyMixed1Page() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Link href="/mock-tests" className="p-2 hover:bg-white/10 rounded-lg transition-colors" title="Exit Test">
+              <Link href="/mock-tests/numeracy" className="p-2 hover:bg-white/10 rounded-lg transition-colors" title="Exit Test">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
               <Calculator className="h-8 w-8" />

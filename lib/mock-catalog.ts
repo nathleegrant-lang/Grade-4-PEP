@@ -1,76 +1,48 @@
-export type GradeKey = "grade4" | "grade5"
+// lib/mock-catalog.ts
+import fs from "fs"
+import path from "path"
+
+export type LevelKey = "easy" | "moderate" | "difficult" | "mixed"
 export type SubjectKey = "literacy" | "numeracy" | "performance"
-export type DifficultyKey = "easy" | "moderate" | "difficult" | "mixed"
 
-export const MAX_TEST_SLOTS = 10
+export type SubjectCatalog = Record<LevelKey, number[]>
 
-export const mockCatalog: Record<
-  GradeKey,
-  Record<SubjectKey, Record<DifficultyKey, number[]>>
-> = {
-  grade4: {
-    literacy: {
-      easy: [1],
-      moderate: [1],
-      difficult: [1],
-      mixed: [1, 2],
-    },
-    numeracy: {
-      easy: [1],
-      moderate: [1],
-      difficult: [1],
-      mixed: [1, 2],
-    },
-    performance: {
-      easy: [1],
-      moderate: [1],
-      difficult: [1],
-      mixed: [1, 2],
-    },
-  },
-  grade5: {
-    literacy: {
-      easy: [],
-      moderate: [],
-      difficult: [],
-      mixed: [],
-    },
-    numeracy: {
-      easy: [],
-      moderate: [],
-      difficult: [],
-      mixed: [],
-    },
-    performance: {
-      easy: [],
-      moderate: [],
-      difficult: [],
-      mixed: [],
-    },
-  },
+const LEVELS: LevelKey[] = ["easy", "moderate", "difficult", "mixed"]
+
+function emptyCatalog(): SubjectCatalog {
+  return {
+    easy: [],
+    moderate: [],
+    difficult: [],
+    mixed: [],
+  }
 }
 
-export function isTestAvailable(
-  grade: GradeKey,
-  subject: SubjectKey,
-  difficulty: DifficultyKey,
-  testNumber: number,
-) {
-  return mockCatalog[grade][subject][difficulty].includes(testNumber)
-}
+export function getSubjectCatalog(subject: SubjectKey): SubjectCatalog {
+  const basePath = path.join(process.cwd(), "app", "mock-tests", subject)
+  const catalog = emptyCatalog()
 
-export function getAvailableTests(
-  grade: GradeKey,
-  subject: SubjectKey,
-  difficulty: DifficultyKey,
-) {
-  return mockCatalog[grade][subject][difficulty]
-}
+  if (!fs.existsSync(basePath)) return catalog
 
-export function getTestHref(
-  subject: SubjectKey,
-  difficulty: DifficultyKey,
-  testNumber: number,
-) {
-  return `/mock-tests/${subject}/${difficulty}-${testNumber}`
+  const entries = fs.readdirSync(basePath, { withFileTypes: true })
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue
+
+    const match = entry.name.match(/^(easy|moderate|difficult|mixed)-(\d+)$/)
+    if (!match) continue
+
+    const level = match[1] as LevelKey
+    const number = Number(match[2])
+
+    if (!Number.isNaN(number)) {
+      catalog[level].push(number)
+    }
+  }
+
+  for (const level of LEVELS) {
+    catalog[level].sort((a, b) => a - b)
+  }
+
+  return catalog
 }

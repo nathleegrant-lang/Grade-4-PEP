@@ -112,7 +112,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const authUser = session.user
 
     const [{ data: profile }, { data: subscriptionRows }, { data: studentRows }] = await Promise.all([
-      supabase.from("profiles").select("id, full_name, email, phone, role, created_at").eq("id", authUser.id).single<SupabaseProfileRow>(),
+      supabase
+        .from("profiles")
+        .select("id, full_name, email, phone, role, created_at")
+        .eq("id", authUser.id)
+        .single<SupabaseProfileRow>(),
+
       supabase
         .from("subscriptions")
         .select("id, parent_id, grade, plan_code, status, starts_at, expires_at, max_students, payment_id")
@@ -121,6 +126,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .in("status", ["active", "pending"])
         .order("created_at", { ascending: false })
         .limit(1),
+
       supabase
         .from("students")
         .select("id, full_name, grade_level, subscription_id, created_at")
@@ -165,6 +171,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let mounted = true
+
     supabase.auth.getSession().then(({ data }) => {
       if (!mounted) return
       void loadUser(data.session)
@@ -188,10 +195,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (data: RegisterData): Promise<RegisterResult> => {
     persistPendingChild(data.email, data.childName)
 
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || window.location.origin
+
     const { data: result, error } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
       options: {
+        emailRedirectTo: `${siteUrl}/login`,
         data: {
           full_name: data.parentName,
           phone: data.phone ?? null,
@@ -200,9 +211,51 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       },
     })
 
-    if (error) return { success: false, error: error.message }
-    if (result.session) await loadUser(result.session)
-    return { success: true, needsEmailConfirmation: !result.session }
+    if (error) {
+      const rawError = error.message?.toLowerCase() || ""
+
+      if (rawError.includes("email rate limit exceeded")) {
+        return {
+          success: false,
+          error: "We couldn’t send another confirmation email right now. Please wait a few minutes and try again.",
+        }
+      }
+
+      if (rawError.includes("user already registered")) {
+        return {
+          success: false,
+          error: "An account with this email already exists. Please sign in instead.",
+        }
+      }
+
+      if (rawError.includes("invalid email")) {
+        return {
+          success: false,
+          error: "Please enter a valid email address.",
+        }
+      }
+
+      if (rawError.includes("password")) {
+        return {
+          success: false,
+          error: "Please use a stronger password and try again.",
+        }
+      }
+
+      return {
+        success: false,
+        error: "We couldn’t create your account right now. Please try again.",
+      }
+    }
+
+    if (result.session) {
+      await loadUser(result.session)
+    }
+
+    return {
+      success: true,
+      needsEmailConfirmation: !result.session,
+    }
   }
 
   const logout = async () => {
@@ -223,7 +276,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const allowed = activeSubscription?.maxStudents ?? 1
     if (students.length >= allowed) {
-      return { success: false, error: `This plan allows up to ${allowed} student${allowed === 1 ? "" : "s"}.` }
+      return {
+        success: false,
+        error: `This plan allows up to ${allowed} student${allowed === 1 ? "" : "s"}.`,
+      }
     }
 
     const { error } = await supabase.from("students").insert({
@@ -233,7 +289,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       grade_level: 4,
     })
 
-    if (error) return { success: false, error: error.message }
+    if (error) {
+      return { success: false, error: error.message }
+    }
+
     await refreshUser()
     return { success: true }
   }
@@ -242,7 +301,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isAdmin = user?.role === "admin"
 
   return (
-    <AuthContext.Provider value={{ user, students, activeSubscription, isLoading, isAuthenticated: !!user, isPremium, isAdmin, login, register, logout, refreshUser, addStudent }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        students,
+        activeSubscription,
+        isLoading,
+        isAuthenticated: !!user,
+        isPremium,
+        isAdmin,
+        login,
+        register,
+        logout,
+        refreshUser,
+        addStudent,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )
@@ -250,6 +324,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext)
-  if (context === undefined) throw new Error("useAuth must be used within an AuthProvider")
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider")
+  }
   return context
 }

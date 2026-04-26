@@ -27,6 +27,7 @@ export default function RegisterPageClient() {
     confirmPassword: "",
   })
   const [showPassword, setShowPassword] = useState(false)
+  const [guardianConsent, setGuardianConsent] = useState(false)
   const [error, setError] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -62,6 +63,12 @@ export default function RegisterPageClient() {
       return
     }
 
+    if (!guardianConsent) {
+      setError("Please confirm that you are a parent or guardian registering on behalf of a child.")
+      setIsSubmitting(false)
+      return
+    }
+
     const result = await register({
       parentName: formData.parentName,
       childName: formData.childName,
@@ -71,20 +78,19 @@ export default function RegisterPageClient() {
     })
 
     if (!result.success) {
-  const rawError = result.error?.toLowerCase() || ""
+      const rawError = result.error?.toLowerCase() || ""
 
-  if (rawError.includes("email rate limit exceeded")) {
-    setError("Too many confirmation requests were made in a short time. Please wait a few minutes and try again.")
-  } else {
-    setError("We couldn’t create your account right now. Please try again.")
-  }
+      if (rawError.includes("email rate limit exceeded")) {
+        setError("Too many confirmation requests were made in a short time. Please wait a few minutes and try again.")
+      } else {
+        setError("We couldn’t create your account right now. Please try again.")
+      }
 
-  setIsSubmitting(false)
-  return
-}
+      setIsSubmitting(false)
+      return
+    }
 
     router.push("/register/success")
-    return
   }
 
   return (
@@ -102,6 +108,7 @@ export default function RegisterPageClient() {
                 Set up your free Grade 4 parent account first, then submit payment for a paid plan.
               </CardDescription>
             </CardHeader>
+
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 {error && <div className="p-3 rounded-lg bg-red-50 text-red-700 text-sm">{error}</div>}
@@ -193,10 +200,30 @@ export default function RegisterPageClient() {
                   />
                 </div>
 
+                <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <div className="flex items-start gap-3">
+                    <input
+                      id="guardianConsent"
+                      type="checkbox"
+                      checked={guardianConsent}
+                      onChange={(e) => setGuardianConsent(e.target.checked)}
+                      className="mt-1 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                    />
+                    <label htmlFor="guardianConsent" className="text-sm text-slate-700 leading-relaxed">
+                      I confirm that I am a parent or guardian registering on behalf of a child, and I have read the{" "}
+                      <Link href="/privacy" className="font-medium text-sky-700 hover:underline">
+                        Privacy Policy
+                      </Link>.
+                    </label>
+                  </div>
+                </div>
+
                 <div className="bg-sky-50 border border-sky-100 rounded-lg p-4 text-sm text-slate-600">
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-sky-600 mt-0.5" />
-                    <p>Create your free account first. Paid access begins only after payment is verified by the admin.</p>
+                    <p>
+                      Create your free account first. Paid access begins only after payment is verified by the admin.
+                    </p>
                   </div>
                 </div>
 

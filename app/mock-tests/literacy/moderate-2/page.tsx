@@ -24,478 +24,396 @@ interface Question {
   explanation: string
 }
 
-const literacyQuestions: Question[] = [
-  // Reading Comprehension Questions (1-10)
+const literacyModerate2Questions: Question[] = [
   {
     id: 1,
     type: "reading",
-    passage: `The School Garden Project
+    passage: `The Blue Mountains
 
-When Grade 4 students at Orange Hill Primary returned to school in September, they found an empty piece of land behind the library. Their teacher, Mrs. Thomas, suggested that the class turn the area into a garden. At first, some students thought the work would be too hard, but they agreed to try.
+The Blue Mountains stretch across the eastern part of Jamaica, rising more than 2,200 metres above sea level. They are home to some of the rarest plants and birds found anywhere in the Caribbean. The cool, misty climate makes the region ideal for growing coffee. Jamaican Blue Mountain Coffee is considered one of the finest coffees in the world and is exported to many countries, particularly Japan.
 
-During the first week, the class measured the plot, pulled weeds, and removed stones. Parents donated tools, and the principal gave the class permission to use old paint buckets to collect water. The students planted tomato seedlings, callaloo, sweet pepper, and herbs.
+For centuries, the mountains provided shelter for the Maroons, a group of formerly enslaved Africans who escaped from plantations and built free communities in the highlands. They resisted British forces for many years and eventually signed a treaty in 1739 that gave them their freedom.
 
-After a month, the plants began to grow well. The students noticed that the callaloo grew fastest after rainy days. They also discovered that plants near the fence received less sunlight in the afternoon. Because of this, the class moved the herb pots to a sunnier spot.
-
-By December, the garden produced enough vegetables for the school canteen to use in soup. The students felt proud because their work helped the school. Mrs. Thomas said the project taught more than science; it also taught patience, teamwork, and problem-solving.`,
-    question: "What was the main purpose of the passage?",
-    options: [
-      "To explain how to build a library",
-      "To describe how a class created and learned from a garden project",
-      "To persuade students to leave school early",
-      "To compare two different schools",
-    ],
+Today, the Blue Mountains attract hikers and nature lovers from around the world. The trails wind through dense forest and offer stunning views of the island. On clear mornings, some hikers can even see the coast of Cuba from the highest peak.`,
+    question: `What is the main topic of the passage about the Blue Mountains?`,
+    options: ["The history of coffee farming in Jamaica", "The geography, history, and importance of the Blue Mountains", "How the Maroons defeated the British army", "Why tourists prefer Jamaica over Cuba"],
     correctAnswer: 1,
-    explanation: "The passage mainly describes how Grade 4 students created a school garden and what they learned from the experience."
+    explanation: `The passage covers several aspects of the Blue Mountains — its geography, its role in history with the Maroons, and its importance today for tourism and coffee.`,
   },
   {
     id: 2,
     type: "reading",
-    passage: `The School Garden Project
+    passage: `The Blue Mountains
 
-When Grade 4 students at Orange Hill Primary returned to school in September, they found an empty piece of land behind the library. Their teacher, Mrs. Thomas, suggested that the class turn the area into a garden. At first, some students thought the work would be too hard, but they agreed to try.
+The Blue Mountains stretch across the eastern part of Jamaica, rising more than 2,200 metres above sea level. They are home to some of the rarest plants and birds found anywhere in the Caribbean. The cool, misty climate makes the region ideal for growing coffee. Jamaican Blue Mountain Coffee is considered one of the finest coffees in the world and is exported to many countries, particularly Japan.
 
-During the first week, the class measured the plot, pulled weeds, and removed stones. Parents donated tools, and the principal gave the class permission to use old paint buckets to collect water. The students planted tomato seedlings, callaloo, sweet pepper, and herbs.
+For centuries, the mountains provided shelter for the Maroons, a group of formerly enslaved Africans who escaped from plantations and built free communities in the highlands. They resisted British forces for many years and eventually signed a treaty in 1739 that gave them their freedom.
 
-After a month, the plants began to grow well. The students noticed that the callaloo grew fastest after rainy days. They also discovered that plants near the fence received less sunlight in the afternoon. Because of this, the class moved the herb pots to a sunnier spot.
-
-By December, the garden produced enough vegetables for the school canteen to use in soup. The students felt proud because their work helped the school. Mrs. Thomas said the project taught more than science; it also taught patience, teamwork, and problem-solving.`,
-    question: "Why did the class move the herb pots?",
-    options: [
-      "The pots were too heavy to carry",
-      "The herbs were getting too much rain",
-      "The herbs needed more sunlight",
-      "The principal asked them to move the pots",
-    ],
+Today, the Blue Mountains attract hikers and nature lovers from around the world. The trails wind through dense forest and offer stunning views of the island. On clear mornings, some hikers can even see the coast of Cuba from the highest peak.`,
+    question: `According to the passage, why are the Blue Mountains ideal for growing coffee?`,
+    options: ["Because they are close to the sea", "Because the soil is very dry and rocky", "Because the cool, misty climate is ideal", "Because the Maroons planted coffee trees"],
     correctAnswer: 2,
-    explanation: "The passage says the plants near the fence received less sunlight, so the class moved the herb pots to a sunnier spot."
+    explanation: `The passage states that the cool, misty climate makes the region ideal for growing coffee.`,
   },
   {
     id: 3,
     type: "reading",
-    passage: `The School Garden Project
+    passage: `The Blue Mountains
 
-When Grade 4 students at Orange Hill Primary returned to school in September, they found an empty piece of land behind the library. Their teacher, Mrs. Thomas, suggested that the class turn the area into a garden. At first, some students thought the work would be too hard, but they agreed to try.
+The Blue Mountains stretch across the eastern part of Jamaica, rising more than 2,200 metres above sea level. They are home to some of the rarest plants and birds found anywhere in the Caribbean. The cool, misty climate makes the region ideal for growing coffee. Jamaican Blue Mountain Coffee is considered one of the finest coffees in the world and is exported to many countries, particularly Japan.
 
-During the first week, the class measured the plot, pulled weeds, and removed stones. Parents donated tools, and the principal gave the class permission to use old paint buckets to collect water. The students planted tomato seedlings, callaloo, sweet pepper, and herbs.
+For centuries, the mountains provided shelter for the Maroons, a group of formerly enslaved Africans who escaped from plantations and built free communities in the highlands. They resisted British forces for many years and eventually signed a treaty in 1739 that gave them their freedom.
 
-After a month, the plants began to grow well. The students noticed that the callaloo grew fastest after rainy days. They also discovered that plants near the fence received less sunlight in the afternoon. Because of this, the class moved the herb pots to a sunnier spot.
-
-By December, the garden produced enough vegetables for the school canteen to use in soup. The students felt proud because their work helped the school. Mrs. Thomas said the project taught more than science; it also taught patience, teamwork, and problem-solving.`,
-    question: "Which detail best shows that the project helped the whole school?",
-    options: [
-      "Parents donated tools",
-      "The students measured the plot",
-      "The canteen used the vegetables in soup",
-      "Some students thought the work was hard",
-    ],
-    correctAnswer: 2,
-    explanation: "The strongest evidence is that the vegetables were used in the school canteen, which benefited the wider school community."
+Today, the Blue Mountains attract hikers and nature lovers from around the world. The trails wind through dense forest and offer stunning views of the island. On clear mornings, some hikers can even see the coast of Cuba from the highest peak.`,
+    question: `What does the word 'exported' most likely mean as used in paragraph 1?`,
+    options: ["Grown and harvested locally", "Sent to other countries for sale", "Kept in storage for many years", "Prepared and served in restaurants"],
+    correctAnswer: 1,
+    explanation: `'Exported' means sent to other countries for sale — the passage says Blue Mountain Coffee is exported to many countries, particularly Japan.`,
   },
   {
     id: 4,
     type: "reading",
-    passage: `The School Garden Project
+    passage: `The Blue Mountains
 
-When Grade 4 students at Orange Hill Primary returned to school in September, they found an empty piece of land behind the library. Their teacher, Mrs. Thomas, suggested that the class turn the area into a garden. At first, some students thought the work would be too hard, but they agreed to try.
+The Blue Mountains stretch across the eastern part of Jamaica, rising more than 2,200 metres above sea level. They are home to some of the rarest plants and birds found anywhere in the Caribbean. The cool, misty climate makes the region ideal for growing coffee. Jamaican Blue Mountain Coffee is considered one of the finest coffees in the world and is exported to many countries, particularly Japan.
 
-During the first week, the class measured the plot, pulled weeds, and removed stones. Parents donated tools, and the principal gave the class permission to use old paint buckets to collect water. The students planted tomato seedlings, callaloo, sweet pepper, and herbs.
+For centuries, the mountains provided shelter for the Maroons, a group of formerly enslaved Africans who escaped from plantations and built free communities in the highlands. They resisted British forces for many years and eventually signed a treaty in 1739 that gave them their freedom.
 
-After a month, the plants began to grow well. The students noticed that the callaloo grew fastest after rainy days. They also discovered that plants near the fence received less sunlight in the afternoon. Because of this, the class moved the herb pots to a sunnier spot.
-
-By December, the garden produced enough vegetables for the school canteen to use in soup. The students felt proud because their work helped the school. Mrs. Thomas said the project taught more than science; it also taught patience, teamwork, and problem-solving.`,
-    question: "How did the students solve a problem in the garden?",
-    options: [
-      "They stopped planting herbs",
-      "They asked another class to help them",
-      "They moved some plants after noticing a lack of sunlight",
-      "They covered the whole garden with buckets",
-    ],
-    correctAnswer: 2,
-    explanation: "The students noticed a problem with sunlight and solved it by moving the herb pots to a sunnier place."
+Today, the Blue Mountains attract hikers and nature lovers from around the world. The trails wind through dense forest and offer stunning views of the island. On clear mornings, some hikers can even see the coast of Cuba from the highest peak.`,
+    question: `Which detail best supports the idea that the Blue Mountains have historical importance?`,
+    options: ["The mountains rise more than 2,200 metres above sea level.", "The Maroons built free communities and resisted British forces there.", "Hikers can see the coast of Cuba from the highest peak.", "The region is home to rare plants and birds."],
+    correctAnswer: 1,
+    explanation: `The Maroons' story of building free communities and resisting the British in the Blue Mountains is the strongest evidence of historical significance.`,
   },
   {
     id: 5,
     type: "reading",
-    passage: `The School Garden Project
+    passage: `The Blue Mountains
 
-When Grade 4 students at Orange Hill Primary returned to school in September, they found an empty piece of land behind the library. Their teacher, Mrs. Thomas, suggested that the class turn the area into a garden. At first, some students thought the work would be too hard, but they agreed to try.
+The Blue Mountains stretch across the eastern part of Jamaica, rising more than 2,200 metres above sea level. They are home to some of the rarest plants and birds found anywhere in the Caribbean. The cool, misty climate makes the region ideal for growing coffee. Jamaican Blue Mountain Coffee is considered one of the finest coffees in the world and is exported to many countries, particularly Japan.
 
-During the first week, the class measured the plot, pulled weeds, and removed stones. Parents donated tools, and the principal gave the class permission to use old paint buckets to collect water. The students planted tomato seedlings, callaloo, sweet pepper, and herbs.
+For centuries, the mountains provided shelter for the Maroons, a group of formerly enslaved Africans who escaped from plantations and built free communities in the highlands. They resisted British forces for many years and eventually signed a treaty in 1739 that gave them their freedom.
 
-After a month, the plants began to grow well. The students noticed that the callaloo grew fastest after rainy days. They also discovered that plants near the fence received less sunlight in the afternoon. Because of this, the class moved the herb pots to a sunnier spot.
-
-By December, the garden produced enough vegetables for the school canteen to use in soup. The students felt proud because their work helped the school. Mrs. Thomas said the project taught more than science; it also taught patience, teamwork, and problem-solving.`,
-    question: "What can the reader infer about the students at the end of the project?",
-    options: [
-      "They regretted joining the project",
-      "They felt disappointed with the results",
-      "They became more confident because their effort was successful",
-      "They preferred library work to outdoor work",
-    ],
+Today, the Blue Mountains attract hikers and nature lovers from around the world. The trails wind through dense forest and offer stunning views of the island. On clear mornings, some hikers can even see the coast of Cuba from the highest peak.`,
+    question: `What can the reader infer about Jamaican Blue Mountain Coffee?`,
+    options: ["It is the most affordable coffee in the world.", "It is only popular in Jamaica.", "It has a high reputation because of where and how it is grown.", "It was introduced to Jamaica by British farmers."],
     correctAnswer: 2,
-    explanation: "The students felt proud and saw positive results, so we can infer that they became more confident in what they could do."
+    explanation: `The passage says it is considered one of the finest coffees in the world and is exported to many countries — this suggests a high reputation linked to its growing conditions.`,
   },
   {
     id: 6,
     type: "reading",
-    passage: `A Morning at Port Royal
+    passage: `The Letter
 
-On Heritage Day, Jamal's class visited Port Royal. Before the trip, Jamal had only heard adults call the town "the wickedest city on earth," and he imagined a place filled with pirates and treasure maps. He was surprised when he saw fishermen repairing nets, children walking to school, and tour guides welcoming visitors.
+Kezia found the old letter at the bottom of her grandmother's wooden chest. The paper was yellowed and the ink faded, but the words were still clear. It was written by her great-grandmother, Mabel, who had come to Jamaica from India in 1912 as an indentured labourer.
 
-At the museum, the guide explained that long ago Port Royal was a busy town where ships from many countries stopped to trade. Some sailors were merchants, but others were pirates. Jamal listened carefully as the guide described the earthquake of 1692, when part of the town sank beneath the sea.
+In the letter, Mabel described her first days in Jamaica. She wrote about learning new words, tasting ackee for the first time, and missing the smell of her mother's cooking. She ended the letter with the words: "I do not know what tomorrow holds, but I am still here, and I am still hopeful."
 
-After lunch, the class walked along the shoreline and sketched what they saw. Jamal drew old stone walls standing beside bright fishing boats. On the ride back to school, he said that Port Royal felt different from what he had imagined. It was a place where history and modern life stood side by side.`,
-    question: "How did Jamal's opinion of Port Royal change?",
-    options: [
-      "He became less interested in the town",
-      "He realized the town was only about pirates",
-      "He understood that Port Royal is both historic and part of present-day Jamaica",
-      "He thought the museum guide had told the wrong story",
-    ],
+Kezia read the letter three times. She thought about how far her family had come and how much courage it must have taken to travel so far from home. She carefully folded the letter and placed it back in the chest, feeling a strong connection to someone she had never met.`,
+    question: `Why did Kezia feel a connection to Mabel at the end of the passage?`,
+    options: ["Because Mabel had written about her favourite Jamaican foods", "Because Kezia had visited India and understood Mabel's feelings", "Because reading Mabel's words made her feel close to her family's history", "Because Kezia had also written letters about her life in Jamaica"],
     correctAnswer: 2,
-    explanation: "At first Jamal imagined only pirates, but by the end he understood that Port Royal contains both history and modern life."
+    explanation: `Kezia felt connected because reading Mabel's letter gave her a sense of her family's history and the courage it took to build a new life.`,
   },
   {
     id: 7,
     type: "reading",
-    passage: `A Morning at Port Royal
+    passage: `The Letter
 
-On Heritage Day, Jamal's class visited Port Royal. Before the trip, Jamal had only heard adults call the town "the wickedest city on earth," and he imagined a place filled with pirates and treasure maps. He was surprised when he saw fishermen repairing nets, children walking to school, and tour guides welcoming visitors.
+Kezia found the old letter at the bottom of her grandmother's wooden chest. The paper was yellowed and the ink faded, but the words were still clear. It was written by her great-grandmother, Mabel, who had come to Jamaica from India in 1912 as an indentured labourer.
 
-At the museum, the guide explained that long ago Port Royal was a busy town where ships from many countries stopped to trade. Some sailors were merchants, but others were pirates. Jamal listened carefully as the guide described the earthquake of 1692, when part of the town sank beneath the sea.
+In the letter, Mabel described her first days in Jamaica. She wrote about learning new words, tasting ackee for the first time, and missing the smell of her mother's cooking. She ended the letter with the words: "I do not know what tomorrow holds, but I am still here, and I am still hopeful."
 
-After lunch, the class walked along the shoreline and sketched what they saw. Jamal drew old stone walls standing beside bright fishing boats. On the ride back to school, he said that Port Royal felt different from what he had imagined. It was a place where history and modern life stood side by side.`,
-    question: "Why does the writer include the details about fishermen, children, and tour guides in paragraph 1?",
-    options: [
-      "To show that Jamal's first impression was incomplete",
-      "To prove that Jamal does not like museums",
-      "To explain how to repair a fishing net",
-      "To show that Port Royal has no history",
-    ],
-    correctAnswer: 0,
-    explanation: "Those details show that Port Royal is a real, living community today, which challenges Jamal's first idea of the town."
+Kezia read the letter three times. She thought about how far her family had come and how much courage it must have taken to travel so far from home. She carefully folded the letter and placed it back in the chest, feeling a strong connection to someone she had never met.`,
+    question: `What does the phrase 'indentured labourer' suggest about Mabel's situation?`,
+    options: ["She was a wealthy landowner who chose to move to Jamaica.", "She was a teacher who travelled to Jamaica to work in schools.", "She was brought to Jamaica under a contract to work, likely under difficult conditions.", "She was a pirate who sailed the Caribbean."],
+    correctAnswer: 2,
+    explanation: `An indentured labourer was a worker brought under contract, usually to work in difficult conditions on plantations.`,
   },
   {
     id: 8,
     type: "reading",
-    passage: `A Morning at Port Royal
+    passage: `The Letter
 
-On Heritage Day, Jamal's class visited Port Royal. Before the trip, Jamal had only heard adults call the town "the wickedest city on earth," and he imagined a place filled with pirates and treasure maps. He was surprised when he saw fishermen repairing nets, children walking to school, and tour guides welcoming visitors.
+Kezia found the old letter at the bottom of her grandmother's wooden chest. The paper was yellowed and the ink faded, but the words were still clear. It was written by her great-grandmother, Mabel, who had come to Jamaica from India in 1912 as an indentured labourer.
 
-At the museum, the guide explained that long ago Port Royal was a busy town where ships from many countries stopped to trade. Some sailors were merchants, but others were pirates. Jamal listened carefully as the guide described the earthquake of 1692, when part of the town sank beneath the sea.
+In the letter, Mabel described her first days in Jamaica. She wrote about learning new words, tasting ackee for the first time, and missing the smell of her mother's cooking. She ended the letter with the words: "I do not know what tomorrow holds, but I am still here, and I am still hopeful."
 
-After lunch, the class walked along the shoreline and sketched what they saw. Jamal drew old stone walls standing beside bright fishing boats. On the ride back to school, he said that Port Royal felt different from what he had imagined. It was a place where history and modern life stood side by side.`,
-    question: "What is the best meaning of the word 'trade' as it is used in paragraph 2?",
-    options: [
-      "To change one thing for another in a game",
-      "To buy and sell goods",
-      "To teach a skill to someone",
-      "To travel without a plan",
-    ],
+Kezia read the letter three times. She thought about how far her family had come and how much courage it must have taken to travel so far from home. She carefully folded the letter and placed it back in the chest, feeling a strong connection to someone she had never met.`,
+    question: `Which words best describe the mood of Mabel's letter?`,
+    options: ["Angry and bitter", "Hopeful but uncertain", "Joyful and carefree", "Proud and confident"],
     correctAnswer: 1,
-    explanation: "In the passage, ships stopped in Port Royal to exchange goods, so 'trade' means to buy and sell goods."
+    explanation: `Mabel writes about missing home and the uncertainty of tomorrow, yet says she is 'still hopeful' — suggesting a hopeful but uncertain mood.`,
   },
   {
     id: 9,
     type: "reading",
-    passage: `A Morning at Port Royal
+    passage: `The Letter
 
-On Heritage Day, Jamal's class visited Port Royal. Before the trip, Jamal had only heard adults call the town "the wickedest city on earth," and he imagined a place filled with pirates and treasure maps. He was surprised when he saw fishermen repairing nets, children walking to school, and tour guides welcoming visitors.
+Kezia found the old letter at the bottom of her grandmother's wooden chest. The paper was yellowed and the ink faded, but the words were still clear. It was written by her great-grandmother, Mabel, who had come to Jamaica from India in 1912 as an indentured labourer.
 
-At the museum, the guide explained that long ago Port Royal was a busy town where ships from many countries stopped to trade. Some sailors were merchants, but others were pirates. Jamal listened carefully as the guide described the earthquake of 1692, when part of the town sank beneath the sea.
+In the letter, Mabel described her first days in Jamaica. She wrote about learning new words, tasting ackee for the first time, and missing the smell of her mother's cooking. She ended the letter with the words: "I do not know what tomorrow holds, but I am still here, and I am still hopeful."
 
-After lunch, the class walked along the shoreline and sketched what they saw. Jamal drew old stone walls standing beside bright fishing boats. On the ride back to school, he said that Port Royal felt different from what he had imagined. It was a place where history and modern life stood side by side.`,
-    question: "Which sentence best supports the idea that Port Royal blends past and present?",
-    options: [
-      "He imagined a place filled with pirates and treasure maps.",
-      "Some sailors were merchants, but others were pirates.",
-      "Jamal drew old stone walls standing beside bright fishing boats.",
-      "The guide described the earthquake of 1692.",
-    ],
+Kezia read the letter three times. She thought about how far her family had come and how much courage it must have taken to travel so far from home. She carefully folded the letter and placed it back in the chest, feeling a strong connection to someone she had never met.`,
+    question: `The author writes that 'the paper was yellowed and the ink faded.' What does this tell the reader?`,
+    options: ["The letter was poorly written and hard to understand.", "The letter was damaged because Kezia had handled it carelessly.", "The letter was very old and had been kept for a long time.", "The letter was written in a foreign language."],
     correctAnswer: 2,
-    explanation: "Old stone walls represent history and bright fishing boats represent modern life, so this detail best supports the idea that past and present exist together."
+    explanation: `Yellowed paper and faded ink are signs that the letter is very old and has been stored for many years.`,
   },
   {
     id: 10,
     type: "reading",
-    passage: `A Morning at Port Royal
+    passage: `The Letter
 
-On Heritage Day, Jamal's class visited Port Royal. Before the trip, Jamal had only heard adults call the town "the wickedest city on earth," and he imagined a place filled with pirates and treasure maps. He was surprised when he saw fishermen repairing nets, children walking to school, and tour guides welcoming visitors.
+Kezia found the old letter at the bottom of her grandmother's wooden chest. The paper was yellowed and the ink faded, but the words were still clear. It was written by her great-grandmother, Mabel, who had come to Jamaica from India in 1912 as an indentured labourer.
 
-At the museum, the guide explained that long ago Port Royal was a busy town where ships from many countries stopped to trade. Some sailors were merchants, but others were pirates. Jamal listened carefully as the guide described the earthquake of 1692, when part of the town sank beneath the sea.
+In the letter, Mabel described her first days in Jamaica. She wrote about learning new words, tasting ackee for the first time, and missing the smell of her mother's cooking. She ended the letter with the words: "I do not know what tomorrow holds, but I am still here, and I am still hopeful."
 
-After lunch, the class walked along the shoreline and sketched what they saw. Jamal drew old stone walls standing beside bright fishing boats. On the ride back to school, he said that Port Royal felt different from what he had imagined. It was a place where history and modern life stood side by side.`,
-    question: "Which word best describes Jamal's attitude at the end of the passage?",
-    options: [
-      "Confused",
-      "Curious and thoughtful",
-      "Angry",
-      "Bored",
-    ],
-    correctAnswer: 1,
-    explanation: "Jamal reflects on what he learned and sees the town in a new way, so 'curious and thoughtful' fits best."
+Kezia read the letter three times. She thought about how far her family had come and how much courage it must have taken to travel so far from home. She carefully folded the letter and placed it back in the chest, feeling a strong connection to someone she had never met.`,
+    question: `What is the main theme of the passage about Kezia and the letter?`,
+    options: ["Old objects are often worth a lot of money.", "Writing letters is more meaningful than using technology.", "Connecting with family history gives us a sense of identity and strength.", "Jamaica has always welcomed people from other countries."],
+    correctAnswer: 2,
+    explanation: `The passage shows how Kezia feels a deep connection and sense of strength from learning about her ancestor Mabel — the theme is about family history and identity.`,
   },
-
-  // Vocabulary Questions (11-20)
   {
     id: 11,
     type: "vocabulary",
-    question: "In the sentence 'The crowd grew silent as the principal began to speak,' the word 'silent' means:",
-    options: ["restless", "quiet", "excited", "crowded"],
+    question: `In the sentence 'The principal gave a brief announcement before class,' what does 'brief' mean?`,
+    options: ["Loud and clear", "Short in length", "Difficult to understand", "Planned carefully"],
     correctAnswer: 1,
-    explanation: "'Silent' means quiet, making little or no sound."
+    explanation: `'Brief' means short in length or duration.`,
   },
   {
     id: 12,
     type: "vocabulary",
-    question: "Which word is the best synonym for 'careful'?",
-    options: ["cautious", "careless", "speedy", "sudden"],
-    correctAnswer: 0,
-    explanation: "'Cautious' means careful and alert."
+    question: `Which word is the best synonym for 'ancient'?`,
+    options: ["Modern", "New", "Very old", "Broken"],
+    correctAnswer: 2,
+    explanation: `'Ancient' means very old, from a long time ago.`,
   },
   {
     id: 13,
     type: "vocabulary",
-    question: "What is the opposite of 'generous'?",
-    options: ["friendly", "selfish", "polite", "proud"],
-    correctAnswer: 1,
-    explanation: "The opposite of generous is selfish because a selfish person does not like to share."
+    question: `What is the antonym of 'timid'?`,
+    options: ["Shy", "Quiet", "Bold", "Gentle"],
+    correctAnswer: 2,
+    explanation: `'Timid' means shy or fearful; its antonym is 'bold,' meaning confident and brave.`,
   },
   {
     id: 14,
     type: "vocabulary",
-    question: "In the sentence 'The muddy field made walking difficult,' the word 'difficult' means:",
-    options: ["easy", "hard", "pleasant", "quick"],
-    correctAnswer: 1,
-    explanation: "'Difficult' means hard to do."
+    question: `In the sentence 'The farmer harvested his crops before the storm arrived,' what does 'harvested' mean?`,
+    options: ["Planted seeds in the ground", "Watered the plants with a hose", "Gathered crops from the field when ready", "Covered the field with a sheet"],
+    correctAnswer: 2,
+    explanation: `'Harvested' means gathered or collected crops that are ready to be used.`,
   },
   {
     id: 15,
     type: "vocabulary",
-    question: "Which word best completes the sentence? 'The teacher praised the class for their _____ work.'",
-    options: ["messy", "excellent", "sleepy", "empty"],
-    correctAnswer: 1,
-    explanation: "'Excellent' fits because it means very good and matches the idea of praise."
+    question: `Which word best completes the sentence? 'The guide spoke _____ so that everyone in the group could hear her.'`,
+    options: ["softly", "carelessly", "clearly", "quickly"],
+    correctAnswer: 2,
+    explanation: `'Clearly' fits because the guide needed everyone to hear and understand her.`,
   },
   {
     id: 16,
     type: "vocabulary",
-    question: "If a road is 'narrow,' it is:",
-    options: ["wide", "long", "not wide", "crowded"],
-    correctAnswer: 2,
-    explanation: "A narrow road is not wide."
+    question: `'The children were reluctant to leave the beach.' The word 'reluctant' means:`,
+    options: ["excited and eager", "unwilling or hesitant", "tired and sleepy", "angry and frustrated"],
+    correctAnswer: 1,
+    explanation: `'Reluctant' means not wanting to do something; unwilling or hesitant.`,
   },
   {
     id: 17,
     type: "vocabulary",
-    question: "In the sentence 'The kitten crept under the chair,' what does 'crept' mean?",
-    options: ["moved slowly and quietly", "jumped high", "made a loud sound", "fell down"],
-    correctAnswer: 0,
-    explanation: "'Crept' means moved slowly and quietly."
+    question: `Which word means the same as 'generous'?`,
+    options: ["Stingy", "Giving", "Proud", "Clever"],
+    correctAnswer: 1,
+    explanation: `'Generous' means willing to give; the synonym is 'giving.'`,
   },
   {
     id: 18,
     type: "vocabulary",
-    question: "Which word is the best antonym for 'ancient'?",
-    options: ["old", "historic", "modern", "broken"],
+    question: `In the sentence 'The athlete demonstrated remarkable speed during the race,' what does 'remarkable' mean?`,
+    options: ["Ordinary and expected", "Slow and steady", "Worth noticing; impressive", "Dangerous and risky"],
     correctAnswer: 2,
-    explanation: "The opposite of ancient is modern."
+    explanation: `'Remarkable' means worth noticing or impressive — standing out from the ordinary.`,
   },
   {
     id: 19,
     type: "vocabulary",
-    question: "What does 'fortunate' most nearly mean?",
-    options: ["lucky", "hungry", "angry", "tired"],
-    correctAnswer: 0,
-    explanation: "'Fortunate' means lucky or having good fortune."
+    question: `What does 'transparent' mean?`,
+    options: ["Very heavy and solid", "Easy to see through", "Colourful and bright", "Hidden from view"],
+    correctAnswer: 1,
+    explanation: `'Transparent' means clear and easy to see through, like glass.`,
   },
   {
     id: 20,
     type: "vocabulary",
-    question: "In the sentence 'The artist used bright colours to create a cheerful poster,' the word 'cheerful' means:",
-    options: ["gloomy", "joyful", "untidy", "ordinary"],
-    correctAnswer: 1,
-    explanation: "'Cheerful' means joyful or happy."
+    question: `Which word best completes the sentence? 'The scientist made a careful _____ before writing her report.'`,
+    options: ["guess", "celebration", "observation", "argument"],
+    correctAnswer: 2,
+    explanation: `'Observation' fits — a scientist makes careful observations before writing a report.`,
   },
-
-  // Grammar Questions (21-32)
   {
     id: 21,
     type: "grammar",
-    question: "Choose the correct verb: 'The players _____ ready for the match.'",
-    options: ["is", "was", "are", "am"],
-    correctAnswer: 2,
-    explanation: "'Players' is plural, so the correct verb is 'are'."
+    question: `Choose the correct verb: 'Each of the students _____ a book to read.'`,
+    options: ["have", "has", "are having", "were having"],
+    correctAnswer: 1,
+    explanation: `'Each' is always singular, so the correct verb is 'has.'`,
   },
   {
     id: 22,
     type: "grammar",
-    question: "Which sentence is punctuated correctly?",
-    options: ["Where are you going.", "Where are you going?", "where are you going?", "Where are you going"],
-    correctAnswer: 1,
-    explanation: "A correctly punctuated question begins with a capital letter and ends with a question mark."
+    question: `Which sentence uses the correct verb tense?`,
+    options: ["Yesterday she will go to the store.", "Tomorrow she went to the store.", "Yesterday she went to the store.", "Yesterday she goes to the store."],
+    correctAnswer: 2,
+    explanation: `'Yesterday' signals past tense. 'Went' is the correct past tense form.`,
   },
   {
     id: 23,
     type: "grammar",
-    question: "Choose the correct pronoun: 'Grandma gave the gift to _____. '",
-    options: ["I", "me", "my", "mine"],
+    question: `Choose the sentence with correct subject-verb agreement:`,
+    options: ["The bunch of bananas are on the table.", "The bunch of bananas is on the table.", "The bunch of bananas were on the table.", "The bunch of bananas be on the table."],
     correctAnswer: 1,
-    explanation: "'Me' is the correct object pronoun after the preposition 'to'."
+    explanation: `The subject is 'bunch' (singular), not 'bananas.' A singular subject takes 'is.'`,
   },
   {
     id: 24,
     type: "grammar",
-    question: "Which word is an adjective in this sentence: 'The noisy bus stopped suddenly.'",
-    options: ["noisy", "bus", "stopped", "suddenly"],
-    correctAnswer: 0,
-    explanation: "'Noisy' is an adjective because it describes the noun 'bus'."
+    question: `Which word is an adverb in the sentence: 'She sang beautifully at the concert.'?`,
+    options: ["sang", "beautifully", "concert", "at"],
+    correctAnswer: 1,
+    explanation: `'Beautifully' is an adverb — it describes how she sang.`,
   },
   {
     id: 25,
     type: "grammar",
-    question: "Choose the correct past tense: 'Yesterday, we _____ to the beach.'",
-    options: ["go", "goes", "went", "going"],
-    correctAnswer: 2,
-    explanation: "'Went' is the past tense of 'go'."
+    question: `Choose the correct possessive for one player: 'The _____ uniform was left on the bench.'`,
+    options: ["players", "player's", "players'", "player"],
+    correctAnswer: 1,
+    explanation: `For one player, the possessive is 'player\'s' (apostrophe before the s).`,
   },
   {
     id: 26,
     type: "grammar",
-    question: "Which sentence is complete?",
-    options: ["After the rain stopped.", "Because the bell rang.", "The children cheered loudly.", "Running across the field."],
-    correctAnswer: 2,
-    explanation: "A complete sentence needs a subject and a predicate. 'The children cheered loudly.' has both."
+    question: `Which sentence uses 'their,' 'there,' or 'they're' correctly?`,
+    options: ["The children left their bags at the gate.", "The children left there bags at the gate.", "The children left they're bags at the gate.", "The children left theirs bags at the gate."],
+    correctAnswer: 0,
+    explanation: `'Their' is the correct possessive pronoun showing the bags belong to the children.`,
   },
   {
     id: 27,
     type: "grammar",
-    question: "Choose the correct plural form: 'There are many _____ in the basket.'",
-    options: ["mango", "mangoes", "mangoses", "mango's"],
-    correctAnswer: 1,
-    explanation: "The standard plural form is 'mangoes'."
+    question: `Which of these is a compound sentence?`,
+    options: ["The dog barked.", "Running through the yard.", "The dog barked, and the cat ran away.", "Because the rain started."],
+    correctAnswer: 2,
+    explanation: `A compound sentence joins two independent clauses with a conjunction. 'The dog barked, and the cat ran away.' has two complete ideas joined by 'and.'`,
   },
   {
     id: 28,
     type: "grammar",
-    question: "Which sentence uses the article correctly?",
-    options: ["She saw a elephant.", "She saw an elephant.", "She saw the an elephant.", "She saw an elephant?"],
-    correctAnswer: 1,
-    explanation: "We use 'an' before words that begin with a vowel sound, such as 'elephant'."
+    question: `Choose the correct comparative form: 'She is _____ than her brother.'`,
+    options: ["more tall", "tallest", "taller", "most tall"],
+    correctAnswer: 2,
+    explanation: `When comparing two people or things, add '-er' to the adjective: 'taller.'`,
   },
   {
     id: 29,
     type: "grammar",
-    question: "Choose the best revision: 'The puppies runs in the yard.'",
-    options: ["The puppies run in the yard.", "The puppies running in the yard.", "The puppies ran in the yard always.", "The puppies is in the yard."],
-    correctAnswer: 0,
-    explanation: "'Puppies' is plural, so the verb must be 'run'."
+    question: `Which sentence is in the passive voice?`,
+    options: ["The teacher marked the papers.", "The papers were marked by the teacher.", "The teacher marks the papers every day.", "The teacher will mark the papers tomorrow."],
+    correctAnswer: 1,
+    explanation: `In the passive voice, the subject receives the action. 'The papers were marked by the teacher' is passive.`,
   },
   {
     id: 30,
     type: "grammar",
-    question: "Which word is a verb in this sentence: 'My sister painted a bright mural.'",
-    options: ["sister", "painted", "bright", "mural"],
-    correctAnswer: 1,
-    explanation: "'Painted' is the verb because it shows the action in the sentence."
+    question: `Choose the best conjunction: 'We stayed inside _____ it was raining.'`,
+    options: ["but", "so", "because", "although"],
+    correctAnswer: 2,
+    explanation: `'Because' correctly explains the reason for staying inside.`,
   },
   {
     id: 31,
     type: "grammar",
-    question: "Which sentence needs a comma after an introductory word?",
-    options: ["Yes I can help you.", "The dog barked loudly.", "We went to town yesterday.", "My brother likes cricket."],
-    correctAnswer: 0,
-    explanation: "'Yes, I can help you.' needs a comma after the introductory word 'Yes'."
+    question: `Which sentence uses commas correctly in a list?`,
+    options: ["We bought mangoes, bananas and, pawpaw at the market.", "We bought mangoes, bananas, and pawpaw at the market.", "We bought mangoes bananas, and pawpaw at the market.", "We bought, mangoes, bananas, and pawpaw at the market."],
+    correctAnswer: 1,
+    explanation: `Items in a list are separated by commas. The correct sentence places commas after each item.`,
   },
   {
     id: 32,
     type: "grammar",
-    question: "Choose the correct comparative word: 'This puzzle is _____ than the last one.'",
-    options: ["hard", "harder", "hardest", "more hardest"],
-    correctAnswer: 1,
-    explanation: "When comparing two things, the correct comparative form is 'harder'."
+    question: `What type of sentence is: 'Please put away your books.'?`,
+    options: ["Declarative", "Interrogative", "Exclamatory", "Imperative"],
+    correctAnswer: 3,
+    explanation: `An imperative sentence gives a command or instruction. 'Please put away your books' is a polite command.`,
   },
-
-  // Writing Conventions Questions (33-40)
   {
     id: 33,
     type: "writing",
-    question: "Which word should be capitalized in this sentence: 'my aunt visited montego bay in august.'",
-    options: ["aunt", "visited", "montego bay", "in"],
-    correctAnswer: 2,
-    explanation: "'Montego Bay' is a place name, so both words should be capitalized."
+    question: `Choose the correctly spelled word:`,
+    options: ["recieve", "receive", "receve", "receeve"],
+    correctAnswer: 1,
+    explanation: `The correct spelling is 'receive.' Remember the rule: 'i before e, except after c.'`,
   },
   {
     id: 34,
     type: "writing",
-    question: "Which sentence uses quotation marks correctly?",
-    options: [
-      '"Please line up," said the teacher.',
-      'Please line up," said the teacher."',
-      '"Please line up, said the teacher."',
-      'Please "line up," said the teacher.',
-    ],
-    correctAnswer: 0,
-    explanation: "The spoken words go inside the quotation marks, and the comma comes before the closing quotation mark."
+    question: `Which sentence has correct capitalization?`,
+    options: ["My uncle visited kingston last December.", "my uncle visited Kingston last december.", "My uncle visited Kingston last December.", "My Uncle visited Kingston last december."],
+    correctAnswer: 2,
+    explanation: `'Kingston' is a proper noun and 'December' is a proper noun (month name); both must be capitalized.`,
   },
   {
     id: 35,
     type: "writing",
-    question: "Choose the correctly spelled word.",
-    options: ["beleive", "believe", "belive", "beleeve"],
+    question: `Choose the sentence with correct punctuation of dialogue:`,
+    options: ["\"Come here\" said the teacher.", "\"Come here,\" said the teacher.", "\"Come here\" said, the teacher.", "\"Come here, said the teacher.\""],
     correctAnswer: 1,
-    explanation: "The correct spelling is 'believe'."
+    explanation: `The spoken words go inside the quotation marks, and the comma comes before the closing quotation mark.`,
   },
   {
     id: 36,
     type: "writing",
-    question: "Which sentence is written correctly?",
-    options: [
-      "Last saturday we went to the beach.",
-      "Last Saturday we went to the beach.",
-      "last Saturday we went to the beach.",
-      "Last Saturday, we went to the beach?",
-    ],
+    question: `Which is the correct contraction for 'I am'?`,
+    options: ["Im", "I'm", "I'am", "Iam"],
     correctAnswer: 1,
-    explanation: "'Saturday' is a proper noun and must be capitalized, and the sentence ends with a period."
+    explanation: `The apostrophe in 'I\'m' replaces the missing letter 'a' from 'am.'`,
   },
   {
     id: 37,
     type: "writing",
-    question: "What punctuation mark should end this sentence? 'Watch out'",
-    options: [".", "?", "!", ","],
+    question: `Choose the correctly spelled word:`,
+    options: ["freind", "frend", "friend", "friende"],
     correctAnswer: 2,
-    explanation: "'Watch out!' is an exclamation because it shows strong feeling or urgency."
+    explanation: `The correct spelling is 'friend.'`,
   },
   {
     id: 38,
     type: "writing",
-    question: "Choose the correct contraction for 'they are'.",
-    options: ["their", "theyre", "they're", "there"],
+    question: `Which sentence is correctly punctuated?`,
+    options: ["The cake was delicious everyone wanted more.", "The cake was delicious, everyone wanted more.", "The cake was delicious; everyone wanted more.", "The cake was delicious everyone, wanted more."],
     correctAnswer: 2,
-    explanation: "The correct contraction is 'they're'. The apostrophe replaces the missing 'a'."
+    explanation: `A semicolon correctly joins two closely related independent clauses without a conjunction.`,
   },
   {
     id: 39,
     type: "writing",
-    question: "Which word best completes the sentence? 'We packed our bags and left _____ the rain started.'",
-    options: ["before", "because", "under", "unless"],
-    correctAnswer: 0,
-    explanation: "'Before' makes the sentence logical: they left before the rain started."
+    question: `What is the correct plural of 'knife'?`,
+    options: ["knifes", "knives", "knifves", "knife's"],
+    correctAnswer: 1,
+    explanation: `For words ending in 'fe,' change 'fe' to 'ves': knife → knives.`,
   },
   {
     id: 40,
     type: "writing",
-    question: "Which revision makes this sentence clearer? 'The boy with the red cap he won the race.'",
-    options: [
-      "The boy with the red cap won the race.",
-      "The boy with the red cap he was won the race.",
-      "The boy with red cap won race.",
-      "The boy, with the red cap, he won the race.",
-    ],
-    correctAnswer: 0,
-    explanation: "The clearer sentence removes the extra pronoun 'he' and keeps the sentence complete and correct."
+    question: `Which revision best improves this sentence? 'The boy he studied hard and the boy passed his test.'`,
+    options: ["The boy he studied hard and passed his test.", "The boy studied hard, and he passed his test.", "The boy, he studied hard, and passed his test.", "He studied hard the boy, and passed his test."],
+    correctAnswer: 1,
+    explanation: `The revision removes the redundant pronoun and repeated subject, and correctly uses a comma before 'and.'`,
   },
 ]
 
@@ -506,7 +424,7 @@ const SECTION_CONFIG = [
   { type: "writing" as const, label: "Writing", note: "capitalization, punctuation, editing, and spelling" },
 ]
 
-export default function LiteracyModerateMockTest() {
+export default function LiteracyModerate2MockTest() {
   const { isPremium, user } = useAuth()
   const [testStarted, setTestStarted] = useState(false)
   const [testCompleted, setTestCompleted] = useState(false)
@@ -516,7 +434,7 @@ export default function LiteracyModerateMockTest() {
   const [showReview, setShowReview] = useState(false)
   const [completedAt, setCompletedAt] = useState("")
 
-  const availableQuestions = isPremium ? literacyQuestions : literacyQuestions.slice(0, FREE_QUESTION_LIMIT)
+  const availableQuestions = isPremium ? literacyModerate2Questions : literacyModerate2Questions.slice(0, FREE_QUESTION_LIMIT)
   const totalQuestions = availableQuestions.length
 
   useEffect(() => {
@@ -635,7 +553,7 @@ export default function LiteracyModerateMockTest() {
               <div className="mx-auto mb-4 rounded-xl bg-black p-3 w-fit shadow-sm">
                 <Image
                   src="/images/shazoniques-inspiration-logo.png"
-                  alt="Shazonique's Inspiration logo"
+                  alt="Shazonique&apos;s Inspiration logo"
                   width={220}
                   height={100}
                   className="h-auto w-[180px] sm:w-[220px]"
@@ -643,7 +561,7 @@ export default function LiteracyModerateMockTest() {
                 />
               </div>
               <BookOpen className="h-16 w-16 mx-auto text-sky-600 mb-4" />
-              <CardTitle className="text-2xl text-sky-800">Literacy Moderate 1</CardTitle>
+              <CardTitle className="text-2xl text-sky-800">Literacy Moderate 2</CardTitle>
               <p className="text-gray-600 mt-2">Grade 4 PEP Moderate Practice</p>
             </CardHeader>
             <CardContent className="p-6">
@@ -682,9 +600,9 @@ export default function LiteracyModerateMockTest() {
                 <div className="bg-sky-50 p-4 rounded-lg">
                   <h3 className="font-semibold text-sky-800 mb-2">Moderate-Level Focus:</h3>
                   <ul className="text-sm text-gray-700 space-y-1">
-                    <li>- More inference, main idea, and author&apos;s purpose</li>
-                    <li>- Word meaning in context and stronger vocabulary choices</li>
-                    <li>- Editing, grammar, punctuation, and sentence revision</li>
+                    <li>- Main idea, inference, and author’s purpose</li>
+                    <li>- Word meaning in context, synonyms, antonyms</li>
+                    <li>- Grammar, sentence structure, and verb agreement</li>
                     <li>- 40 Questions · 60 Minutes</li>
                   </ul>
                 </div>
@@ -692,7 +610,7 @@ export default function LiteracyModerateMockTest() {
                 <div className="bg-amber-50 p-4 rounded-lg">
                   <h3 className="font-semibold text-amber-800 mb-2">Instructions:</h3>
                   <ul className="text-sm text-gray-700 space-y-1">
-                    <li>- Read each passage and question carefully.</li>
+                    <li>- Read each question carefully.</li>
                     <li>- Choose the best answer for each item.</li>
                     <li>- Some questions require more than direct recall.</li>
                     <li>- You may move between questions before submitting.</li>
@@ -732,7 +650,7 @@ export default function LiteracyModerateMockTest() {
               <div className="mx-auto mb-4 rounded-xl bg-black p-3 w-fit shadow-sm">
                 <Image
                   src="/images/shazoniques-inspiration-logo.png"
-                  alt="Shazonique's Inspiration logo"
+                  alt="Shazonique&apos;s Inspiration logo"
                   width={220}
                   height={100}
                   className="h-auto w-[180px] sm:w-[220px]"
@@ -741,7 +659,7 @@ export default function LiteracyModerateMockTest() {
               </div>
               <CheckCircle className="h-16 w-16 mx-auto text-sky-600 mb-4" />
               <CardTitle className="text-2xl text-sky-800">Mock Test Completed</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Literacy Moderate 1</p>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Literacy Moderate 2</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="text-center space-y-6">
@@ -790,7 +708,7 @@ export default function LiteracyModerateMockTest() {
 
                 <div className="space-y-3">
                   <Button onClick={() => setShowReview(true)} className="w-full bg-slate-700 hover:bg-slate-800">
-                    Review Answers & Report
+                    Review Answers &amp; Report
                   </Button>
                   <Button onClick={restartTest} variant="outline" className="w-full">
                     <RotateCcw className="h-4 w-4 mr-2" />
@@ -825,11 +743,9 @@ export default function LiteracyModerateMockTest() {
             .no-print {
               display: none !important;
             }
-
             body {
               background: #ffffff !important;
             }
-
             .report-sheet {
               box-shadow: none !important;
               border: none !important;
@@ -847,17 +763,16 @@ export default function LiteracyModerateMockTest() {
                   <div className="rounded-xl bg-black p-3 shadow-sm">
                     <Image
                       src="/images/shazoniques-inspiration-logo.png"
-                      alt="Shazonique's Inspiration logo"
+                      alt="Shazonique&apos;s Inspiration logo"
                       width={220}
                       height={100}
                       className="h-auto w-[180px] sm:w-[220px]"
                       priority
                     />
                   </div>
-
                   <div>
                     <p className="text-sm font-semibold text-slate-500">Managed by Shazonique&apos;s Inspiration</p>
-                    <CardTitle className="text-2xl text-sky-800 mt-1">Grade 4 PEP Literacy Moderate 1 Report</CardTitle>
+                    <CardTitle className="text-2xl text-sky-800 mt-1">Grade 4 PEP Literacy Moderate 2 Report</CardTitle>
                     <p className="text-sm text-gray-600 mt-2">
                       Student: <span className="font-medium">{user?.childName ?? "Student"}</span>
                     </p>
@@ -939,7 +854,9 @@ export default function LiteracyModerateMockTest() {
                               ? "Vocabulary"
                               : q.type === "grammar"
                               ? "Grammar"
-                              : "Writing"}
+                              : q.type === "writing"
+                              ? "Writing"
+                              : ""}
                           </p>
                           <p className="text-slate-800 mb-3">{q.question}</p>
 
@@ -1008,7 +925,7 @@ export default function LiteracyModerateMockTest() {
               </Link>
               <BookOpen className="h-8 w-8" />
               <div>
-                <h1 className="text-lg font-bold">Literacy Moderate 1</h1>
+                <h1 className="text-lg font-bold">Literacy Moderate 2</h1>
                 <p className="text-sky-100 text-xs">Question {currentQuestion + 1} of {totalQuestions}</p>
               </div>
             </div>
@@ -1047,7 +964,9 @@ export default function LiteracyModerateMockTest() {
                     ? "Vocabulary"
                     : question.type === "grammar"
                     ? "Grammar"
-                    : "Writing"}
+                    : question.type === "writing"
+                    ? "Writing"
+                    : ""}
                 </span>
                 <span className="text-sm text-gray-500">Question {currentQuestion + 1}</span>
               </div>

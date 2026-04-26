@@ -350,7 +350,7 @@ const numeracyQuestions: Question[] = [
   }
 ]
 
-export default function NumeracyMockTest() {
+export default function NumeracyMixed2Page() {
   const { isPremium, user } = useAuth()
   const [testStarted, setTestStarted] = useState(false)
   const [testCompleted, setTestCompleted] = useState(false)
@@ -488,9 +488,9 @@ export default function NumeracyMockTest() {
         <SiteHeader />
 
         <main className="container mx-auto px-4 py-10">
-          <Link href="/mock-tests" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6">
+          <Link href="/mock-tests/numeracy" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Mock Tests
+            Back to Numeracy Mock Tests
           </Link>
 
           <Card className="max-w-2xl mx-auto">
@@ -498,7 +498,7 @@ export default function NumeracyMockTest() {
               <div className="mx-auto mb-4 rounded-xl bg-black p-3 w-fit shadow-sm">
                 <Image
                   src="/images/shazoniques-inspiration-logo.png"
-                  alt="Shazonique\'s Inspiration logo"
+                  alt="Shazonique's Inspiration logo"
                   width={220}
                   height={100}
                   className="h-auto w-[180px] sm:w-[220px]"
@@ -506,8 +506,8 @@ export default function NumeracyMockTest() {
                 />
               </div>
               <Calculator className="h-16 w-16 mx-auto text-blue-600 mb-4" />
-              <CardTitle className="text-2xl text-blue-800">Numeracy Mock Test</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Assessment</p>
+              <CardTitle className="text-2xl text-blue-800">Numeracy Mixed 2</CardTitle>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Mixed Practice</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="space-y-6">
@@ -570,9 +570,9 @@ export default function NumeracyMockTest() {
                   Start Test
                 </Button>
 
-                <Link href="/mock-tests">
+                <Link href="/mock-tests/numeracy">
                   <Button variant="outline" className="w-full">
-                    Back to Mock Tests
+                    Back to Numeracy Mock Tests
                   </Button>
                 </Link>
               </div>
@@ -608,7 +608,7 @@ export default function NumeracyMockTest() {
               </div>
               <CheckCircle className="h-16 w-16 mx-auto text-blue-600 mb-4" />
               <CardTitle className="text-2xl text-blue-800">Mock Test Completed</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Numeracy Mock 1</p>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Numeracy Mixed 2</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="text-center space-y-6">
@@ -651,7 +651,7 @@ export default function NumeracyMockTest() {
                 <div className="rounded-xl border border-blue-200 bg-blue-50 p-5 text-left">
                   <h3 className="text-lg font-semibold text-blue-800 mb-2">Result Summary</h3>
                   <p className="text-sm text-slate-700">
-                    Review each question to see the student's answer, the correct answer, and an explanation.
+                    This mixed-level numeracy report includes section summaries and a full question-by-question review with explanations.
                     You can then print or save the full report as a PDF with the Shazonique's Inspiration logo.
                   </p>
                 </div>
@@ -671,10 +671,10 @@ export default function NumeracyMockTest() {
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Take Test Again
                   </Button>
-                  <Link href="/mock-tests">
+                  <Link href="/mock-tests/numeracy">
                     <Button variant="outline" className="w-full">
                       <Home className="h-4 w-4 mr-2" />
-                      Back to Mock Tests
+                      Back to Numeracy Mock Tests
                     </Button>
                   </Link>
                 </div>
@@ -736,7 +736,7 @@ export default function NumeracyMockTest() {
                       Managed by Shazonique&apos;s Inspiration
                     </p>
                     <CardTitle className="text-2xl text-blue-800 mt-1">
-                      Grade 4 PEP Numeracy Mock 1 Report
+                      Grade 4 PEP Numeracy Mixed 2 Report
                     </CardTitle>
                     <p className="text-sm text-gray-600 mt-2">
                       Student: <span className="font-medium">{user?.childName ?? "Student"}</span>
@@ -784,8 +784,7 @@ export default function NumeracyMockTest() {
               <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-5">
                 <h3 className="text-lg font-semibold text-blue-800 mb-2">Performance Summary</h3>
                 <p className="text-sm text-slate-700">
-                  This report shows the student's overall result and a full question-by-question review,
-                  including the student's answer, the correct answer, and an explanation for each item.
+                  This report shows the student's overall result, section-by-section performance, and a full question-by-question review with explanations.
                 </p>
               </div>
 
@@ -809,9 +808,12 @@ export default function NumeracyMockTest() {
                         )}
 
                         <div className="flex-1">
-                          <p className="font-semibold text-slate-800 mb-2">
-                            Question {index + 1}
-                          </p>
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <p className="font-semibold text-slate-800">Question {index + 1}</p>
+                            <span className="text-xs uppercase tracking-wide rounded-full bg-white px-2 py-1 text-slate-600 border">
+                              {getSectionLabel(q.type)}
+                            </span>
+                          </div>
 
                           <p className="text-slate-800 mb-3">{q.question}</p>
 
@@ -857,10 +859,10 @@ export default function NumeracyMockTest() {
               Take Test Again
             </Button>
 
-            <Link href="/mock-tests" className="flex-1">
+            <Link href="/mock-tests/numeracy" className="flex-1">
               <Button variant="outline" className="w-full">
                 <Home className="h-4 w-4 mr-2" />
-                Back to Mock Tests
+                Back to Numeracy Mock Tests
               </Button>
             </Link>
           </div>
@@ -878,7 +880,7 @@ export default function NumeracyMockTest() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Link 
-                href="/mock-tests" 
+                href="/mock-tests/numeracy" 
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                 title="Exit Test"
               >
@@ -886,7 +888,7 @@ export default function NumeracyMockTest() {
               </Link>
               <Calculator className="h-8 w-8" />
               <div>
-                <h1 className="text-lg font-bold">Numeracy Mock Test</h1>
+                <h1 className="text-lg font-bold">Numeracy Mixed 2</h1>
                 <p className="text-sky-100 text-xs">Question {currentQuestion + 1} of {totalQuestions}</p>
               </div>
             </div>

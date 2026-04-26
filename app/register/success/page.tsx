@@ -32,7 +32,7 @@ export default function RegisterSuccessPage() {
                 Account Created
               </CardTitle>
               <CardDescription className="text-base">
-                Your account was created. Please confirm your email if prompted, then sign in to continue.
+                Your account was created. Please confirm your email if prompted, then sign in to continue. If you already have an account, please sign in instead.
               </CardDescription>
             </CardHeader>
 

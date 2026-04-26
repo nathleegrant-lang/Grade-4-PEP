@@ -48,7 +48,7 @@ interface PerformanceTaskSet {
 
 const performanceTask: PerformanceTaskSet = {
   "title": "Performance Mixed 1",
-  "subtitle": "Grade 4 PEP Practice Task",
+  "subtitle": "Grade 4 PEP Mixed Practice Task",
   "difficultyLabel": "Mixed • Blended difficulty for realistic exam-style preparation",
   "introduction": "Read the sources about rainwater harvesting in Jamaica. Then complete the task parts. Some parts are direct and some require deeper thinking.",
   "sources": [
@@ -351,9 +351,9 @@ export default function PerformanceTaskExpanded() {
         <SiteHeader />
 
         <main className="container mx-auto px-4 py-10">
-          <Link href="/mock-tests" className="inline-flex items-center text-amber-600 hover:text-amber-800 mb-6">
+          <Link href="/mock-tests/performance" className="inline-flex items-center text-amber-600 hover:text-amber-800 mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Mock Tests
+            Back to Performance Task Mock Tests
           </Link>
 
           <Card className="max-w-3xl mx-auto shadow-lg">
@@ -433,9 +433,9 @@ export default function PerformanceTaskExpanded() {
                   Start Task
                 </Button>
 
-                <Link href="/mock-tests">
+                <Link href="/mock-tests/performance">
                   <Button variant="outline" className="w-full">
-                    Back to Mock Tests
+                    Back to Performance Task Mock Tests
                   </Button>
                 </Link>
               </div>
@@ -508,11 +508,10 @@ export default function PerformanceTaskExpanded() {
                   ))}
                 </div>
 
-                <div className="rounded-xl border border-sky-200 bg-sky-50 p-5 text-left">
-                  <h3 className="text-lg font-semibold text-sky-800 mb-2">Result Summary</h3>
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 text-left">
+                  <h3 className="text-lg font-semibold text-amber-800 mb-2">Result Summary</h3>
                   <p className="text-sm text-slate-700">
-                    Review each task part to see correct multiple-choice answers, your written responses,
-                    and teacher-style guidance. Then print or save the report as a PDF with the logo.
+                    This mixed performance task report includes section summaries, multiple-choice results, written responses, and teacher-style guidance. Then print or save the report as a PDF with the logo.
                   </p>
                 </div>
 
@@ -524,10 +523,10 @@ export default function PerformanceTaskExpanded() {
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Take Task Again
                   </Button>
-                  <Link href="/mock-tests">
+                  <Link href="/mock-tests/performance">
                     <Button variant="outline" className="w-full">
                       <Home className="h-4 w-4 mr-2" />
-                      Back to Mock Tests
+                      Back to Performance Task Mock Tests
                     </Button>
                   </Link>
                 </div>
@@ -635,12 +634,10 @@ export default function PerformanceTaskExpanded() {
                 </div>
               </div>
 
-              <div className="mb-6 rounded-xl border border-sky-200 bg-sky-50 p-5">
-                <h3 className="text-lg font-semibold text-sky-800 mb-2">Performance Summary</h3>
+              <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-5">
+                <h3 className="text-lg font-semibold text-amber-800 mb-2">Performance Summary</h3>
                 <p className="text-sm text-slate-700">
-                  This report includes reading and information questions, written responses, and teacher-style feedback.
-                  Written responses are estimated using response length and completion. In a live classroom,
-                  a teacher would also mark content, organization, and use of evidence.
+                  This report includes reading and information questions, written responses, and teacher-style feedback. Written responses are estimated using response length and completion. In a live classroom, a teacher would also mark content, organization, and use of evidence.
                 </p>
               </div>
 
@@ -672,7 +669,12 @@ export default function PerformanceTaskExpanded() {
                         )}
 
                         <div className="flex-1">
-                          <p className="font-semibold text-slate-800 mb-2">{taskPart.title}</p>
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <p className="font-semibold text-slate-800">{taskPart.title}</p>
+                            <span className="text-xs uppercase tracking-wide rounded-full bg-white px-2 py-1 text-slate-600 border">
+                              {getSectionLabel(taskPart.category)}
+                            </span>
+                          </div>
                           <p className="text-slate-800 whitespace-pre-line mb-3">{taskPart.question}</p>
 
                           {taskPart.type === "multiple-choice" && taskPart.options && (
@@ -738,10 +740,10 @@ export default function PerformanceTaskExpanded() {
               Take Task Again
             </Button>
 
-            <Link href="/mock-tests" className="flex-1">
+            <Link href="/mock-tests/performance" className="flex-1">
               <Button variant="outline" className="w-full">
                 <Home className="h-4 w-4 mr-2" />
-                Back to Mock Tests
+                Back to Performance Task Mock Tests
               </Button>
             </Link>
           </div>
@@ -758,7 +760,7 @@ export default function PerformanceTaskExpanded() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Link href="/mock-tests" className="p-2 hover:bg-white/10 rounded-lg transition-colors" title="Exit Test">
+              <Link href="/mock-tests/performance" className="p-2 hover:bg-white/10 rounded-lg transition-colors" title="Exit Test">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
               <ClipboardList className="h-8 w-8" />

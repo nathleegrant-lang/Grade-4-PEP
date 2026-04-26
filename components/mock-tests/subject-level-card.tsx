@@ -1,95 +1,94 @@
-import fs from "fs"
-import path from "path"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
+import {
+  getAvailableTests,
+  getTestHref,
+  MAX_TEST_SLOTS,
+  type DifficultyKey,
+  type GradeKey,
+  type SubjectKey,
+} from "@/lib/mock-catalog"
 
-export type GradeKey = "grade4" | "grade5"
-export type SubjectKey = "literacy" | "numeracy" | "performance"
-export type DifficultyKey = "easy" | "moderate" | "difficult" | "mixed"
-
-export type SubjectCatalog = Record<DifficultyKey, number[]>
-
-export const MAX_TEST_SLOTS = 10
-
-const DIFFICULTIES: DifficultyKey[] = ["easy", "moderate", "difficult", "mixed"]
-
-function emptyCatalog(): SubjectCatalog {
-  return {
-    easy: [],
-    moderate: [],
-    difficult: [],
-    mixed: [],
-  }
+type SubjectLevelCardProps = {
+  grade: GradeKey
+  subject: SubjectKey
+  difficulty: DifficultyKey
+  title: string
+  descriptionLines: string[]
+  questionCount: number
+  durationMinutes: number
+  accentClass: string
+  buttonClass: string
 }
 
-function getSubjectBasePath(grade: GradeKey, subject: SubjectKey) {
-  if (grade === "grade5") {
-    return path.join(process.cwd(), "app", "grade-5", "mock-tests", subject)
-  }
+export default function SubjectLevelCard({
+  grade,
+  subject,
+  difficulty,
+  title,
+  descriptionLines,
+  questionCount,
+  durationMinutes,
+  accentClass,
+  buttonClass,
+}: SubjectLevelCardProps) {
+  const availableTests = getAvailableTests(grade, subject, difficulty)
 
-  return path.join(process.cwd(), "app", "mock-tests", subject)
-}
+  return (
+    <Card className="shadow-sm border-slate-200">
+      <CardHeader className={cn("rounded-t-lg border-b", accentClass)}>
+        <CardTitle className="text-xl text-slate-800">{title}</CardTitle>
+      </CardHeader>
 
-function scanSubjectCatalog(grade: GradeKey, subject: SubjectKey): SubjectCatalog {
-  const basePath = getSubjectBasePath(grade, subject)
-  const catalog = emptyCatalog()
+      <CardContent className="p-6 space-y-5">
+        <div className="space-y-1 text-sm text-slate-700">
+          {descriptionLines.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+        </div>
 
-  if (!fs.existsSync(basePath)) return catalog
+        <div className="grid grid-cols-2 gap-3 text-center">
+          <div className="rounded-lg bg-slate-50 p-3">
+            <p className="text-xl font-bold text-slate-800">{questionCount}</p>
+            <p className="text-xs text-slate-600">Questions</p>
+          </div>
+          <div className="rounded-lg bg-slate-50 p-3">
+            <p className="text-xl font-bold text-slate-800">{durationMinutes}</p>
+            <p className="text-xs text-slate-600">Minutes</p>
+          </div>
+        </div>
 
-  const entries = fs.readdirSync(basePath, { withFileTypes: true })
+        <div className="space-y-3">
+          <p className="text-sm font-semibold text-slate-700">Available Tests</p>
 
-  for (const entry of entries) {
-    if (!entry.isDirectory()) continue
+          <div className="flex flex-wrap gap-2">
+            {Array.from({ length: MAX_TEST_SLOTS }, (_, index) => index + 1).map((testNumber) => {
+              const isAvailable = availableTests.includes(testNumber)
 
-    const match = entry.name.match(/^(easy|moderate|difficult|mixed)-(\d+)$/)
-    if (!match) continue
+              if (isAvailable) {
+                return (
+                  <Link key={testNumber} href={getTestHref(subject, difficulty, testNumber, grade)}>
+                    <Button className={cn("h-9 min-w-9 px-3", buttonClass)}>{testNumber}</Button>
+                  </Link>
+                )
+              }
 
-    const difficulty = match[1] as DifficultyKey
-    const testNumber = Number(match[2])
-
-    if (!Number.isNaN(testNumber)) {
-      catalog[difficulty].push(testNumber)
-    }
-  }
-
-  for (const difficulty of DIFFICULTIES) {
-    catalog[difficulty].sort((a, b) => a - b)
-  }
-
-  return catalog
-}
-
-export function getSubjectCatalog(
-  subject: SubjectKey,
-  grade: GradeKey = "grade4",
-): SubjectCatalog {
-  return scanSubjectCatalog(grade, subject)
-}
-
-export function getAvailableTests(
-  grade: GradeKey,
-  subject: SubjectKey,
-  difficulty: DifficultyKey,
-) {
-  return scanSubjectCatalog(grade, subject)[difficulty]
-}
-
-export function isTestAvailable(
-  grade: GradeKey,
-  subject: SubjectKey,
-  difficulty: DifficultyKey,
-  testNumber: number,
-) {
-  return getAvailableTests(grade, subject, difficulty).includes(testNumber)
-}
-
-export function getTestHref(
-  subject: SubjectKey,
-  difficulty: DifficultyKey,
-  testNumber: number,
-  grade: GradeKey = "grade4",
-) {
-  if (grade === "grade5") {
-    return `/grade-5/mock-tests/${subject}/${difficulty}-${testNumber}`
-  }
-
-  return `/mock-tests/${subject}/${difficulty}-${testNumber}`
+              return (
+                <Button
+                  key={testNumber}
+                  variant="outline"
+                  disabled
+                  className="h-9 min-w-9 px-3 text-slate-400 border-slate-200"
+                >
+                  {testNumber}
+                </Button>
+              )
+            })}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
 }

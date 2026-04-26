@@ -28,7 +28,6 @@ export default function RegisterPageClient() {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
-  const [successMessage, setSuccessMessage] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
@@ -43,7 +42,6 @@ export default function RegisterPageClient() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
-    setSuccessMessage("")
     setIsSubmitting(true)
 
     if (!formData.parentName || !formData.childName || !formData.email || !formData.password) {
@@ -78,13 +76,8 @@ export default function RegisterPageClient() {
       return
     }
 
-    if (result.needsEmailConfirmation) {
-  setSuccessMessage("Your account was created. Please confirm your email if prompted, then sign in to continue.")
-  setIsSubmitting(false)
-  return
-}
-
-    router.push(selectedPlan ? `/checkout?plan=${selectedPlan}` : "/dashboard")
+    router.push("/register/success")
+    return
   }
 
   return (
@@ -105,7 +98,6 @@ export default function RegisterPageClient() {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 {error && <div className="p-3 rounded-lg bg-red-50 text-red-700 text-sm">{error}</div>}
-                {successMessage && <div className="p-3 rounded-lg bg-green-50 text-green-700 text-sm">{successMessage}</div>}
 
                 <div className="space-y-2">
                   <Label htmlFor="parentName">Parent/Guardian Name</Label>

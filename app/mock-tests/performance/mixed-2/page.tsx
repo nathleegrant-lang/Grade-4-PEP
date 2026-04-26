@@ -46,7 +46,7 @@ interface TaskPart {
 }
 
 const performanceTask = {
-  title: "Jamaica's Blue Mountains: A National Treasure",
+  title: "Performance Mixed 2",
   introduction: `You are a Grade 4 student at a primary school in Jamaica. Your class has been learning about Jamaica's natural environment and national symbols. Your teacher has asked you to complete a research task about the Blue Mountains.
 
 Read the following sources carefully. Then complete the tasks that follow.`,
@@ -278,7 +278,7 @@ const getWrittenPartFeedback = (part: TaskPart, response: string) => {
   }
 }
 
-export default function PerformanceTaskMockTest() {
+export default function PerformanceMixed2MockTest() {
   const { isPremium, user } = useAuth()
   const [testStarted, setTestStarted] = useState(false)
   const [testCompleted, setTestCompleted] = useState(false)
@@ -430,9 +430,9 @@ export default function PerformanceTaskMockTest() {
         <SiteHeader />
 
         <main className="container mx-auto px-4 py-10">
-          <Link href="/mock-tests" className="inline-flex items-center text-amber-600 hover:text-amber-800 mb-6">
+          <Link href="/mock-tests/performance" className="inline-flex items-center text-amber-600 hover:text-amber-800 mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Mock Tests
+            Back to Performance Task Mock Tests
           </Link>
 
           <Card className="max-w-2xl mx-auto shadow-lg">
@@ -448,8 +448,8 @@ export default function PerformanceTaskMockTest() {
                 />
               </div>
               <ClipboardList className="h-16 w-16 mx-auto text-amber-600 mb-4" />
-              <CardTitle className="text-2xl text-amber-800">Performance Task Mock Test</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Assessment</p>
+              <CardTitle className="text-2xl text-amber-800">Performance Mixed 2</CardTitle>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Mixed Practice Task</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="space-y-6">
@@ -486,7 +486,7 @@ export default function PerformanceTaskMockTest() {
 
                 <div className="bg-amber-50 p-4 rounded-lg">
                   <h3 className="font-semibold text-amber-800 mb-2">Task Overview:</h3>
-                  <p className="text-sm text-gray-700 mb-3">{performanceTask.title}</p>
+                  <p className="text-sm text-gray-700 mb-3">Topic: Jamaica&apos;s Blue Mountains: A National Treasure</p>
                   <ul className="text-sm text-gray-700 space-y-1">
                     <li>- Read 3 informational sources</li>
                     <li>- Answer comprehension questions</li>
@@ -510,9 +510,9 @@ export default function PerformanceTaskMockTest() {
                   Start Task
                 </Button>
 
-                <Link href="/mock-tests">
+                <Link href="/mock-tests/performance">
                   <Button variant="outline" className="w-full">
-                    Back to Mock Tests
+                    Back to Performance Task Mock Tests
                   </Button>
                 </Link>
               </div>
@@ -548,7 +548,7 @@ export default function PerformanceTaskMockTest() {
               </div>
               <CheckCircle className="h-16 w-16 mx-auto text-amber-600 mb-4" />
               <CardTitle className="text-2xl text-amber-800">Performance Task Completed</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Performance Task 1</p>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Performance Mixed 2</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="text-center space-y-6">
@@ -575,9 +575,7 @@ export default function PerformanceTaskMockTest() {
                 <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 text-left">
                   <h3 className="text-lg font-semibold text-amber-800 mb-2">Task Summary</h3>
                   <p className="text-sm text-slate-700">
-                    Review each part to see the student&apos;s response, the expected answer for multiple-choice items,
-                    and guidance for written responses. You can then print or save the full report as a PDF with the
-                    Shazonique&apos;s Inspiration logo.
+                    This mixed performance task report includes section summaries, multiple-choice results, written responses, and teacher-style guidance. You can then print or save the full report as a PDF with the Shazonique&apos;s Inspiration logo.
                   </p>
                 </div>
 
@@ -611,10 +609,10 @@ export default function PerformanceTaskMockTest() {
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Take Task Again
                   </Button>
-                  <Link href="/mock-tests">
+                  <Link href="/mock-tests/performance">
                     <Button variant="outline" className="w-full">
                       <Home className="h-4 w-4 mr-2" />
-                      Back to Mock Tests
+                      Back to Performance Task Mock Tests
                     </Button>
                   </Link>
                 </div>
@@ -673,7 +671,7 @@ export default function PerformanceTaskMockTest() {
 
                   <div>
                     <p className="text-sm font-semibold text-slate-500">Managed by Shazonique&apos;s Inspiration</p>
-                    <CardTitle className="text-2xl text-amber-800 mt-1">Grade 4 PEP Performance Task 1 Report</CardTitle>
+                    <CardTitle className="text-2xl text-amber-800 mt-1">Grade 4 PEP Performance Mixed 2 Report</CardTitle>
                     <p className="text-sm text-gray-600 mt-2">
                       Student: <span className="font-medium">{user?.childName ?? "Student"}</span>
                     </p>
@@ -753,8 +751,12 @@ export default function PerformanceTaskMockTest() {
                         )}
 
                         <div className="flex-1">
-                          <p className="font-semibold text-slate-800 mb-1">{p.title}</p>
-                          <p className="text-xs uppercase tracking-wide text-slate-500 mb-3">{getTaskTypeLabel(p.type)}</p>
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <p className="font-semibold text-slate-800">{p.title}</p>
+                            <span className="text-xs uppercase tracking-wide rounded-full bg-white px-2 py-1 text-slate-600 border">
+                              {getTaskTypeLabel(p.type)}
+                            </span>
+                          </div>
                           <p className="text-slate-800 mb-3 whitespace-pre-line">{p.question}</p>
 
                           {isMultipleChoice && p.options && (
@@ -816,10 +818,10 @@ export default function PerformanceTaskMockTest() {
               Take Task Again
             </Button>
 
-            <Link href="/mock-tests" className="flex-1">
+            <Link href="/mock-tests/performance" className="flex-1">
               <Button variant="outline" className="w-full">
                 <Home className="h-4 w-4 mr-2" />
-                Back to Mock Tests
+                Back to Performance Task Mock Tests
               </Button>
             </Link>
           </div>
@@ -836,12 +838,12 @@ export default function PerformanceTaskMockTest() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Link href="/mock-tests" className="p-2 hover:bg-white/10 rounded-lg transition-colors" title="Exit Test">
+              <Link href="/mock-tests/performance" className="p-2 hover:bg-white/10 rounded-lg transition-colors" title="Exit Test">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
               <ClipboardList className="h-8 w-8" />
               <div>
-                <h1 className="text-lg font-bold">Performance Task</h1>
+                <h1 className="text-lg font-bold">Performance Mixed 2</h1>
                 <p className="text-sky-100 text-xs">Part {currentPart + 1} of {totalParts}</p>
               </div>
             </div>

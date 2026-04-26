@@ -725,9 +725,9 @@ export default function LiteracyDifficult1Test() {
         <SiteHeader />
 
         <main className="container mx-auto px-4 py-10">
-          <Link href="/mock-tests" className="inline-flex items-center text-sky-600 hover:text-sky-800 mb-6">
+          <Link href="/mock-tests/literacy" className="inline-flex items-center text-sky-600 hover:text-sky-800 mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Mock Tests
+            Back to Literacy Mock Tests
           </Link>
 
           <Card className="max-w-2xl mx-auto shadow-lg">
@@ -743,8 +743,8 @@ export default function LiteracyDifficult1Test() {
                 />
               </div>
               <BookOpen className="h-16 w-16 mx-auto text-sky-600 mb-4" />
-              <CardTitle className="text-2xl text-sky-800">Difficult 1</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Literacy Challenge</p>
+              <CardTitle className="text-2xl text-sky-800">Literacy Difficult 1</CardTitle>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Difficult Practice</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="space-y-6">
@@ -804,9 +804,9 @@ export default function LiteracyDifficult1Test() {
                   Start Test
                 </Button>
 
-                <Link href="/mock-tests">
+                <Link href="/mock-tests/literacy">
                   <Button variant="outline" className="w-full">
-                    Back to Mock Tests
+                    Back to Literacy Mock Tests
                   </Button>
                 </Link>
               </div>
@@ -878,23 +878,22 @@ export default function LiteracyDifficult1Test() {
                 <div className="rounded-xl border border-sky-200 bg-sky-50 p-5 text-left">
                   <h3 className="text-lg font-semibold text-sky-800 mb-2">Result Summary</h3>
                   <p className="text-sm text-slate-700">
-                    This difficult-level paper focuses on closer reading, stronger distractors, and more reasoning-based questions.
-                    Review the full report to see strengths by section and read the explanations for each answer.
+                    This difficult-level literacy report includes section summaries and a full question-by-question review with explanations.
                   </p>
                 </div>
 
                 <div className="space-y-3">
                   <Button onClick={() => setShowReview(true)} className="w-full bg-slate-700 hover:bg-slate-800">
-                    Review Answers & Report
+                    Review Answers &amp; Report & Report
                   </Button>
                   <Button onClick={restartTest} variant="outline" className="w-full">
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Take Test Again
                   </Button>
-                  <Link href="/mock-tests">
+                  <Link href="/mock-tests/literacy">
                     <Button variant="outline" className="w-full">
                       <Home className="h-4 w-4 mr-2" />
-                      Back to Mock Tests
+                      Back to Literacy Mock Tests
                     </Button>
                   </Link>
                 </div>
@@ -1074,10 +1073,10 @@ export default function LiteracyDifficult1Test() {
               Take Test Again
             </Button>
 
-            <Link href="/mock-tests" className="flex-1">
+            <Link href="/mock-tests/literacy" className="flex-1">
               <Button variant="outline" className="w-full">
                 <Home className="h-4 w-4 mr-2" />
-                Back to Mock Tests
+                Back to Literacy Mock Tests
               </Button>
             </Link>
           </div>
@@ -1094,7 +1093,7 @@ export default function LiteracyDifficult1Test() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Link href="/mock-tests" className="p-2 hover:bg-white/10 rounded-lg transition-colors" title="Exit Test">
+              <Link href="/mock-tests/literacy" className="p-2 hover:bg-white/10 rounded-lg transition-colors" title="Exit Test">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
               <BookOpen className="h-8 w-8" />

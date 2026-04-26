@@ -442,7 +442,7 @@ By noon, Miss Ivy's basket is empty. She uses the money she earned to buy fish f
   }
 ]
 
-export default function LiteracyMockTest() {
+export default function LiteracyMixed2MockTest() {
   const { isPremium, user } = useAuth()
   const [testStarted, setTestStarted] = useState(false)
   const [testCompleted, setTestCompleted] = useState(false)
@@ -594,9 +594,9 @@ export default function LiteracyMockTest() {
         <SiteHeader />
 
         <main className="container mx-auto px-4 py-10">
-          <Link href="/mock-tests" className="inline-flex items-center text-sky-600 hover:text-sky-800 mb-6">
+          <Link href="/mock-tests/literacy" className="inline-flex items-center text-sky-600 hover:text-sky-800 mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Mock Tests
+            Back to Literacy Mock Tests
           </Link>
 
           <Card className="max-w-2xl mx-auto">
@@ -612,8 +612,8 @@ export default function LiteracyMockTest() {
                 />
               </div>
               <BookOpen className="h-16 w-16 mx-auto text-sky-600 mb-4" />
-              <CardTitle className="text-2xl text-sky-800">Literacy Mock Test</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Assessment</p>
+              <CardTitle className="text-2xl text-sky-800">Literacy Mixed 2</CardTitle>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Mixed Practice</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="space-y-6">
@@ -635,7 +635,7 @@ export default function LiteracyMockTest() {
                       <div>
                         <p className="font-medium text-amber-800">Free Preview Mode</p>
                         <p className="text-sm text-amber-700">
-                          You can try {FREE_QUESTION_LIMIT} questions for free. Upgrade to Premium for the full 40-question test with detailed analytics.
+                          You can try {FREE_QUESTION_LIMIT} questions for free. Upgrade to Premium for the full 40-question test with the full report and detailed explanations.
                         </p>
                       </div>
                     </div>
@@ -676,9 +676,9 @@ export default function LiteracyMockTest() {
                   Start Test
                 </Button>
 
-                <Link href="/mock-tests">
+                <Link href="/mock-tests/literacy">
                   <Button variant="outline" className="w-full">
-                    Back to Mock Tests
+                    Back to Literacy Mock Tests
                   </Button>
                 </Link>
               </div>
@@ -715,7 +715,7 @@ export default function LiteracyMockTest() {
               </div>
               <CheckCircle className="h-16 w-16 mx-auto text-sky-600 mb-4" />
               <CardTitle className="text-2xl text-sky-800">Mock Test Completed</CardTitle>
-              <p className="text-gray-600 mt-2">Grade 4 PEP Literacy Mock 1</p>
+              <p className="text-gray-600 mt-2">Grade 4 PEP Literacy Mixed 2</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="text-center space-y-6">
@@ -742,7 +742,7 @@ export default function LiteracyMockTest() {
                 <div className="rounded-xl border border-sky-200 bg-sky-50 p-5 text-left">
                   <h3 className="text-lg font-semibold text-sky-800 mb-2">Result Summary</h3>
                   <p className="text-sm text-slate-700">
-                    Review each question to see the student&apos;s answer, the correct answer, and an explanation.
+                    This mixed-level literacy report includes section summaries and a full question-by-question review with explanations.
                     You can then print or save the full report as a PDF with the Shazonique&apos;s Inspiration logo.
                   </p>
                 </div>
@@ -783,10 +783,10 @@ export default function LiteracyMockTest() {
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Take Test Again
                   </Button>
-                  <Link href="/mock-tests">
+                  <Link href="/mock-tests/literacy">
                     <Button variant="outline" className="w-full">
                       <Home className="h-4 w-4 mr-2" />
-                      Back to Mock Tests
+                      Back to Literacy Mock Tests
                     </Button>
                   </Link>
                 </div>
@@ -848,7 +848,7 @@ export default function LiteracyMockTest() {
                       Managed by Shazonique&apos;s Inspiration
                     </p>
                     <CardTitle className="text-2xl text-sky-800 mt-1">
-                      Grade 4 PEP Literacy Mock 1 Report
+                      Grade 4 PEP Literacy Mixed 2 Report
                     </CardTitle>
                     <p className="text-sm text-gray-600 mt-2">
                       Student: <span className="font-medium">{user?.childName ?? "Student"}</span>
@@ -926,9 +926,18 @@ export default function LiteracyMockTest() {
                         )}
 
                         <div className="flex-1">
-                          <p className="font-semibold text-slate-800 mb-2">
-                            Question {index + 1}
-                          </p>
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <p className="font-semibold text-slate-800">Question {index + 1}</p>
+                            <span className="text-xs uppercase tracking-wide rounded-full bg-white px-2 py-1 text-slate-600 border">
+                              {q.type === "reading"
+                                ? "Reading"
+                                : q.type === "vocabulary"
+                                ? "Vocabulary"
+                                : q.type === "grammar"
+                                ? "Grammar"
+                                : "Writing"}
+                            </span>
+                          </div>
 
                           <p className="text-slate-800 mb-3">{q.question}</p>
 
@@ -974,10 +983,10 @@ export default function LiteracyMockTest() {
               Take Test Again
             </Button>
 
-            <Link href="/mock-tests" className="flex-1">
+            <Link href="/mock-tests/literacy" className="flex-1">
               <Button variant="outline" className="w-full">
                 <Home className="h-4 w-4 mr-2" />
-                Back to Mock Tests
+                Back to Literacy Mock Tests
               </Button>
             </Link>
           </div>
@@ -996,7 +1005,7 @@ export default function LiteracyMockTest() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Link 
-                href="/mock-tests" 
+                href="/mock-tests/literacy" 
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                 title="Exit Test"
               >
@@ -1004,7 +1013,7 @@ export default function LiteracyMockTest() {
               </Link>
               <BookOpen className="h-8 w-8" />
               <div>
-                <h1 className="text-lg font-bold">Literacy Mock Test</h1>
+                <h1 className="text-lg font-bold">Literacy Mixed 2</h1>
                 <p className="text-sky-100 text-xs">Question {currentQuestion + 1} of {totalQuestions}</p>
               </div>
             </div>

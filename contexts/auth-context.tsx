@@ -3,7 +3,14 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react"
 import type { AuthChangeEvent, Session } from "@supabase/supabase-js"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
-import type { RegisterResult, StudentRecord, SubscriptionRecord, User, PlanCode, AuthState } from "@/lib/types"
+import type {
+  RegisterResult,
+  StudentRecord,
+  SubscriptionRecord,
+  User,
+  PlanCode,
+  AuthState,
+} from "@/lib/types"
 import { isSubscriptionActive } from "@/lib/subscriptions"
 
 interface AuthContextType extends AuthState {
@@ -100,86 +107,136 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const loadUser = async (session: Session | null) => {
-    if (!session?.user) {
+    try {
+      if (!session?.user) {
+        setUser(null)
+        setStudents([])
+        setActiveSubscription(null)
+        return
+      }
+
+      const authUser = session.user
+
+      const [
+        { data: profile, error: profileError },
+        { data: subscriptionRows, error: subscriptionError },
+        { data: studentRows, error: studentError },
+      ] = await Promise.all([
+        supabase
+          .from("profiles")
+          .select("id, full_name, email, phone, role, created_at")
+          .eq("id", authUser.id)
+          .maybeSingle<SupabaseProfileRow>(),
+        supabase
+          .from("subscriptions")
+          .select("id, parent_id, grade, plan_code, status, starts_at, expires_at, max_students, payment_id")
+          .eq("parent_id", authUser.id)
+          .eq("grade", "grade4")
+          .in("status", ["active", "pending"])
+          .order("created_at", { ascending: false })
+          .limit(1),
+        supabase
+          .from("students")
+          .select("id, full_name, grade_level, subscription_id, created_at")
+          .eq("parent_id", authUser.id)
+          .order("created_at", { ascending: true }),
+      ])
+
+      if (profileError) {
+        console.error("Could not load profile:", profileError)
+      }
+      if (subscriptionError) {
+        console.error("Could not load subscriptions:", subscriptionError)
+      }
+      if (studentError) {
+        console.error("Could not load students:", studentError)
+      }
+
+      let resolvedStudents = (studentRows ?? []).map((row) => mapStudent(row as SupabaseStudentRow))
+
+      const pendingChild = authUser.email ? readPendingChild(authUser.email) : null
+
+      if (resolvedStudents.length === 0 && pendingChild) {
+        const { data: insertedStudent, error: insertStudentError } = await supabase
+          .from("students")
+          .insert({
+            parent_id: authUser.id,
+            full_name: pendingChild,
+            grade_level: 4,
+          })
+          .select("id, full_name, grade_level, subscription_id, created_at")
+          .single<SupabaseStudentRow>()
+
+        if (insertStudentError) {
+          console.error("Could not create pending child record:", insertStudentError)
+        }
+
+        if (insertedStudent) {
+          resolvedStudents = [mapStudent(insertedStudent)]
+          if (authUser.email) clearPendingChild(authUser.email)
+        }
+      }
+
+      const subscription = mapSubscription(
+        (subscriptionRows?.[0] as SupabaseSubscriptionRow | undefined) ?? null,
+      )
+      const active = isSubscriptionActive(subscription)
+
+      setStudents(resolvedStudents)
+      setActiveSubscription(subscription)
+      setUser({
+        id: authUser.id,
+        parentName: profile?.full_name ?? authUser.user_metadata?.full_name ?? "Parent",
+        childName: resolvedStudents[0]?.fullName ?? "Student",
+        email: profile?.email ?? authUser.email ?? "",
+        role: profile?.role ?? "parent",
+        subscriptionTier: active ? subscription?.planCode ?? "free" : "free",
+        subscriptionExpiry:
+          active && subscription?.expiresAt ? new Date(subscription.expiresAt) : undefined,
+        createdAt: profile?.created_at ? new Date(profile.created_at) : undefined,
+        maxStudents: subscription?.maxStudents ?? 1,
+      })
+    } catch (err) {
+      console.error("Unexpected auth loading error:", err)
       setUser(null)
       setStudents([])
       setActiveSubscription(null)
+    } finally {
       setIsLoading(false)
-      return
     }
-
-    setIsLoading(true)
-    const authUser = session.user
-
-    const [{ data: profile }, { data: subscriptionRows }, { data: studentRows }] = await Promise.all([
-      supabase
-        .from("profiles")
-        .select("id, full_name, email, phone, role, created_at")
-        .eq("id", authUser.id)
-        .single<SupabaseProfileRow>(),
-
-      supabase
-        .from("subscriptions")
-        .select("id, parent_id, grade, plan_code, status, starts_at, expires_at, max_students, payment_id")
-        .eq("parent_id", authUser.id)
-        .eq("grade", "grade4")
-        .in("status", ["active", "pending"])
-        .order("created_at", { ascending: false })
-        .limit(1),
-
-      supabase
-        .from("students")
-        .select("id, full_name, grade_level, subscription_id, created_at")
-        .eq("parent_id", authUser.id)
-        .order("created_at", { ascending: true }),
-    ])
-
-    let resolvedStudents = (studentRows ?? []).map((row) => mapStudent(row as SupabaseStudentRow))
-
-    const pendingChild = authUser.email ? readPendingChild(authUser.email) : null
-    if (resolvedStudents.length === 0 && pendingChild) {
-      const { data: insertedStudent } = await supabase
-        .from("students")
-        .insert({ parent_id: authUser.id, full_name: pendingChild, grade_level: 4 })
-        .select("id, full_name, grade_level, subscription_id, created_at")
-        .single<SupabaseStudentRow>()
-
-      if (insertedStudent) {
-        resolvedStudents = [mapStudent(insertedStudent)]
-        if (authUser.email) clearPendingChild(authUser.email)
-      }
-    }
-
-    const subscription = mapSubscription((subscriptionRows?.[0] as SupabaseSubscriptionRow | undefined) ?? null)
-    const active = isSubscriptionActive(subscription)
-
-    setStudents(resolvedStudents)
-    setActiveSubscription(subscription)
-    setUser({
-      id: authUser.id,
-      parentName: profile?.full_name ?? authUser.user_metadata?.full_name ?? "Parent",
-      childName: resolvedStudents[0]?.fullName ?? "Student",
-      email: profile?.email ?? authUser.email ?? "",
-      role: profile?.role ?? "parent",
-      subscriptionTier: active ? subscription?.planCode ?? "free" : "free",
-      subscriptionExpiry: active && subscription?.expiresAt ? new Date(subscription.expiresAt) : undefined,
-      createdAt: profile?.created_at ? new Date(profile.created_at) : undefined,
-      maxStudents: subscription?.maxStudents ?? 1,
-    })
-    setIsLoading(false)
   }
 
   useEffect(() => {
     let mounted = true
 
-    supabase.auth.getSession().then(({ data }) => {
-      if (!mounted) return
-      void loadUser(data.session)
-    })
+    const initialize = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession()
+        if (error) {
+          console.error("Could not get session:", error)
+        }
+        if (!mounted) return
+        await loadUser(data.session)
+      } catch (err) {
+        console.error("Session initialization error:", err)
+        if (mounted) {
+          setUser(null)
+          setStudents([])
+          setActiveSubscription(null)
+          setIsLoading(false)
+        }
+      }
+    }
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session) => {
-      void loadUser(session)
-    })
+    void initialize()
+
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      async (_event: AuthChangeEvent, session) => {
+        if (!mounted) return
+        setIsLoading(true)
+        await loadUser(session)
+      },
+    )
 
     return () => {
       mounted = false
@@ -267,8 +324,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const refreshUser = async () => {
-    const { data } = await supabase.auth.getSession()
-    await loadUser(data.session)
+    try {
+      setIsLoading(true)
+      const { data, error } = await supabase.auth.getSession()
+      if (error) {
+        console.error("Could not refresh session:", error)
+      }
+      await loadUser(data.session)
+    } catch (err) {
+      console.error("Refresh user error:", err)
+      setUser(null)
+      setStudents([])
+      setActiveSubscription(null)
+      setIsLoading(false)
+    }
   }
 
   const addStudent = async (childName: string) => {

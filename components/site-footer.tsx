@@ -1,14 +1,95 @@
+import Image from "next/image"
 import Link from "next/link"
-import { WHATSAPP_DISPLAY } from "@/lib/site-config"
+import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER } from "@/lib/site-config"
 
 export function SiteFooter() {
   return (
-    <footer className="bg-navy text-white mt-16">
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid gap-6 md:grid-cols-3">
-          <div><h3 className="font-semibold text-lg">Grade 4 PEP</h3><p className="text-sky-light/80 text-sm mt-2">Interactive Grade 4 practice, payment verification, and parent-managed student access.</p><p className="text-sky-light/70 text-sm mt-2">WhatsApp: {WHATSAPP_DISPLAY}</p></div>
-          <div><h4 className="font-semibold mb-3">Quick Links</h4><div className="flex flex-col gap-2 text-sm text-sky-light/80"><Link href="/pricing" className="hover:text-white">Pricing</Link><Link href="/dashboard" className="hover:text-white">Dashboard</Link><Link href="/about" className="hover:text-white">About</Link></div></div>
-          <div><h4 className="font-semibold mb-3">Note</h4><p className="text-sm text-sky-light/80">Each grade programme is sold separately. Grade 4 access does not include Grade 5.</p></div>
+    <footer className="border-t border-slate-200 bg-slate-950 text-white">
+      <div className="container mx-auto px-4 py-10">
+        <div className="grid gap-8 md:grid-cols-3 md:items-start">
+          {/* Brand */}
+          <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
+            <div className="rounded-2xl bg-black/80 p-3 shadow-lg ring-1 ring-white/10">
+              <Image
+                src="/images/shazoniques-inspiration-logo.png"
+                alt="Shazonique's Inspiration logo"
+                width={300}
+                height={140}
+                className="h-auto w-[220px] sm:w-[260px]"
+                priority
+              />
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold text-white">
+                Managed by Shazonique&apos;s Inspiration
+              </p>
+              <p className="mt-1 text-sm text-slate-300">
+                A heart&apos;s home of hope
+              </p>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div className="text-center md:text-left">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-200">
+              Quick Links
+            </h3>
+            <ul className="mt-4 space-y-2 text-sm text-slate-300">
+              <li>
+                <Link href="/" className="hover:text-white transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/pricing" className="hover:text-white transition-colors">
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-white transition-colors">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href="/login" className="hover:text-white transition-colors">
+                  Parent Sign In
+                </Link>
+              </li>
+              <li>
+                <Link href="/register" className="hover:text-white transition-colors">
+                  Create Account
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Support */}
+          <div className="text-center md:text-left">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-200">
+              Support
+            </h3>
+            <div className="mt-4 space-y-3 text-sm text-slate-300">
+              <p>
+                Grade 4 PEP support and payment confirmation are available by WhatsApp.
+              </p>
+              <a
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block font-medium text-sky-300 hover:text-sky-200 transition-colors"
+              >
+                WhatsApp: {WHATSAPP_DISPLAY}
+              </a>
+              <p className="text-xs text-slate-400">
+                Each grade programme is sold separately.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 border-t border-white/10 pt-5 text-center text-xs text-slate-400">
+          © {new Date().getFullYear()} Grade 4 PEP. All rights reserved.
         </div>
       </div>
     </footer>

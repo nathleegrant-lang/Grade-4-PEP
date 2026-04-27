@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER } from "@/lib/site-config"
 
-const GRADE_5_URL = "https://your-grade-5-site-url.vercel.app"
+const GRADE_5_URL = "https://grade-5-pep.vercel.app/"
 
 export function SiteFooter() {
   return (

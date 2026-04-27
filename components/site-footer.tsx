@@ -2,6 +2,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER } from "@/lib/site-config"
 
+const GRADE_5_URL = "https://your-grade-5-site-url.vercel.app"
+
 export function SiteFooter() {
   return (
     <footer className="border-t border-slate-200 bg-slate-950 text-white">
@@ -27,6 +29,29 @@ export function SiteFooter() {
               <p className="mt-1 text-sm text-slate-300">
                 A heart&apos;s home of hope
               </p>
+            </div>
+
+            <div className="w-full max-w-xs space-y-2 pt-2">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                Explore Other Grades
+              </p>
+
+              <a
+                href={GRADE_5_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="block rounded-lg bg-sky-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-sky-700 text-center"
+              >
+                Visit Grade 5 PEP
+              </a>
+
+              <button
+                type="button"
+                disabled
+                className="block w-full rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-slate-400 cursor-not-allowed border border-slate-700"
+              >
+                Grade 6 PEP — Coming Soon
+              </button>
             </div>
           </div>
 

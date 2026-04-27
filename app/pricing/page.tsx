@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { SiteHeader } from "@/components/site-header"
@@ -9,14 +9,101 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/contexts/auth-context"
-import { PRICING_TIERS, FREE_EXCLUDED_FEATURES, type PlanCode } from "@/lib/types"
+import {
+  FREE_EXCLUDED_FEATURES,
+  PRICING_TIERS,
+  type PlanCode,
+  type PricingTier,
+} from "@/lib/types"
 import { Check, X, Landmark, MessageCircleMore, Shield, Users } from "lucide-react"
 import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER } from "@/lib/site-config"
+import { getSupabaseBrowserClient } from "@/lib/supabase/client"
+
+type PricingPlanRow = {
+  code: PlanCode
+  grade: "grade4" | "grade5"
+  name: string
+  price_jmd: number
+  period: string
+  description: string | null
+  features: unknown
+  max_students: number
+  badge_text: string | null
+  popular: boolean
+  is_active: boolean
+}
+
+function normalizeFeatures(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === "string")
+  }
+
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value)
+      return Array.isArray(parsed)
+        ? parsed.filter((item): item is string => typeof item === "string")
+        : []
+    } catch {
+      return []
+    }
+  }
+
+  return []
+}
+
+function mapPlanRowToTier(row: PricingPlanRow): PricingTier {
+  return {
+    id: row.code,
+    name: row.name,
+    priceJMD: Number(row.price_jmd),
+    period: row.period,
+    description: row.description || "",
+    features: normalizeFeatures(row.features),
+    popular: row.popular,
+    maxStudents: row.max_students,
+    badgeText: row.badge_text,
+  }
+}
 
 export default function PricingPage() {
   const router = useRouter()
   const { isAuthenticated, user } = useAuth()
+  const supabase = useMemo(() => getSupabaseBrowserClient(), [])
+
   const [selectedPlan, setSelectedPlan] = useState<PlanCode | null>(null)
+  const [tiers, setTiers] = useState<PricingTier[]>(PRICING_TIERS)
+  const [isLoadingPlans, setIsLoadingPlans] = useState(true)
+
+  useEffect(() => {
+    const loadPricingPlans = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("pricing_plans")
+          .select(
+            "code, grade, name, price_jmd, period, description, features, max_students, badge_text, popular, is_active",
+          )
+          .eq("grade", "grade4")
+          .eq("is_active", true)
+          .order("price_jmd", { ascending: true })
+
+        if (error) {
+          console.error("Could not load pricing plans:", error)
+          return
+        }
+
+        if (data && data.length > 0) {
+          setTiers((data as PricingPlanRow[]).map(mapPlanRowToTier))
+        }
+      } catch (err) {
+        console.error("Unexpected pricing load error:", err)
+      } finally {
+        setIsLoadingPlans(false)
+      }
+    }
+
+    void loadPricingPlans()
+  }, [supabase])
 
   const handleSelectPlan = (planId: PlanCode) => {
     setSelectedPlan(planId)
@@ -73,89 +160,95 @@ export default function PricingPage() {
           </div>
         )}
 
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4 max-w-6xl mx-auto">
-          {PRICING_TIERS.map((tier) => {
-            const isCurrent = user?.subscriptionTier === tier.id
+        {isLoadingPlans ? (
+          <div className="max-w-3xl mx-auto text-center py-12">
+            <p className="text-slate-600">Loading pricing plans...</p>
+          </div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4 max-w-6xl mx-auto">
+            {tiers.map((tier) => {
+              const isCurrent = user?.subscriptionTier === tier.id
 
-            return (
-              <Card
-                key={tier.id}
-                className={`relative border-2 ${
-                  tier.popular ? "border-amber-400 shadow-xl" : "border-sky-200"
-                }`}
-              >
-                {tier.badgeText && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-amber-500 text-white border-0 px-3 py-1">
-                      {tier.badgeText}
-                    </Badge>
-                  </div>
-                )}
+              return (
+                <Card
+                  key={tier.id}
+                  className={`relative border-2 ${
+                    tier.popular ? "border-amber-400 shadow-xl" : "border-sky-200"
+                  }`}
+                >
+                  {tier.badgeText && (
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                      <Badge className="bg-amber-500 text-white border-0 px-3 py-1">
+                        {tier.badgeText}
+                      </Badge>
+                    </div>
+                  )}
 
-                <CardHeader className="text-center pb-2 pt-6">
-                  <CardTitle className="text-xl text-slate-800">{tier.name}</CardTitle>
-                  <CardDescription>{tier.description}</CardDescription>
-                </CardHeader>
+                  <CardHeader className="text-center pb-2 pt-6">
+                    <CardTitle className="text-xl text-slate-800">{tier.name}</CardTitle>
+                    <CardDescription>{tier.description}</CardDescription>
+                  </CardHeader>
 
-                <CardContent className="pt-2">
-                  <div className="text-center mb-6">
-                    <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-4xl font-bold text-slate-800">
-                        {tier.priceJMD === 0 ? "Free" : `$${tier.priceJMD.toLocaleString()}`}
-                      </span>
+                  <CardContent className="pt-2">
+                    <div className="text-center mb-6">
+                      <div className="flex items-baseline justify-center gap-1">
+                        <span className="text-4xl font-bold text-slate-800">
+                          {tier.priceJMD === 0 ? "Free" : `$${tier.priceJMD.toLocaleString()}`}
+                        </span>
+                      </div>
+
+                      {tier.priceJMD > 0 && (
+                        <p className="text-sm text-slate-500 mt-1">JMD {tier.period}</p>
+                      )}
+
+                      <p className="text-xs text-slate-500 mt-1 flex items-center justify-center gap-1">
+                        <Users className="h-3 w-3" />
+                        Up to {tier.maxStudents} student{tier.maxStudents === 1 ? "" : "s"}
+                      </p>
                     </div>
 
-                    {tier.priceJMD > 0 && (
-                      <p className="text-sm text-slate-500 mt-1">JMD {tier.period}</p>
-                    )}
-
-                    <p className="text-xs text-slate-500 mt-1 flex items-center justify-center gap-1">
-                      <Users className="h-3 w-3" />
-                      Up to {tier.maxStudents} student{tier.maxStudents === 1 ? "" : "s"}
-                    </p>
-                  </div>
-
-                  <ul className="space-y-3 mb-6">
-                    {tier.features.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-600">{feature}</span>
-                      </li>
-                    ))}
-
-                    {tier.id === "free" &&
-                      FREE_EXCLUDED_FEATURES.map((feature, index) => (
-                        <li key={`excluded-${index}`} className="flex items-start gap-2">
-                          <X className="h-5 w-5 text-slate-300 flex-shrink-0 mt-0.5" />
-                          <span className="text-sm text-slate-400 line-through">{feature}</span>
+                    <ul className="space-y-3 mb-6">
+                      {tier.features.map((feature, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                          <span className="text-sm text-slate-600">{feature}</span>
                         </li>
                       ))}
-                  </ul>
 
-                  <Button
-                    onClick={() => handleSelectPlan(tier.id)}
-                    disabled={selectedPlan === tier.id || isCurrent}
-                    className={`w-full ${
-                      tier.popular
-                        ? "bg-amber-500 hover:bg-amber-600 text-white"
-                        : tier.id === "premium_family_monthly"
-                        ? "bg-sky-600 hover:bg-sky-700 text-white"
-                        : "bg-slate-200 hover:bg-slate-300 text-slate-700"
-                    }`}
-                  >
-                    {isCurrent
-                      ? "Current Plan"
-                      : tier.id === "free"
-                      ? isAuthenticated
-                        ? "Go to Dashboard"
-                        : "Start Free"
-                      : `Choose ${tier.name}`}
-                  </Button>
-                </CardContent>
-              </Card>
-            )
-          })}
-        </div>
+                      {tier.id === "free" &&
+                        FREE_EXCLUDED_FEATURES.map((feature, index) => (
+                          <li key={`excluded-${index}`} className="flex items-start gap-2">
+                            <X className="h-5 w-5 text-slate-300 flex-shrink-0 mt-0.5" />
+                            <span className="text-sm text-slate-400 line-through">{feature}</span>
+                          </li>
+                        ))}
+                    </ul>
+
+                    <Button
+                      onClick={() => handleSelectPlan(tier.id)}
+                      disabled={selectedPlan === tier.id || isCurrent}
+                      className={`w-full ${
+                        tier.popular
+                          ? "bg-amber-500 hover:bg-amber-600 text-white"
+                          : tier.id === "premium_family_monthly"
+                          ? "bg-sky-600 hover:bg-sky-700 text-white"
+                          : "bg-slate-200 hover:bg-slate-300 text-slate-700"
+                      }`}
+                    >
+                      {isCurrent
+                        ? "Current Plan"
+                        : tier.id === "free"
+                        ? isAuthenticated
+                          ? "Go to Dashboard"
+                          : "Start Free"
+                        : `Choose ${tier.name}`}
+                    </Button>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        )}
 
         <div className="mt-16 max-w-4xl mx-auto">
           <Card className="border-sky-200 bg-sky-50/70">

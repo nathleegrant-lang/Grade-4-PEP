@@ -130,12 +130,11 @@ export default function PerformanceTasksPage() {
         {/* Practice Test Section */}
         <Card className="bg-gold-light/30 border-gold/30">
           <CardHeader>
-            <CardTitle className="text-navy">Try a Sample Performance Task</CardTitle>
+            <CardTitle className="text-navy">Ready for a Mock Test?</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-foreground mb-4">
-              Experience a full performance task to see how the examination works. Practice reading, researching, 
-              and completing activities just like on test day.
+              Test your knowledge with a full practice examination that covers all Performance Tasks topics
             </p>
             <Link href="/mock-tests/performance-task">
               <Button className="bg-gold hover:bg-gold/80 text-navy">

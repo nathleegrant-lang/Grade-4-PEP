@@ -189,7 +189,7 @@ export function SiteHeader() {
             {isAdmin && (
               <li>
                 <Link
-                  href="/admin/payments"
+                  href="/admin"
                   className={cn(
                     "inline-block px-4 py-2 hover:bg-sky/30 rounded-t transition-colors font-medium text-sm",
                     isActive("/admin") && "bg-sky/30",

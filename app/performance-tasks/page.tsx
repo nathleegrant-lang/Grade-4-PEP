@@ -136,7 +136,7 @@ export default function PerformanceTasksPage() {
             <p className="text-foreground mb-4">
               Test your knowledge with a full practice examination that covers all Performance Tasks topics
             </p>
-            <Link href="/mock-tests/performance-task">
+            <Link href="/performance-task">
               <Button className="bg-gold hover:bg-gold/80 text-navy">
                 Start Sample Task
               </Button>

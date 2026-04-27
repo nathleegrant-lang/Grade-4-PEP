@@ -32,29 +32,38 @@ export default function LoginPageClient() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (isSubmitting) return
+
     setError("")
     setIsSubmitting(true)
 
-    if (!email || !password) {
-      setError("Please fill in all fields.")
-      setIsSubmitting(false)
-      return
-    }
+    try {
+      if (!email || !password) {
+        setError("Please fill in all fields.")
+        return
+      }
 
-    const success = await login(email, password)
+      const success = await login(email, password)
 
-    if (success) {
-      router.push(nextPath)
-    } else {
+      if (success) {
+        router.push(nextPath)
+        return
+      }
+
       setError("We could not sign you in. Please check your email and password.")
+    } catch (err) {
+      console.error("Login error:", err)
+      setError("We could not sign you in right now. Please try again.")
+    } finally {
+      setIsSubmitting(false)
     }
-
-    setIsSubmitting(false)
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-slate-50">
       <SiteHeader />
+
       <main className="container mx-auto px-4 py-10">
         <div className="max-w-md mx-auto">
           <Card className="border-sky-200 shadow-lg">
@@ -85,6 +94,7 @@ export default function LoginPageClient() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="border-slate-300"
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -98,11 +108,13 @@ export default function LoginPageClient() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="border-slate-300 pr-10"
+                      disabled={isSubmitting}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                      disabled={isSubmitting}
                     >
                       {showPassword ? (
                         <EyeOff className="h-4 w-4" />
@@ -144,6 +156,7 @@ export default function LoginPageClient() {
           </Card>
         </div>
       </main>
+
       <SiteFooter />
     </div>
   )

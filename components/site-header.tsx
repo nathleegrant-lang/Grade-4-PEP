@@ -22,6 +22,8 @@ import {
 } from "lucide-react"
 import { getPlanLabel } from "@/lib/subscriptions"
 
+const GRADE_5_URL = "https://your-grade-5-site-url.vercel.app"
+
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/language-arts", label: "Language Arts" },
@@ -67,6 +69,24 @@ export function SiteHeader() {
             </div>
 
             <div className="flex items-center gap-3">
+              <div className="hidden lg:flex items-center gap-2">
+                <a
+                  href={GRADE_5_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-sky-700"
+                >
+                  Grade 5
+                </a>
+                <button
+                  type="button"
+                  disabled
+                  className="inline-flex items-center rounded-md border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-slate-300 cursor-not-allowed"
+                >
+                  Grade 6 Soon
+                </button>
+              </div>
+
               {isAuthenticated && user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -110,12 +130,9 @@ export function SiteHeader() {
 
                     {isAdmin && (
                       <DropdownMenuItem asChild>
-                        <Link
-                          href="/admin/payments"
-                          className="cursor-pointer text-sky-700"
-                        >
+                        <Link href="/admin" className="cursor-pointer text-sky-700">
                           <ShieldCheck className="mr-2 h-4 w-4" />
-                          Admin Payments
+                          Admin Dashboard
                         </Link>
                       </DropdownMenuItem>
                     )}
@@ -170,36 +187,42 @@ export function SiteHeader() {
       </header>
 
       <nav className="bg-navy-light text-white">
-        <div className="container mx-auto px-4">
-          <ul className="flex flex-wrap gap-1">
-            {navItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={cn(
-                    "inline-block px-4 py-2 hover:bg-sky/30 rounded-t transition-colors font-medium text-sm",
-                    isActive(item.href) && "bg-sky/30",
-                  )}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+        <div className="container mx-auto px-4 py-2">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <ul className="flex flex-wrap gap-1">
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "inline-block px-4 py-2 hover:bg-sky/30 rounded-t transition-colors font-medium text-sm",
+                      isActive(item.href) && "bg-sky/30",
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-            {isAdmin && (
-              <li>
-                <Link
-                  href="/admin"
-                  className={cn(
-                    "inline-block px-4 py-2 hover:bg-sky/30 rounded-t transition-colors font-medium text-sm",
-                    isActive("/admin") && "bg-sky/30",
-                  )}
-                >
-                  Admin
-                </Link>
-              </li>
-            )}
-          </ul>
+            <div className="flex items-center gap-2 lg:hidden">
+              <a
+                href="grade-5-pep.vercel.app"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-sky-700"
+              >
+                Grade 5
+              </a>
+              <button
+                type="button"
+                disabled
+                className="inline-flex items-center rounded-md border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-slate-300 cursor-not-allowed"
+              >
+                Grade 6 Soon
+              </button>
+            </div>
+          </div>
         </div>
       </nav>
     </>

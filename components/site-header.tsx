@@ -6,8 +6,20 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/auth-context"
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Crown, User, LogOut, LayoutDashboard, ShieldCheck } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Crown,
+  User,
+  LogOut,
+  LayoutDashboard,
+  ShieldCheck,
+} from "lucide-react"
 import { getPlanLabel } from "@/lib/subscriptions"
 
 const navItems = [
@@ -22,9 +34,10 @@ const navItems = [
 
 export function SiteHeader() {
   const pathname = usePathname()
-  const { user, isAuthenticated, isPremium, isAdmin, logout, isLoading } = useAuth()
+  const { user, isAuthenticated, isPremium, isAdmin, logout } = useAuth()
 
-  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href))
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href)
 
   return (
     <>
@@ -32,31 +45,163 @@ export function SiteHeader() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <Link href="/" className="block bg-white rounded-lg p-1"><Image src="/images/logo.png" alt="Grade 4 PEP Logo" width={80} height={80} className="h-14 w-auto md:h-16" priority /></Link>
-              <div><h1 className="text-2xl font-bold tracking-tight md:text-3xl">Grade 4 PEP</h1><p className="text-sky-light text-sm">Jamaica Primary Exit Profile</p></div>
+              <Link href="/" className="block bg-white rounded-lg p-1">
+                <Image
+                  src="/images/logo.png"
+                  alt="Grade 4 PEP Logo"
+                  width={80}
+                  height={80}
+                  className="h-14 w-auto md:h-16"
+                  priority
+                />
+              </Link>
+
+              <div>
+                <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+                  Grade 4 PEP
+                </h1>
+                <p className="text-sky-light text-sm">
+                  Jamaica Primary Exit Profile
+                </p>
+              </div>
             </div>
+
             <div className="flex items-center gap-3">
-              {!isLoading && (isAuthenticated && user ? (
+              {isAuthenticated && user ? (
                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild><Button variant="ghost" className="flex items-center gap-2 text-white hover:bg-white/10"><div className="w-8 h-8 rounded-full bg-sky-500 flex items-center justify-center">{isPremium ? <Crown className="h-4 w-4 text-amber-300" /> : <User className="h-4 w-4" />}</div><span className="hidden sm:inline">{user.childName}</span></Button></DropdownMenuTrigger>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="flex items-center gap-2 text-white hover:bg-white/10"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-sky-500 flex items-center justify-center">
+                        {isPremium ? (
+                          <Crown className="h-4 w-4 text-amber-300" />
+                        ) : (
+                          <User className="h-4 w-4" />
+                        )}
+                      </div>
+                      <span className="hidden sm:inline">{user.childName}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+
                   <DropdownMenuContent align="end" className="w-64">
-                    <div className="px-2 py-1.5"><p className="text-sm font-medium">{user.parentName}</p><p className="text-xs text-slate-500">{user.email}</p><span className="inline-flex items-center gap-1 text-xs text-slate-600 mt-1">{isPremium ? <Crown className="h-3 w-3 text-amber-600" /> : <User className="h-3 w-3" />}{getPlanLabel(user.subscriptionTier)}</span></div>
+                    <div className="px-2 py-1.5">
+                      <p className="text-sm font-medium">{user.parentName}</p>
+                      <p className="text-xs text-slate-500">{user.email}</p>
+                      <span className="inline-flex items-center gap-1 text-xs text-slate-600 mt-1">
+                        {isPremium ? (
+                          <Crown className="h-3 w-3 text-amber-600" />
+                        ) : (
+                          <User className="h-3 w-3" />
+                        )}
+                        {getPlanLabel(user.subscriptionTier)}
+                      </span>
+                    </div>
+
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild><Link href="/dashboard" className="cursor-pointer"><LayoutDashboard className="mr-2 h-4 w-4" />Dashboard</Link></DropdownMenuItem>
-                    {isAdmin && <DropdownMenuItem asChild><Link href="/admin/payments" className="cursor-pointer text-sky-700"><ShieldCheck className="mr-2 h-4 w-4" />Admin Payments</Link></DropdownMenuItem>}
-                    {!isPremium && <DropdownMenuItem asChild><Link href="/pricing" className="cursor-pointer text-amber-600"><Crown className="mr-2 h-4 w-4" />Upgrade Access</Link></DropdownMenuItem>}
+
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="cursor-pointer">
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+
+                    {isAdmin && (
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/admin/payments"
+                          className="cursor-pointer text-sky-700"
+                        >
+                          <ShieldCheck className="mr-2 h-4 w-4" />
+                          Admin Payments
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+
+                    {!isPremium && (
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/pricing"
+                          className="cursor-pointer text-amber-600"
+                        >
+                          <Crown className="mr-2 h-4 w-4" />
+                          Upgrade Access
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => void logout()} className="cursor-pointer text-red-600"><LogOut className="mr-2 h-4 w-4" />Sign Out</DropdownMenuItem>
+
+                    <DropdownMenuItem
+                      onClick={() => void logout()}
+                      className="cursor-pointer text-red-600"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sign Out
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <div className="flex items-center gap-2"><Link href="/login"><Button variant="ghost" size="sm" className="text-white hover:bg-white/10">Sign In</Button></Link><Link href="/register"><Button size="sm" className="bg-amber-500 hover:bg-amber-600 text-white">Sign Up</Button></Link></div>
-              ))}
+                <div className="flex items-center gap-2">
+                  <Link href="/login">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-white hover:bg-white/10"
+                    >
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button
+                      size="sm"
+                      className="bg-amber-500 hover:bg-amber-600 text-white"
+                    >
+                      Sign Up
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </header>
-      <nav className="bg-navy-light text-white"><div className="container mx-auto px-4"><ul className="flex flex-wrap gap-1">{navItems.map((item) => <li key={item.href}><Link href={item.href} className={cn("inline-block px-4 py-2 hover:bg-sky/30 rounded-t transition-colors font-medium text-sm", isActive(item.href) && "bg-sky/30")}>{item.label}</Link></li>)}{isAdmin && <li><Link href="/admin/payments" className={cn("inline-block px-4 py-2 hover:bg-sky/30 rounded-t transition-colors font-medium text-sm", isActive("/admin") && "bg-sky/30")}>Admin</Link></li>}</ul></div></nav>
+
+      <nav className="bg-navy-light text-white">
+        <div className="container mx-auto px-4">
+          <ul className="flex flex-wrap gap-1">
+            {navItems.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={cn(
+                    "inline-block px-4 py-2 hover:bg-sky/30 rounded-t transition-colors font-medium text-sm",
+                    isActive(item.href) && "bg-sky/30",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+
+            {isAdmin && (
+              <li>
+                <Link
+                  href="/admin/payments"
+                  className={cn(
+                    "inline-block px-4 py-2 hover:bg-sky/30 rounded-t transition-colors font-medium text-sm",
+                    isActive("/admin") && "bg-sky/30",
+                  )}
+                >
+                  Admin
+                </Link>
+              </li>
+            )}
+          </ul>
+        </div>
+      </nav>
     </>
   )
 }

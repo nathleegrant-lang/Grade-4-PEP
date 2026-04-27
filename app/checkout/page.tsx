@@ -13,7 +13,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { useAuth } from "@/contexts/auth-context"
 import { PRICING_TIERS, type PlanCode } from "@/lib/types"
 import { Crown, ArrowLeft, Landmark, MessageCircleMore, ShieldCheck } from "lucide-react"
-import { BANK_DETAILS, WHATSAPP_DISPLAY, WHATSAPP_NUMBER } from "@/lib/site-config"
+import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER } from "@/lib/site-config"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 
 type PendingPayment = {
@@ -232,7 +232,7 @@ function CheckoutContent() {
                   <div>
                     <p className="font-semibold text-slate-800 mb-1">Admin approval activates access</p>
                     <p className="text-sm text-slate-600">
-                      Pay first using the banking details below, then submit your payment reference on this page.
+                      Contact us on WhatsApp to receive payment instructions securely, then submit your payment reference on this page.
                       Once approved, your subscription start date and expiry date are set automatically.
                     </p>
                   </div>
@@ -287,13 +287,9 @@ function CheckoutContent() {
                         <Landmark className="h-5 w-5 text-sky-600" />
                         <h4 className="font-semibold text-slate-800">Step 1</h4>
                       </div>
-                      <div className="text-sm text-slate-600 space-y-1">
-                        <p><span className="font-medium text-slate-700">Bank:</span> {BANK_DETAILS.bank}</p>
-                        <p><span className="font-medium text-slate-700">Branch:</span> {BANK_DETAILS.branch}</p>
-                        <p><span className="font-medium text-slate-700">Account name:</span> {BANK_DETAILS.accountName}</p>
-                        <p><span className="font-medium text-slate-700">Account number:</span> {BANK_DETAILS.accountNumber}</p>
-                        <p><span className="font-medium text-slate-700">Account type:</span> {BANK_DETAILS.accountType}</p>
-                      </div>
+                      <p className="text-sm text-slate-600">
+                        Contact us on WhatsApp to receive the payment instructions securely.
+                      </p>
                     </div>
 
                     <div className="rounded-xl border border-sky-100 bg-white p-5">

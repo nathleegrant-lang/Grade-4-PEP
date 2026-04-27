@@ -22,8 +22,7 @@ import {
 } from "lucide-react"
 import { getPlanLabel } from "@/lib/subscriptions"
 
-const GRADE_5_URL = "https://your-grade-5-site-url.vercel.app"
-
+const GRADE_5_URL = "https://grade-5-pep.vercel.app/"
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/language-arts", label: "Language Arts" },

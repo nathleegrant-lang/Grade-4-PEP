@@ -115,7 +115,7 @@ export default function AdminHomePage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/admin/subscriptions">
+                <Link href="/admin/grade4-subscriptions">
                   <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
                     Open Report
                   </Button>

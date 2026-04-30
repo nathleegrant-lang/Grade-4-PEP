@@ -147,7 +147,8 @@ export default function Home() {
                   <p className="font-semibold text-slate-800">Need help with payment or access?</p>
                 </div>
                 <p className="text-slate-600 text-sm md:text-base">
-                  Message us on WhatsApp at 876-505-5212 after making your Grade 4 payment to confirm your receipt and activate access.
+                  After completing your Grade 4 payment, please email your receipt along with your child’s name to shazincorps@gmail.com
+ to confirm your payment and activate access.
                 </p>
               </div>
               <a href="https://wa.me/18765055212" target="_blank" rel="noreferrer">

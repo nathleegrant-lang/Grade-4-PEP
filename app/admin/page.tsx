@@ -116,10 +116,10 @@ export default function AdminHomePage() {
               </CardHeader>
               <CardContent>
                 <Link href="/admin/grade4-subscriptions">
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
-                    Open Report
-                  </Button>
-                </Link>
+  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+    Open Report
+  </Button>
+</Link>
               </CardContent>
             </Card>
           </div>

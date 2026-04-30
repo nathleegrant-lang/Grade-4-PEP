@@ -1,8 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
-import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER } from "@/lib/site-config"
 
 const GRADE_5_URL = "https://grade-5-pep.vercel.app/"
+const SUPPORT_EMAIL = "shazincorps@gmail.com"
 
 export function SiteFooter() {
   return (
@@ -101,16 +101,17 @@ export function SiteFooter() {
             </h3>
             <div className="mt-4 space-y-3 text-sm text-slate-300">
               <p>
-                Grade 4 PEP support and payment confirmation are available by WhatsApp.
+                For Grade 4 PEP support and payment confirmation, please email your
+                receipt along with your child&apos;s name and subject to:
               </p>
+
               <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                rel="noreferrer"
+                href={`mailto:${SUPPORT_EMAIL}`}
                 className="inline-block font-medium text-sky-300 hover:text-sky-200 transition-colors"
               >
-                WhatsApp: {WHATSAPP_DISPLAY}
+                {SUPPORT_EMAIL}
               </a>
+
               <p className="text-xs text-slate-400">
                 Each grade programme is sold separately.
               </p>

@@ -151,9 +151,7 @@ export default function Home() {
  to confirm your payment and activate access.
                 </p>
               </div>
-              <a href="https://wa.me/18765055212" target="_blank" rel="noreferrer">
-                <Button className="bg-slate-800 hover:bg-slate-900 text-white">Chat on WhatsApp</Button>
-              </a>
+              
             </CardContent>
           </Card>
         </section>

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/contexts/auth-context'
 import { ProgressProvider } from '@/contexts/progress-context'
+import { SiteVisitTracker } from "@/components/site-visit-tracker"
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -41,11 +42,12 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <AuthProvider>
           <ProgressProvider>
+            <SiteVisitTracker />
             {children}
           </ProgressProvider>
         </AuthProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
-      </body>
+        </body>
     </html>
   )
 }

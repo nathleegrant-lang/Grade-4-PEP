@@ -14,7 +14,9 @@ export async function GET() {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    const visitRows = visits ?? []
+   const visitRows = (visits ?? []).filter(
+  (visit) => !String(visit.page_path || "").startsWith("/admin")
+)
 
     const totalVisits = visitRows.length
     const uniqueVisitors = new Set(

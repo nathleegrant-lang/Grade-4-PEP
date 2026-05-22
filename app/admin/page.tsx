@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/contexts/auth-context"
-import { ShieldCheck, CreditCard, Tags, FileText } from "lucide-react"
+import { ShieldCheck, CreditCard, Tags, FileText, BarChart3 } from "lucide-react"
 
 export default function AdminHomePage() {
   const router = useRouter()
@@ -55,11 +55,11 @@ export default function AdminHomePage() {
               Admin Dashboard
             </h1>
             <p className="text-slate-600 mt-2">
-              Manage Grade 4 payments, pricing, and subscription reports from one place.
+              Manage Grade 4 payments, pricing, subscriptions, and site analytics from one place.
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <Card className="border-sky-200 shadow-sm">
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mb-3">
@@ -116,10 +116,31 @@ export default function AdminHomePage() {
               </CardHeader>
               <CardContent>
                 <Link href="/admin/grade4-subscriptions">
-  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
-    Open Report
-  </Button>
-</Link>
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                    Open Report
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="border-sky-200 shadow-sm">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center mb-3">
+                  <BarChart3 className="h-6 w-6 text-cyan-600" />
+                </div>
+                <CardTitle className="text-slate-800">
+                  Site Analytics
+                </CardTitle>
+                <CardDescription>
+                  Monitor website visits, unique visitors, and recent activity.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link href="/admin/reports">
+                  <Button className="w-full bg-cyan-600 hover:bg-cyan-700 text-white">
+                    Open Analytics
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>

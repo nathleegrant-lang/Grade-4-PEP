@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 type Visit = {
   id: string
@@ -43,7 +42,7 @@ export default function AdminReportsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         Loading reports...
       </div>
     )
@@ -51,40 +50,33 @@ export default function AdminReportsPage() {
 
   return (
     <div className="min-h-screen bg-sky-50">
-      <Header />
+      <SiteHeader />
 
-      <main className="container mx-auto px-4 py-10 space-y-6">
-        <h1 className="text-3xl font-bold text-slate-800">
-          Admin Reports
-        </h1>
+      <main className="container mx-auto space-y-6 px-4 py-10">
+        <h1 className="text-3xl font-bold text-slate-800">Admin Reports</h1>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Total Visits</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-4xl font-bold text-sky-700">{totalVisits}</p>
-            </CardContent>
-          </Card>
+          <div className="rounded-xl border border-sky-200 bg-white p-6 shadow-sm">
+            <p className="text-sm text-slate-500">Total Visits</p>
+            <p className="mt-2 text-4xl font-bold text-sky-700">
+              {totalVisits}
+            </p>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Unique Visitors</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-4xl font-bold text-emerald-700">
-                {uniqueVisitors}
-              </p>
-            </CardContent>
-          </Card>
+          <div className="rounded-xl border border-sky-200 bg-white p-6 shadow-sm">
+            <p className="text-sm text-slate-500">Unique Visitors</p>
+            <p className="mt-2 text-4xl font-bold text-emerald-700">
+              {uniqueVisitors}
+            </p>
+          </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Visits</CardTitle>
-          </CardHeader>
-          <CardContent className="overflow-x-auto">
+        <div className="rounded-xl border border-sky-200 bg-white p-6 shadow-sm">
+          <h2 className="mb-4 text-xl font-semibold text-slate-800">
+            Recent Visits
+          </h2>
+
+          <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b text-left">
@@ -109,15 +101,15 @@ export default function AdminReportsPage() {
             </table>
 
             {recentVisits.length === 0 && (
-              <p className="text-slate-500 text-sm py-4">
+              <p className="py-4 text-sm text-slate-500">
                 No visits recorded yet.
               </p>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </main>
 
-      <Footer />
+      <SiteFooter />
     </div>
   )
 }

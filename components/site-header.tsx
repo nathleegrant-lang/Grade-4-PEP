@@ -206,7 +206,7 @@ export function SiteHeader() {
 
             <div className="flex items-center gap-2 lg:hidden">
               <a
-                href="grade-5-pep.vercel.app"
+               href={GRADE_5_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center rounded-md bg-sky-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-sky-700"

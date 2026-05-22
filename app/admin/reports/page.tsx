@@ -12,11 +12,19 @@ type Visit = {
   created_at: string
 }
 
+type VisitorSummary = {
+  session_id: string
+  total_views: number
+  last_page: string
+  last_seen_at: string
+}
+
 export default function AdminReportsPage() {
   const [loading, setLoading] = useState(true)
   const [totalVisits, setTotalVisits] = useState(0)
   const [uniqueVisitors, setUniqueVisitors] = useState(0)
   const [recentVisits, setRecentVisits] = useState<Visit[]>([])
+  const [visitorSummary, setVisitorSummary] = useState<VisitorSummary[]>([])
 
   useEffect(() => {
     async function loadReports() {
@@ -30,6 +38,7 @@ export default function AdminReportsPage() {
         setTotalVisits(data.totalVisits || 0)
         setUniqueVisitors(data.uniqueVisitors || 0)
         setRecentVisits(data.recentVisits || [])
+        setVisitorSummary(data.visitorSummary || [])
       } catch (error) {
         console.error("Failed to load reports:", error)
       } finally {
@@ -68,6 +77,47 @@ export default function AdminReportsPage() {
             <p className="mt-2 text-4xl font-bold text-emerald-700">
               {uniqueVisitors}
             </p>
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-sky-200 bg-white p-6 shadow-sm">
+          <h2 className="mb-4 text-xl font-semibold text-slate-800">
+            Unique Visitor Summary
+          </h2>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b text-left">
+                  <th className="py-2">Last Seen</th>
+                  <th className="py-2">Total Views</th>
+                  <th className="py-2">Last Page Viewed</th>
+                  <th className="py-2">Session</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visitorSummary.map((visitor) => (
+                  <tr key={visitor.session_id} className="border-b">
+                    <td className="py-2">
+                      {new Date(visitor.last_seen_at).toLocaleString()}
+                    </td>
+                    <td className="py-2 font-semibold text-slate-800">
+                      {visitor.total_views}
+                    </td>
+                    <td className="py-2">{visitor.last_page}</td>
+                    <td className="py-2 text-xs text-slate-500">
+                      {visitor.session_id}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {visitorSummary.length === 0 && (
+              <p className="py-4 text-sm text-slate-500">
+                No visitor summary available yet.
+              </p>
+            )}
           </div>
         </div>
 

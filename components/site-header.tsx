@@ -46,7 +46,7 @@ export function SiteHeader() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <Link href="/" className="block bg-white rounded-lg p-1">
+              <Link href="/" className="block rounded-lg p-1">
                 <Image
                   src="/images/Shazonique-oval2-logo.png"
                   alt="Grade 4 PEP Logo"

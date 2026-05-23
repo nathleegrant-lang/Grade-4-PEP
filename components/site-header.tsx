@@ -48,7 +48,7 @@ export function SiteHeader() {
             <div className="flex items-center gap-4">
               <Link href="/" className="block bg-white rounded-lg p-1">
                 <Image
-                  src="/images/logo.png"
+                  src="/Shazonique-oval2-logo.png"
                   alt="Grade 4 PEP Logo"
                   width={80}
                   height={80}

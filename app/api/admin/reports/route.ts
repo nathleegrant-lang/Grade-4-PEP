@@ -1,11 +1,23 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { getSupabaseAdminClient } from "@/lib/supabase/admin"
 
 const FUNNEL_ORDER = ["website_visit", "pricing_interest", "registration_view", "registration_completed", "free_experience", "checkout_view", "payment_submitted", "access_activated", "first_paid_use", "return_paid_use"]
 
-export async function GET() {
+async function requireAdmin(request: NextRequest) {
+  const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "")
+  if (!token) return null
+  const supabase = getSupabaseAdminClient()
+  const { data: userData } = await supabase.auth.getUser(token)
+  if (!userData.user) return null
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", userData.user.id).maybeSingle()
+  return profile?.role === "admin" ? supabase : null
+}
+
+export async function GET(request: NextRequest) {
   try {
-    const supabase = getSupabaseAdminClient()
+    const supabase = await requireAdmin(request)
+    if (!supabase) return NextResponse.json({ error: "Admin access required." }, { status: 403 })
+
     const [{ data: visits, error }, { data: internalSessions }, { data: internalProfiles }, { data: funnelEvents }] = await Promise.all([
       supabase.from("site_visits").select("*").order("created_at", { ascending: false }),
       supabase.from("internal_test_sessions").select("session_id"),

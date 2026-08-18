@@ -10,11 +10,38 @@ export async function GET(request: NextRequest) {
   const { data: userData, error: userError } = await supabase.auth.getUser(token)
   if (userError || !userData.user) return NextResponse.json({ error: "Invalid session." }, { status: 401 })
 
-  const { data, error } = await supabase.from("bank_transfer_details").select("bank_name,branch_name,account_name,account_number,account_type").eq("grade", "grade4").eq("is_active", true).maybeSingle()
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", userData.user.id)
+    .maybeSingle()
+
+  if (profileError) {
+    console.error("payment instructions profile error:", profileError)
+    return NextResponse.json({ error: "Unable to authorize payment instructions." }, { status: 503 })
+  }
+
+  if (!profile || profile.role !== "parent") {
+    return NextResponse.json({ error: "Parent access required." }, { status: 403 })
+  }
+
+  const { data, error } = await supabase
+    .from("bank_transfer_details")
+    .select("bank_name,branch_name,account_name,account_number,account_type")
+    .eq("grade", "grade4")
+    .eq("is_active", true)
+    .maybeSingle()
+
   if (error || !data) {
     console.error("payment instructions error:", error)
     return NextResponse.json({ error: "Payment instructions are unavailable." }, { status: 503 })
   }
 
-  return NextResponse.json({ bank: data.bank_name, branch: data.branch_name, accountName: data.account_name, accountNumber: data.account_number, accountType: data.account_type })
+  return NextResponse.json({
+    bank: data.bank_name,
+    branch: data.branch_name,
+    accountName: data.account_name,
+    accountNumber: data.account_number,
+    accountType: data.account_type,
+  })
 }

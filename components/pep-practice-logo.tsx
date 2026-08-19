@@ -1,53 +1,8 @@
 type PepPracticeLogoProps = {
   variant?: "primary" | "endorsed" | "compact"
-  grade?: 4 | 5 | 6
   className?: string
 }
 
-const gradeStyles = {
-  4: { bg: "bg-pink-500", ring: "ring-pink-500", label: "4" },
-  5: { bg: "bg-blue-600", ring: "ring-blue-600", label: "5" },
-  6: { bg: "bg-green-600", ring: "ring-green-600", label: "6" },
-} as const
-
-function MasterSymbol({ compact = false }: { compact?: boolean }) {
-  return <svg viewBox="0 0 116 96" className={compact ? "h-[44px] w-[53px]" : "h-[58px] w-[70px] sm:h-[66px] sm:w-[80px]"} aria-hidden="true">
-    <path d="M15 62A44 44 0 0 1 48 12" fill="none" stroke="#1557e8" strokeWidth="4" strokeLinecap="round" />
-    <path d="M84 21a43 43 0 0 1 13 42" fill="none" stroke="#169b45" strokeWidth="4" strokeLinecap="round" />
-    <path d="M58 4l4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1 4-9Z" fill="#fbb400" />
-    <path d="M90 22l2 5 6 .5-4.5 4 1.5 6-5-3-5 3 1.5-6-4.5-4 6-.5 2-5Z" fill="#169b45" />
-    <rect x="27" y="27" width="54" height="39" rx="5" fill="#081a55" /><rect x="32" y="32" width="44" height="27" rx="2" fill="#fff" />
-    <rect x="35" y="36" width="11" height="11" rx="2" fill="#ef1870" /><path d="m38 41 3 3 5-6" fill="none" stroke="#fff" strokeWidth="2" />
-    <path d="M50 38h15M50 44h12M36 52h16" stroke="#78b4ff" strokeWidth="3" strokeLinecap="round" />
-    <rect x="57" y="49" width="5" height="8" rx="1" fill="#16a34a" /><rect x="65" y="44" width="5" height="13" rx="1" fill="#16a34a" /><rect x="73" y="38" width="5" height="19" rx="1" fill="#16a34a" />
-    <path d="M20 69c15-8 29-7 39 1v18c-12-8-25-9-39-2V69Zm39 1c11-8 24-9 39-1v17c-14-7-27-6-39 2V70Z" fill="#fff" stroke="#0a2b78" strokeWidth="3" />
-    <path d="M20 75c15-6 28-5 39 2M59 77c11-7 24-8 39-2" fill="none" stroke="#ef1870" strokeWidth="3" /><path d="M22 82c14-5 26-4 37 2M59 84c11-6 23-7 37-2" fill="none" stroke="#1557e8" strokeWidth="3" />
-    <circle cx="59" cy="88" r="4" fill="#081a55" /><path d="m78 58 16 8-7 4 5 10-5 2-5-10-6 5 2-19Z" fill="#fbb400" stroke="#fff" strokeWidth="2" /><path d="M36 92c14 7 31 7 45 0" fill="none" stroke="#169b45" strokeWidth="4" strokeLinecap="round" />
-  </svg>
-}
-
-function GradeBadge({ grade, compact = false }: { grade: 4 | 5 | 6; compact?: boolean }) {
-  const style = gradeStyles[grade]
-  return <div className={`relative flex shrink-0 items-center justify-center rounded-full text-white shadow-sm ring-2 ring-amber-400 ${style.bg} ${compact ? "h-10 w-10" : "h-[50px] w-[50px] sm:h-[56px] sm:w-[56px]"}`}>
-    <span className={`absolute rounded-full border-2 border-blue-600 border-l-transparent border-b-green-600 ${compact ? "-inset-1" : "-inset-[5px]"}`} />
-    <span className={`text-center font-black leading-[.85] ${compact ? "text-[7px]" : "text-[8px] sm:text-[9px]"}`}>GRADE<br /><span className={compact ? "text-[21px]" : "text-[26px] sm:text-[29px]"}>{style.label}</span></span>
-  </div>
-}
-
-export function PepPracticeLogo({ variant = "primary", grade = 4, className = "" }: PepPracticeLogoProps) {
-  const compact = variant === "compact"
-  return <div className={className}>
-    <div className={`flex items-center ${compact ? "gap-1.5" : "gap-2 sm:gap-3"}`}>
-      <MasterSymbol compact={compact} />
-      <div className="min-w-0">
-        <div className={`flex items-center ${compact ? "gap-1.5" : "gap-2 sm:gap-3"}`}>
-          <div className="leading-none"><div className={`font-black tracking-[.06em] text-white ${compact ? "text-[20px]" : "text-[28px] sm:text-[36px]"}`}>PEP</div><div className={`mt-1 font-black tracking-[.12em] text-blue-400 ${compact ? "text-[10px]" : "text-[14px] sm:text-[18px]"}`}>PRACTICE</div></div>
-          <span className={`w-px bg-white/45 ${compact ? "h-9" : "h-11 sm:h-13"}`} />
-          <GradeBadge grade={grade} compact={compact} />
-        </div>
-        {!compact && <p className="mt-1 text-[8px] font-black uppercase tracking-[.08em] sm:text-[9px]"><span className="text-blue-300">Practice</span><span className="text-white"> • </span><span className="text-green-400">Review</span><span className="text-white"> • </span><span className="text-pink-400">Confidence</span></p>}
-      </div>
-    </div>
-    {variant === "endorsed" && <div className="mt-2 flex items-center gap-2 pl-2 text-[10px] font-semibold text-slate-300 sm:text-xs"><span className="h-px w-7 bg-slate-500" /><span>by Shazonique&apos;s Inspiration</span><span className="h-px w-7 bg-slate-500" /></div>}
-  </div>
-}
+// Exact approved Grade 4 primary artwork supplied by PEP Business & Growth Master.
+// Kept as a single embedded image asset so header/mobile/footer cannot drift into separately redrawn logos.
+const APPROVED_GRADE4_PRIMARY = "data:image/webp;base64,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

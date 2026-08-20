@@ -137,3 +137,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+/*
+ * Legacy Grade 4 learning cards reuse one historical product-logo asset inside
+ * dark containers. Assignment 020 swaps that shared asset to the canonical
+ * PEP PRACTICE Grade 4 mark; this narrowly scoped selector gives the reused
+ * compact mark the same light presentation surface as the approved identity.
+ */
+div:has(img[src*="shazoniques-inspiration-logo.png"]) {
+  background-color: white !important;
+  border: 1px solid rgb(226 232 240);
+}

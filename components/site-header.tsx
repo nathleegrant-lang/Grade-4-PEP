@@ -25,15 +25,22 @@ export function SiteHeader() {
   const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.startsWith(href)
 
   return <>
-    <header className="overflow-visible border-b border-slate-100 bg-white text-blue-950">
-      <div className="container mx-auto flex items-center justify-between gap-3 overflow-visible px-3 py-2 sm:px-4 sm:py-2.5">
-        <Link href="/" aria-label="PEP PRACTICE Grade 4 home" className="block min-w-0 shrink-0 overflow-visible">
+    <header className="border-b border-slate-100 bg-white text-blue-950">
+      <div className="container mx-auto flex min-h-[104px] items-center justify-between gap-3 px-3 py-3 sm:min-h-[124px] sm:px-4 sm:py-3">
+        <Link href="/" aria-label="PEP PRACTICE Grade 4 home" className="block min-w-0 shrink-0">
           <span
-            role="img"
-            aria-label="PEP PRACTICE Grade 4 — Practice Review Confidence"
-            className="block aspect-[504/147] w-[220px] max-w-[60vw] bg-contain bg-left bg-no-repeat sm:w-[320px] sm:max-w-none lg:w-[360px]"
-            style={{ backgroundImage: "url('/images/pep-practice-grade4-primary.png?v=20260820c')" }}
-          />
+            className="block w-[220px] max-w-[60vw] sm:w-[320px] sm:max-w-none lg:w-[360px]"
+            style={{ aspectRatio: "504 / 147" }}
+          >
+            <img
+              src="/images/pep-practice-grade4-primary.png?v=20260820d"
+              alt="PEP PRACTICE Grade 4 — Practice Review Confidence"
+              width="504"
+              height="147"
+              className="block h-full w-full"
+              style={{ objectFit: "contain", objectPosition: "left center" }}
+            />
+          </span>
         </Link>
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">

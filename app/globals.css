@@ -140,9 +140,8 @@
 
 /*
  * Grade 4 learning cards retain the historical image path but now serve the
- * canonical PEP PRACTICE mark. Let the wrapper span the assessment header only
- * to carry the divider; remove the legacy rounded/padded box so the compact logo
- * itself remains the visual brand mark rather than becoming a large white pill.
+ * transparent canonical PEP PRACTICE mark. The wrapper spans the assessment
+ * header only to carry the divider; the logo itself stays centered and compact.
  */
 div:has(> img[src*="shazoniques-inspiration-logo.png"]) {
   position: relative;
@@ -164,5 +163,16 @@ div:has(> img[src*="shazoniques-inspiration-logo.png"])::after {
   right: 0;
   bottom: 0;
   height: 1px;
-  background: rgb(226 232 240);
+  background: rgb(203 213 225);
+}
+
+/* Let the assessment header colour meet the card's rounded top edge cleanly. */
+[data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) {
+  overflow: hidden;
+}
+
+[data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) > [data-slot="card-header"]:first-child {
+  margin-top: 0 !important;
+  border-top-left-radius: inherit !important;
+  border-top-right-radius: inherit !important;
 }

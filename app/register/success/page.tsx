@@ -13,13 +13,13 @@ export default function RegisterSuccessPage() {
       <main className="container mx-auto px-4 py-10">
         <div className="max-w-md mx-auto">
           <Card className="border-sky-200 shadow-lg overflow-hidden">
-            <div className="bg-slate-950 px-6 py-5 flex justify-center">
+            <div className="bg-white border-b border-slate-200 px-6 py-5 flex justify-center">
               <Image
-                src="/images/shazoniques-inspiration-logo.png"
-                alt="Shazonique's Inspiration logo"
-                width={220}
-                height={100}
-                className="h-auto w-[180px] sm:w-[220px]"
+                src="/images/pep-practice-grade4-primary.png"
+                alt="PEP PRACTICE Grade 4 — Practice, Review, Confidence"
+                width={508}
+                height={147}
+                className="h-auto w-full max-w-[280px] object-contain"
                 priority
               />
             </div>

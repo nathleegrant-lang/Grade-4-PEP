@@ -38,7 +38,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t border-slate-200 px-4 py-5 text-center text-xs text-slate-500">
+      <div className="border-t border-blue-800 bg-blue-900 px-4 py-5 text-center text-xs font-medium text-white">
         © {new Date().getFullYear()} Shazonique&apos;s Inspiration. PEP PRACTICE — Grade 4.
       </div>
     </footer>

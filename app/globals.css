@@ -140,11 +140,24 @@
 
 /*
  * Grade 4 learning cards retain the historical image path but now serve the
- * canonical PEP PRACTICE mark. Keep its compact surface light and integrated
- * with the surrounding assessment card rather than visually boxing it in.
+ * canonical PEP PRACTICE mark. Keep its compact brand zone light and integrated
+ * with the surrounding assessment card, with one subtle divider beneath it.
  */
 div:has(img[src*="shazoniques-inspiration-logo.png"]) {
+  position: relative;
   background-color: white !important;
   border-color: transparent !important;
   box-shadow: none !important;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+div:has(img[src*="shazoniques-inspiration-logo.png"])::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  height: 1px;
+  background: rgb(226 232 240);
 }

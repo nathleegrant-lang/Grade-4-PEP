@@ -140,11 +140,15 @@
 
 /*
  * Grade 4 learning cards retain the historical image path but now serve the
- * canonical PEP PRACTICE mark. Keep its compact brand zone light and integrated
- * with the surrounding assessment card, with one subtle full-width divider.
+ * canonical PEP PRACTICE mark. The immediate logo wrapper is expanded to the
+ * assessment header width so the divider genuinely spans the brand zone while
+ * the approved logo itself remains centered at its compact size.
  */
-div:has(img[src*="shazoniques-inspiration-logo.png"]) {
+div:has(> img[src*="shazoniques-inspiration-logo.png"]) {
   position: relative;
+  display: flex !important;
+  justify-content: center;
+  width: 100% !important;
   background-color: white !important;
   border-color: transparent !important;
   box-shadow: none !important;
@@ -152,7 +156,7 @@ div:has(img[src*="shazoniques-inspiration-logo.png"]) {
   margin-bottom: 1rem;
 }
 
-div:has(img[src*="shazoniques-inspiration-logo.png"])::after {
+div:has(> img[src*="shazoniques-inspiration-logo.png"])::after {
   content: "";
   position: absolute;
   left: 0;

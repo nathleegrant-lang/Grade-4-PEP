@@ -38,8 +38,10 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t border-blue-800 bg-blue-900 px-4 py-5 text-center text-xs font-medium text-white">
-        © {new Date().getFullYear()} Shazonique&apos;s Inspiration. PEP PRACTICE — Grade 4.
+      <div className="border-t border-blue-800 bg-blue-900 px-4 py-5 text-center text-xs font-medium tracking-[0.01em] text-white">
+        <span>© {new Date().getFullYear()}</span>
+        <span className="mx-1.5">Shazonique&apos;s Inspiration.</span>
+        <span>PEP PRACTICE — Grade 4.</span>
       </div>
     </footer>
   )

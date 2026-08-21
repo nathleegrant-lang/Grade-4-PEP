@@ -138,22 +138,18 @@
   }
 }
 
-/*
- * Grade 4 learning cards retain the historical image path but now serve the
- * transparent canonical PEP PRACTICE mark. The wrapper spans the assessment
- * header only to carry the divider; the logo itself stays centered and compact.
- */
+/* Grade 4 assessment brand strip: transparent canonical logo on a clean neutral field. */
 div:has(> img[src*="shazoniques-inspiration-logo.png"]) {
   position: relative;
   display: flex !important;
   justify-content: center;
   width: 100% !important;
-  background: transparent !important;
+  background: #ffffff !important;
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  padding: 0 0 1rem !important;
-  margin-bottom: 1rem;
+  padding: 1.25rem 0 1rem !important;
+  margin: -1.5rem 0 0 !important;
 }
 
 div:has(> img[src*="shazoniques-inspiration-logo.png"])::after {
@@ -163,25 +159,25 @@ div:has(> img[src*="shazoniques-inspiration-logo.png"])::after {
   right: 0;
   bottom: 0;
   height: 1px;
-  background: rgb(203 213 225);
+  background: rgb(226 232 240);
 }
 
-/* The shared Card adds py-6. Remove only its top padding for branded assessment cards. */
+/* Assessment card keeps its top edge clean and clips the separated zones to its radius. */
 [data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) {
   overflow: hidden;
   padding-top: 0 !important;
 }
 
-/* Give the branded assessment header a clearer blue presence while preserving the reading surface. */
+/* Assessment identity zone: warm gold, distinct from the brand strip and white work area. */
 [data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) > [data-slot="card-header"]:first-child {
   margin-top: 0 !important;
   padding-top: 1.5rem !important;
   border-top-left-radius: inherit !important;
   border-top-right-radius: inherit !important;
-  background-color: #cfe4f5 !important;
+  background-color: #f6c453 !important;
 }
 
-/* Calm outer frame; the assessment header now carries more of the colour hierarchy. */
+/* Calm frame outside the card; CTA colours remain untouched. */
 .min-h-screen:has([data-slot="card"] img[src*="shazoniques-inspiration-logo.png"]) {
   background-image: none !important;
   background-color: #d9e4f2 !important;

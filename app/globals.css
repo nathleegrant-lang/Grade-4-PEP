@@ -172,16 +172,17 @@ div:has(> img[src*="shazoniques-inspiration-logo.png"])::after {
   padding-top: 0 !important;
 }
 
-/* Restore breathing room inside the coloured assessment header itself. */
+/* Give the branded assessment header a clearer blue presence while preserving the reading surface. */
 [data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) > [data-slot="card-header"]:first-child {
   margin-top: 0 !important;
   padding-top: 1.5rem !important;
   border-top-left-radius: inherit !important;
   border-top-right-radius: inherit !important;
+  background-color: #cfe4f5 !important;
 }
 
-/* Trial: frame branded assessment pages with a stronger PEP PRACTICE blue. */
+/* Calm outer frame; the assessment header now carries more of the colour hierarchy. */
 .min-h-screen:has([data-slot="card"] img[src*="shazoniques-inspiration-logo.png"]) {
   background-image: none !important;
-  background-color: #3156a6 !important;
+  background-color: #d9e4f2 !important;
 }

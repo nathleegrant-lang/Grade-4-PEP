@@ -143,13 +143,13 @@ div:has(> img[src*="shazoniques-inspiration-logo.png"]) {
   position: relative;
   display: flex !important;
   justify-content: center;
-  width: 100% !important;
+  width: calc(100% + 3rem) !important;
   background: #ffffff !important;
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   padding: 1.25rem 0 1rem !important;
-  margin: -1.5rem 0 0 !important;
+  margin: -1.5rem -1.5rem 0 !important;
 }
 
 div:has(> img[src*="shazoniques-inspiration-logo.png"])::after {

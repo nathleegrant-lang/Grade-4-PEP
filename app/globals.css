@@ -182,5 +182,6 @@ div:has(> img[src*="shazoniques-inspiration-logo.png"])::after {
 
 /* Trial: give branded assessment pages a stronger neutral frame without changing the rest of the site. */
 .min-h-screen:has([data-slot="card"] img[src*="shazoniques-inspiration-logo.png"]) {
+  background-image: none !important;
   background-color: #d9e4f2 !important;
 }

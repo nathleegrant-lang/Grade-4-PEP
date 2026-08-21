@@ -180,8 +180,8 @@ div:has(> img[src*="shazoniques-inspiration-logo.png"])::after {
   border-top-right-radius: inherit !important;
 }
 
-/* Trial: give branded assessment pages a stronger neutral frame without changing the rest of the site. */
+/* Trial: frame branded assessment pages with a stronger PEP PRACTICE blue. */
 .min-h-screen:has([data-slot="card"] img[src*="shazoniques-inspiration-logo.png"]) {
   background-image: none !important;
-  background-color: #d9e4f2 !important;
+  background-color: #3156a6 !important;
 }

@@ -29,8 +29,6 @@
   --chart-4: oklch(0.55 0.15 230);
   --chart-5: oklch(0.85 0.14 85);
   --radius: 0.625rem;
-  
-  /* Custom brand colors */
   --navy: oklch(0.3 0.08 250);
   --navy-light: oklch(0.4 0.1 250);
   --sky: oklch(0.7 0.15 210);
@@ -130,15 +128,11 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground; }
 }
 
-/* Grade 4 assessment brand strip: transparent canonical logo on a clean neutral field. */
+/* Shared Grade 4 assessment brand strip. */
 div:has(> img[src*="shazoniques-inspiration-logo.png"]) {
   position: relative;
   display: flex !important;
@@ -162,22 +156,39 @@ div:has(> img[src*="shazoniques-inspiration-logo.png"])::after {
   background: rgb(226 232 240);
 }
 
-/* Assessment card keeps its top edge clean and clips the separated zones to its radius. */
 [data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) {
   overflow: hidden;
   padding-top: 0 !important;
 }
 
-/* Assessment identity zone: warm gold, distinct from the brand strip and white work area. */
+/* Shared geometry for the assessment identity band. */
 [data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) > [data-slot="card-header"]:first-child {
   margin-top: 0 !important;
   padding-top: 1.5rem !important;
   border-top-left-radius: inherit !important;
   border-top-right-radius: inherit !important;
-  background-color: #f6c453 !important;
 }
 
-/* Calm frame outside the card; CTA colours remain untouched. */
+/* Reuse the subject language already established across Grade 4. */
+[data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) > [data-slot="card-header"][class*="bg-sky-50"]:first-child {
+  background-color: #22c1d6 !important;
+}
+
+[data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) > [data-slot="card-header"][class*="bg-blue-50"]:first-child {
+  background-color: #174b78 !important;
+}
+
+[data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) > [data-slot="card-header"][class*="bg-orange-50"]:first-child,
+[data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) > [data-slot="card-header"][class*="bg-amber-50"]:first-child {
+  background-color: #f6b32b !important;
+}
+
+/* Mathematics' established deep-blue band needs light foregrounds for readability. */
+[data-slot="card"]:has(img[src*="shazoniques-inspiration-logo.png"]) > [data-slot="card-header"][class*="bg-blue-50"]:first-child > :not(div:has(> img[src*="shazoniques-inspiration-logo.png"])) {
+  color: #ffffff !important;
+}
+
+/* Calm outer frame; CTA colours remain untouched. */
 .min-h-screen:has([data-slot="card"] img[src*="shazoniques-inspiration-logo.png"]) {
   background-image: none !important;
   background-color: #d9e4f2 !important;

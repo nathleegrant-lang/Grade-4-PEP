@@ -1,9 +1,7 @@
--- G4-DB-001
--- Foundational schema-only recovery. This historical baseline must execute BEFORE the six tracked 2026-08-18 migrations.
--- Existing tracked objects (bank_transfer_details, funnel_events, related analytics infrastructure)
--- are deliberately not recreated here. No production customer rows or secrets are included.
-
-create schema if not exists private;
+-- G4-DB-001-CORR-002
+-- Schema-only recovery of the untracked Grade 4 foundation that predates
+-- the six recorded 2026-08-18 Supabase migrations.
+-- No production customer rows or secrets are included.
 
 create type public.app_role as enum ('admin','parent');
 create type public.grade_product as enum ('grade4','grade5');
@@ -18,7 +16,7 @@ create table public.profiles (
   phone text,
   role public.app_role not null default 'parent',
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
 
 create table public.payments (
@@ -79,6 +77,14 @@ create table public.pricing_plans (
   updated_at timestamptz not null default now()
 );
 
+create table public.site_visits (
+  id uuid primary key default gen_random_uuid(),
+  page_path text not null,
+  session_id text not null,
+  user_agent text,
+  created_at timestamptz default now()
+);
+
 create table public.admin_audit_log (
   id uuid primary key default gen_random_uuid(),
   actor_id uuid references public.profiles(id),
@@ -90,17 +96,16 @@ create table public.admin_audit_log (
 );
 
 create unique index payments_one_pending_per_parent_grade
-  on public.payments(parent_id,grade) where status='pending'::public.payment_status;
+  on public.payments(parent_id,grade)
+  where status='pending'::public.payment_status;
+
 create unique index subscriptions_one_active_plan_per_grade
   on public.subscriptions(parent_id,grade)
   where status = any(array['pending'::public.subscription_status,'active'::public.subscription_status]);
-create index checkout_intents_parent_created_idx on public.checkout_intents(parent_id,created_at desc);
-create index funnel_events_event_created_idx on public.funnel_events(event_name,created_at desc);
-create index funnel_events_session_created_idx on public.funnel_events(session_id,created_at desc);
-create index funnel_events_user_created_idx on public.funnel_events(user_id,created_at desc);
 
 create or replace function public.set_updated_at()
-returns trigger language plpgsql
+returns trigger
+language plpgsql
 as $function$
 begin
   new.updated_at = now();
@@ -109,7 +114,10 @@ end;
 $function$;
 
 create or replace function public.handle_new_user()
-returns trigger language plpgsql security definer set search_path to 'public'
+returns trigger
+language plpgsql
+security definer
+set search_path to 'public'
 as $function$
 begin
   insert into public.profiles (id,full_name,email,phone,role)
@@ -126,180 +134,96 @@ end;
 $function$;
 
 create or replace function public.is_admin()
-returns boolean language sql security definer set search_path to 'public'
+returns boolean
+language sql
+security definer
+set search_path to 'public'
 as $function$
   select exists (
-    select 1 from public.profiles
+    select 1
+    from public.profiles
     where id=auth.uid() and role='admin'
   );
 $function$;
 
--- Intentionally current production behavior; corrected only by G4-PAY-001.
-create or replace function public.track_grade4_payment_funnel()
-returns trigger language plpgsql set search_path to 'public'
-as $function$
-begin
-  if new.grade::text='grade4' then
-    insert into public.funnel_events(event_name,user_id,grade,plan_code,page_path,metadata)
-    values ('payment_submitted',new.parent_id,'grade4',new.plan_code::text,'/checkout',
-      jsonb_build_object('payment_id',new.id,'method',new.method));
-  end if;
-  return new;
-end;
-$function$;
-
-create or replace function public.track_grade4_activation_funnel()
-returns trigger language plpgsql set search_path to 'public'
-as $function$
-begin
-  if new.grade::text='grade4' and new.status::text='active'
-     and (tg_op='INSERT' or old.status::text is distinct from 'active') then
-    insert into public.funnel_events(event_name,user_id,grade,plan_code,page_path,metadata)
-    values ('access_activated',new.parent_id,'grade4',new.plan_code::text,'/dashboard',
-      jsonb_build_object('subscription_id',new.id,'payment_id',new.payment_id,'starts_at',new.starts_at,'expires_at',new.expires_at));
-  end if;
-  return new;
-end;
-$function$;
-
-create or replace function private.record_grade4_registration_completed()
-returns trigger language plpgsql security definer set search_path to 'public','auth','pg_temp'
-as $function$
-begin
-  insert into public.funnel_events(event_name,user_id,grade,metadata)
-  values ('registration_completed',new.id,'grade4',jsonb_build_object('source','auth_user_created'));
-  return new;
-end;
-$function$;
-
-create trigger profiles_set_updated_at before update on public.profiles
+create trigger profiles_set_updated_at
+before update on public.profiles
 for each row execute function public.set_updated_at();
-create trigger students_set_updated_at before update on public.students
+
+create trigger students_set_updated_at
+before update on public.students
 for each row execute function public.set_updated_at();
-create trigger subscriptions_set_updated_at before update on public.subscriptions
+
+create trigger subscriptions_set_updated_at
+before update on public.subscriptions
 for each row execute function public.set_updated_at();
-create trigger grade4_payment_funnel_event after insert on public.payments
-for each row execute function public.track_grade4_payment_funnel();
-create trigger grade4_activation_funnel_event after insert or update of status on public.subscriptions
-for each row execute function public.track_grade4_activation_funnel();
-create trigger on_auth_user_created after insert on auth.users
+
+create trigger on_auth_user_created
+after insert on auth.users
 for each row execute function public.handle_new_user();
-create trigger grade4_registration_completed after insert on auth.users
-for each row execute function private.record_grade4_registration_completed();
 
 alter table public.profiles enable row level security;
 alter table public.payments enable row level security;
 alter table public.subscriptions enable row level security;
 alter table public.students enable row level security;
 alter table public.pricing_plans enable row level security;
-alter table public.bank_transfer_details enable row level security;
-alter table public.checkout_intents enable row level security;
-alter table public.funnel_events enable row level security;
-alter table public.internal_test_sessions enable row level security;
 alter table public.site_visits enable row level security;
 alter table public.admin_audit_log enable row level security;
 
-create policy "parents read own profile" on public.profiles for select using (auth.uid()=id);
-create policy "parents update own profile" on public.profiles for update using (auth.uid()=id) with check (auth.uid()=id);
-create policy "admins manage profiles" on public.profiles for all using (public.is_admin()) with check (public.is_admin());
+create policy "parents read own profile" on public.profiles
+for select using (auth.uid()=id);
+create policy "parents update own profile" on public.profiles
+for update using (auth.uid()=id) with check (auth.uid()=id);
+create policy "admins manage profiles" on public.profiles
+for all using (public.is_admin()) with check (public.is_admin());
 
-create policy "parents create own payments" on public.payments for insert with check (auth.uid()=parent_id);
-create policy "parents read own payments" on public.payments for select using (auth.uid()=parent_id);
-create policy "admins manage payments" on public.payments for all
+create policy "parents create own payments" on public.payments
+for insert with check (auth.uid()=parent_id);
+create policy "parents read own payments" on public.payments
+for select using (auth.uid()=parent_id);
+create policy "admins manage payments" on public.payments
+for all
 using (exists(select 1 from public.profiles p where p.id=auth.uid() and p.role='admin'))
 with check (exists(select 1 from public.profiles p where p.id=auth.uid() and p.role='admin'));
 
-create policy "parents read own subscriptions" on public.subscriptions for select using (auth.uid()=parent_id);
-create policy "admins manage subscriptions" on public.subscriptions for all
+create policy "parents read own subscriptions" on public.subscriptions
+for select using (auth.uid()=parent_id);
+create policy "admins manage subscriptions" on public.subscriptions
+for all
 using (exists(select 1 from public.profiles p where p.id=auth.uid() and p.role='admin'))
 with check (exists(select 1 from public.profiles p where p.id=auth.uid() and p.role='admin'));
 
-create policy "parents insert own students" on public.students for insert with check (auth.uid()=parent_id);
-create policy "parents read own students" on public.students for select using (auth.uid()=parent_id);
-create policy "parents update own students" on public.students for update using (auth.uid()=parent_id) with check (auth.uid()=parent_id);
-create policy "admins manage students" on public.students for all
+create policy "parents insert own students" on public.students
+for insert with check (auth.uid()=parent_id);
+create policy "parents read own students" on public.students
+for select using (auth.uid()=parent_id);
+create policy "parents update own students" on public.students
+for update using (auth.uid()=parent_id) with check (auth.uid()=parent_id);
+create policy "admins manage students" on public.students
+for all
 using (exists(select 1 from public.profiles p where p.id=auth.uid() and p.role='admin'))
 with check (exists(select 1 from public.profiles p where p.id=auth.uid() and p.role='admin'));
 
-create policy "pricing_plans_public_read" on public.pricing_plans for select using (is_active=true);
-create policy "pricing_plans_admin_manage" on public.pricing_plans for all
+create policy "pricing_plans_public_read" on public.pricing_plans
+for select using (is_active=true);
+create policy "pricing_plans_admin_manage" on public.pricing_plans
+for all
 using (exists(select 1 from public.profiles where profiles.id=auth.uid() and profiles.role='admin'))
 with check (exists(select 1 from public.profiles where profiles.id=auth.uid() and profiles.role='admin'));
 
-create policy "admin_audit_log_admin_insert" on public.admin_audit_log for insert
-with check (exists(select 1 from public.profiles where profiles.id=auth.uid() and profiles.role='admin'));
-create policy "admin_audit_log_admin_read" on public.admin_audit_log for select
-using (exists(select 1 from public.profiles where profiles.id=auth.uid() and profiles.role='admin'));
-create policy "admins insert audit log" on public.admin_audit_log for insert
-with check (exists(select 1 from public.profiles p where p.id=auth.uid() and p.role='admin'));
-create policy "admins read audit log" on public.admin_audit_log for select
-using (exists(select 1 from public.profiles p where p.id=auth.uid() and p.role='admin'));
+create policy "admin_audit_log_admin_insert" on public.admin_audit_log
+for insert with check (exists(select 1 from public.profiles where profiles.id=auth.uid() and profiles.role='admin'));
+create policy "admin_audit_log_admin_read" on public.admin_audit_log
+for select using (exists(select 1 from public.profiles where profiles.id=auth.uid() and profiles.role='admin'));
+create policy "admins insert audit log" on public.admin_audit_log
+for insert with check (exists(select 1 from public.profiles p where p.id=auth.uid() and p.role='admin'));
+create policy "admins read audit log" on public.admin_audit_log
+for select using (exists(select 1 from public.profiles p where p.id=auth.uid() and p.role='admin'));
 
--- Match the production exposure model: API table privileges are broad where present,
--- with RLS enforcing row access. Sensitive infrastructure tables remain service-role only.
-grant all on public.profiles,public.payments,public.subscriptions,public.students,public.pricing_plans,public.admin_audit_log to anon,authenticated,service_role;
-grant all on public.bank_transfer_details,public.checkout_intents,public.funnel_events,public.internal_test_sessions,public.site_visits to service_role;
-revoke all on public.bank_transfer_details,public.checkout_intents,public.funnel_events,public.internal_test_sessions,public.site_visits from anon,authenticated;
-
-grant execute on function public.handle_new_user() to public,anon,authenticated,service_role;
-grant execute on function public.is_admin() to anon,authenticated,service_role;
-grant execute on function public.set_updated_at() to public,anon,authenticated,service_role;
-revoke execute on function public.track_grade4_payment_funnel() from public,anon,authenticated;
-grant execute on function public.track_grade4_payment_funnel() to service_role;
-revoke execute on function public.track_grade4_activation_funnel() from public,anon,authenticated;
-grant execute on function public.track_grade4_activation_funnel() to service_role;
-create or replace function public.set_updated_at()
-returns trigger language plpgsql
-as $function$
-begin
-  new.updated_at = now();
-  return new;
-end;
-$function$;
-
-create or replace function public.handle_new_user()
-returns trigger language plpgsql security definer set search_path to 'public'
-as $function$
-begin
-  insert into public.profiles (id,full_name,email,phone,role)
-  values (
-    new.id,
-    coalesce(new.raw_user_meta_data ->> 'full_name', split_part(coalesce(new.email,''),'@',1)),
-    new.email,
-    new.raw_user_meta_data ->> 'phone',
-    coalesce((new.raw_user_meta_data ->> 'role')::public.app_role,'parent')
-  )
-  on conflict (id) do nothing;
-  return new;
-end;
-$function$;
-
-create or replace function public.is_admin()
-returns boolean language sql security definer set search_path to 'public'
-as $function$
-  select exists (
-    select 1 from public.profiles
-    where id=auth.uid() and role='admin'
-  );
-$function$;
-
-
-create trigger profiles_set_updated_at before update on public.profiles
-for each row execute function public.set_updated_at();
-create trigger students_set_updated_at before update on public.students
-for each row execute function public.set_updated_at();
-create trigger subscriptions_set_updated_at before update on public.subscriptions
-for each row execute function public.set_updated_at();
-
-alter table public.profiles enable row level security;
-alter table public.payments enable row level security;
-alter table public.subscriptions enable row level security;
-alter table public.students enable row level security;
-alter table public.pricing_plans enable row level security;
-
--- Match the production exposure model: API table privileges are broad where present,
--- with RLS enforcing row access. Sensitive infrastructure tables remain service-role only.
-grant all on public.profiles,public.payments,public.subscriptions,public.students,public.pricing_plans,public.admin_audit_log to anon,authenticated,service_role;
+grant all on public.profiles,public.payments,public.subscriptions,public.students,
+  public.pricing_plans,public.admin_audit_log to anon,authenticated,service_role;
+grant all on public.site_visits to service_role;
+revoke all on public.site_visits from anon,authenticated;
 
 grant execute on function public.handle_new_user() to public,anon,authenticated,service_role;
 grant execute on function public.is_admin() to anon,authenticated,service_role;

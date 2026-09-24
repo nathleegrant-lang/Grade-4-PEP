@@ -1,5 +1,5 @@
 -- G4-DB-001
--- Gap-filling schema-only recovery. Apply AFTER the repository's tracked migrations.
+-- Foundational schema-only recovery. This historical baseline must execute BEFORE the six tracked 2026-08-18 migrations.
 -- Existing tracked objects (bank_transfer_details, funnel_events, related analytics infrastructure)
 -- are deliberately not recreated here. No production customer rows or secrets are included.
 
@@ -19,7 +19,6 @@ create table public.profiles (
   role public.app_role not null default 'parent',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  is_internal_test boolean not null default false
 );
 
 create table public.payments (
@@ -249,3 +248,59 @@ revoke execute on function public.track_grade4_payment_funnel() from public,anon
 grant execute on function public.track_grade4_payment_funnel() to service_role;
 revoke execute on function public.track_grade4_activation_funnel() from public,anon,authenticated;
 grant execute on function public.track_grade4_activation_funnel() to service_role;
+create or replace function public.set_updated_at()
+returns trigger language plpgsql
+as $function$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$function$;
+
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path to 'public'
+as $function$
+begin
+  insert into public.profiles (id,full_name,email,phone,role)
+  values (
+    new.id,
+    coalesce(new.raw_user_meta_data ->> 'full_name', split_part(coalesce(new.email,''),'@',1)),
+    new.email,
+    new.raw_user_meta_data ->> 'phone',
+    coalesce((new.raw_user_meta_data ->> 'role')::public.app_role,'parent')
+  )
+  on conflict (id) do nothing;
+  return new;
+end;
+$function$;
+
+create or replace function public.is_admin()
+returns boolean language sql security definer set search_path to 'public'
+as $function$
+  select exists (
+    select 1 from public.profiles
+    where id=auth.uid() and role='admin'
+  );
+$function$;
+
+
+create trigger profiles_set_updated_at before update on public.profiles
+for each row execute function public.set_updated_at();
+create trigger students_set_updated_at before update on public.students
+for each row execute function public.set_updated_at();
+create trigger subscriptions_set_updated_at before update on public.subscriptions
+for each row execute function public.set_updated_at();
+
+alter table public.profiles enable row level security;
+alter table public.payments enable row level security;
+alter table public.subscriptions enable row level security;
+alter table public.students enable row level security;
+alter table public.pricing_plans enable row level security;
+
+-- Match the production exposure model: API table privileges are broad where present,
+-- with RLS enforcing row access. Sensitive infrastructure tables remain service-role only.
+grant all on public.profiles,public.payments,public.subscriptions,public.students,public.pricing_plans,public.admin_audit_log to anon,authenticated,service_role;
+
+grant execute on function public.handle_new_user() to public,anon,authenticated,service_role;
+grant execute on function public.is_admin() to anon,authenticated,service_role;
+grant execute on function public.set_updated_at() to public,anon,authenticated,service_role;

@@ -1,9 +1,7 @@
 -- G4-DB-001
--- Schema-only recovery of the existing Grade 4 production architecture.
--- Source: read-only PostgreSQL catalog inspection on 2026-09-24.
--- Contains no production customer rows or secrets.
--- IMPORTANT: track_grade4_payment_funnel intentionally reproduces the current
--- production invoker-security behavior. G4-PAY-001 is a separate correction.
+-- Gap-filling schema-only recovery. Apply AFTER the repository's tracked migrations.
+-- Existing tracked objects (bank_transfer_details, funnel_events, related analytics infrastructure)
+-- are deliberately not recreated here. No production customer rows or secrets are included.
 
 create schema if not exists private;
 
@@ -80,53 +78,6 @@ create table public.pricing_plans (
   is_active boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
-);
-
-create table public.bank_transfer_details (
-  id text primary key,
-  grade text not null unique,
-  bank_name text not null,
-  branch_name text,
-  account_name text not null,
-  account_number text not null,
-  account_type text,
-  is_active boolean not null default true,
-  updated_at timestamptz not null default now()
-);
-
-create table public.checkout_intents (
-  id uuid primary key default gen_random_uuid(),
-  parent_id uuid not null references auth.users(id) on delete cascade,
-  grade text not null default 'grade4' check (grade = 'grade4'),
-  plan_code text not null,
-  created_at timestamptz not null default now(),
-  expires_at timestamptz not null
-);
-
-create table public.funnel_events (
-  id uuid primary key default gen_random_uuid(),
-  event_name text not null,
-  session_id text,
-  user_id uuid references auth.users(id) on delete set null,
-  grade text not null default 'grade4',
-  plan_code text,
-  page_path text,
-  metadata jsonb not null default '{}'::jsonb,
-  created_at timestamptz not null default now()
-);
-
-create table public.internal_test_sessions (
-  session_id text primary key,
-  user_id uuid references auth.users(id) on delete cascade,
-  identified_at timestamptz not null default now()
-);
-
-create table public.site_visits (
-  id uuid primary key default gen_random_uuid(),
-  page_path text not null,
-  session_id text not null,
-  user_agent text,
-  created_at timestamptz default now()
 );
 
 create table public.admin_audit_log (

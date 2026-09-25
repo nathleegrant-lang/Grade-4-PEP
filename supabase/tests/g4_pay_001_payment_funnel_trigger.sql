@@ -70,10 +70,10 @@ select set_config('request.jwt.claim.role', 'authenticated', true);
 -- 1. Authorized own-payment submission must succeed.
 insert into public.payments (
   parent_id, grade, plan_code, amount_jmd, method, reference_code, status
-) values (
+) select
   '00000000-0000-4000-8000-0000000000a1',
-  'grade4', 'standard_monthly', 1, 'bank_transfer', 'SYNTHETIC-G4-PAY-001-A', 'pending'
-);
+  'grade4', 'standard_monthly', price_jmd::integer, 'bank_transfer', 'SYNTHETIC-G4-PAY-001-A', 'pending'
+from public.pricing_plans where grade='grade4' and code='standard_monthly' and is_active=true;
 
 -- 2. The trigger must atomically create the intended funnel event.
 -- Verify under the privileged test context; parents intentionally cannot read funnel_events.
@@ -105,10 +105,10 @@ begin
   begin
     insert into public.payments (
       parent_id, grade, plan_code, amount_jmd, method, reference_code, status
-    ) values (
+    ) select
       '00000000-0000-4000-8000-0000000000b2',
-      'grade4', 'standard_monthly', 1, 'bank_transfer', 'SYNTHETIC-CROSS-PARENT', 'pending'
-    );
+      'grade4', 'standard_monthly', price_jmd::integer, 'bank_transfer', 'SYNTHETIC-CROSS-PARENT', 'pending'
+    from public.pricing_plans where grade='grade4' and code='standard_monthly' and is_active=true;
     raise exception 'G4-PAY-001: cross-parent payment unexpectedly succeeded';
   exception
     when insufficient_privilege then null;
@@ -122,10 +122,10 @@ begin
   begin
     insert into public.payments (
       parent_id, grade, plan_code, amount_jmd, method, reference_code, status
-    ) values (
+    ) select
       '00000000-0000-4000-8000-0000000000a1',
-      'grade4', 'standard_monthly', 1, 'bank_transfer', 'SYNTHETIC-DUPLICATE', 'pending'
-    );
+      'grade4', 'standard_monthly', price_jmd::integer, 'bank_transfer', 'SYNTHETIC-DUPLICATE', 'pending'
+    from public.pricing_plans where grade='grade4' and code='standard_monthly' and is_active=true;
     raise exception 'G4-PAY-001: duplicate pending payment unexpectedly succeeded';
   exception
     when unique_violation then null;

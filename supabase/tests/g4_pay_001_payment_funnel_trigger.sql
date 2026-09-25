@@ -79,7 +79,7 @@ insert into public.payments (
 -- Verify under the privileged test context; parents intentionally cannot read funnel_events.
 reset role;
 
-do $
+do $$
 begin
   if not exists (
     select 1 from public.funnel_events
@@ -92,7 +92,7 @@ begin
     raise exception 'G4-PAY-001: payment_submitted funnel event missing';
   end if;
 end
-$;
+$$;
 
 -- Restore Parent A before the remaining parent-context security tests.
 set local role authenticated;

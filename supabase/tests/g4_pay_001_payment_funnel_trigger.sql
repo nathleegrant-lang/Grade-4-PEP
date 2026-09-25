@@ -12,7 +12,14 @@ begin
     where n.nspname = 'public'
       and p.proname = 'track_grade4_payment_funnel'
       and p.prosecdef
-      and p.proconfig @> array['search_path=']
+      and coalesce(
+        (
+          select setting
+          from pg_options_to_table(p.proconfig)
+          where option_name = 'search_path'
+        ),
+        '__missing__'
+      ) = ''
   ) then
     raise exception 'G4-PAY-001: trigger function is not SECURITY DEFINER with empty search_path';
   end if;

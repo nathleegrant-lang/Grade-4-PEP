@@ -76,7 +76,10 @@ insert into public.payments (
 );
 
 -- 2. The trigger must atomically create the intended funnel event.
-do $$
+-- Verify under the privileged test context; parents intentionally cannot read funnel_events.
+reset role;
+
+do $
 begin
   if not exists (
     select 1 from public.funnel_events
@@ -89,7 +92,12 @@ begin
     raise exception 'G4-PAY-001: payment_submitted funnel event missing';
   end if;
 end
-$$;
+$;
+
+-- Restore Parent A before the remaining parent-context security tests.
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-0000000000a1', true);
+select set_config('request.jwt.claim.role', 'authenticated', true);
 
 -- 3. Cross-parent ownership must remain denied by payments RLS.
 do $$

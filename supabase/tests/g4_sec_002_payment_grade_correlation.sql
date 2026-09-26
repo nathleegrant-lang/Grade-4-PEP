@@ -152,23 +152,26 @@ begin
   exception when insufficient_privilege then null; end;
 end $$;
 
--- T4 requires an inactive authoritative plan.
+-- T4 requires an inactive authoritative plan. Capture its authoritative
+-- amount while still in privileged fixture/setup context because the existing
+-- pricing_plans_public_read RLS policy correctly hides inactive plans.
 reset role;
+select set_config('g4_sec_002.t4_amount', price_jmd::integer::text, true)
+from public.pricing_plans
+where code='standard_weekly' and grade='grade4' and is_active=true;
 update public.pricing_plans set is_active=false where code='standard_weekly' and grade='grade4';
 set local role authenticated;
 select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-0000000005a1',true);
 select set_config('request.jwt.claim.role','authenticated',true);
-do $$
-declare amount integer;
+do $t4$
+declare amount integer := current_setting('g4_sec_002.t4_amount')::integer;
 begin
-  select price_jmd::integer into strict amount
-  from public.pricing_plans where code='standard_weekly' and grade='grade4';
   begin
     insert into public.payments(parent_id,grade,plan_code,amount_jmd,reference_code)
     values(auth.uid(),'grade4','standard_weekly',amount,'SYNTHETIC-G4-SEC-002-T4');
     raise exception 'T4: inactive plan payment accepted';
   exception when insufficient_privilege then null; end;
-end $$;
+end $t4$;
 
 reset role;
 update public.pricing_plans set is_active=true where code='standard_weekly' and grade='grade4';

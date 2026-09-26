@@ -119,5 +119,6 @@ grant all on public.profiles,public.payments,public.subscriptions,public.student
 grant all on public.site_visits to service_role;
 revoke all on public.site_visits from anon,authenticated;
 grant execute on function public.handle_new_user() to public,anon,authenticated,service_role;
+revoke execute on function public.is_admin() from public;
 grant execute on function public.is_admin() to anon,authenticated,service_role;
 grant execute on function public.set_updated_at() to public,anon,authenticated,service_role;

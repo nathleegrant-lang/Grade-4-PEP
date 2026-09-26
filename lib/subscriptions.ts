@@ -49,6 +49,7 @@ export function getAccessLabel(subscription: SubscriptionRecord | null | undefin
 export function isSubscriptionActive(subscription: SubscriptionRecord | null | undefined): boolean {
   if (!subscription) return false
   if (subscription.status !== "active") return false
-  if (!subscription.expiresAt) return false
-  return new Date(subscription.expiresAt) > new Date()
+  if (!subscription.startsAt || !subscription.expiresAt) return false
+  const now = new Date()
+  return new Date(subscription.startsAt) <= now && new Date(subscription.expiresAt) > now
 }

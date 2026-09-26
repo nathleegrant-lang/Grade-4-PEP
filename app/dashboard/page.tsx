@@ -15,7 +15,7 @@ import { useProgress } from "@/contexts/progress-context"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 import type { PaymentRecord } from "@/lib/types"
 import { BookOpen, Calculator, ClipboardList, FileText, ArrowRight, Award, Clock, Target, CheckCircle2, Lock, User, Crown, ShieldCheck, Users } from "lucide-react"
-import { getPlanLabel } from "@/lib/subscriptions"
+import { getAccessLabel, getPlanLabel } from "@/lib/subscriptions"
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -110,7 +110,7 @@ export default function DashboardPage() {
               <p className="text-slate-600">Primary student: {user.childName}</p>
             </div>
           </div>
-          <Badge className={isPremium ? "bg-amber-100 text-amber-700 border-amber-300" : "bg-slate-100 text-slate-700"}>{isPremium ? <Crown className="h-4 w-4 mr-1" /> : <ShieldCheck className="h-4 w-4 mr-1" />}{getPlanLabel(user.subscriptionTier)}</Badge>
+          <Badge className={isPremium ? "bg-amber-100 text-amber-700 border-amber-300" : "bg-slate-100 text-slate-700"}>{isPremium ? <Crown className="h-4 w-4 mr-1" /> : <ShieldCheck className="h-4 w-4 mr-1" />}{getAccessLabel(activeSubscription)}</Badge>
         </div>
 
         <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 mb-8">
@@ -146,7 +146,7 @@ export default function DashboardPage() {
           </div>
 
           <div className="space-y-6">
-            <Card className="border-sky-200"><CardHeader><CardTitle className="text-slate-800 flex items-center gap-2"><Crown className="h-5 w-5 text-amber-500" /> Access Status</CardTitle></CardHeader><CardContent className="space-y-4 text-sm"><div className="flex items-center justify-between"><span className="text-slate-500">Plan</span><Badge>{getPlanLabel(user.subscriptionTier)}</Badge></div>{activeSubscription?.expiresAt && <div className="flex items-center justify-between"><span className="text-slate-500">Expires</span><span className="text-slate-700">{new Date(activeSubscription.expiresAt).toLocaleDateString()}</span></div>}{!isPremium && <Link href="/pricing" className="block"><Button className="w-full bg-amber-500 hover:bg-amber-600 text-white">Upgrade Access</Button></Link>}</CardContent></Card>
+            <Card className="border-sky-200"><CardHeader><CardTitle className="text-slate-800 flex items-center gap-2"><Crown className="h-5 w-5 text-amber-500" /> Access Status</CardTitle></CardHeader><CardContent className="space-y-4 text-sm"><div className="flex items-center justify-between"><span className="text-slate-500">Access</span><Badge>{getAccessLabel(activeSubscription)}</Badge></div>{activeSubscription?.expiresAt && <div className="flex items-center justify-between"><span className="text-slate-500">Expires</span><span className="text-slate-700">{new Date(activeSubscription.expiresAt).toLocaleDateString()}</span></div>}{!isPremium && <Link href="/pricing" className="block"><Button className="w-full bg-amber-500 hover:bg-amber-600 text-white">Upgrade Access</Button></Link>}</CardContent></Card>
             <Card className="border-sky-200"><CardHeader><CardTitle className="text-slate-800 flex items-center gap-2"><ShieldCheck className="h-5 w-5 text-sky-600" /> Latest Payment</CardTitle></CardHeader><CardContent className="space-y-3 text-sm">{latestPayment ? <><div className="flex items-center justify-between"><span className="text-slate-500">Plan</span><span className="text-slate-700">{getPlanLabel(latestPayment.planCode)}</span></div><div className="flex items-center justify-between"><span className="text-slate-500">Status</span><Badge variant={latestPayment.status === "verified" ? "default" : "secondary"}>{latestPayment.status}</Badge></div><div className="flex items-center justify-between"><span className="text-slate-500">Submitted</span><span className="text-slate-700">{new Date(latestPayment.submittedAt).toLocaleDateString()}</span></div>{latestPayment.referenceCode && <div><span className="text-slate-500 block mb-1">Reference</span><span className="text-slate-700">{latestPayment.referenceCode}</span></div>}</> : <p className="text-slate-600">No payment submitted yet. Choose a plan to start.</p>}</CardContent></Card>
             <Card className="border-sky-200"><CardHeader><CardTitle className="text-slate-800 flex items-center gap-2"><Clock className="h-5 w-5 text-slate-600" /> Recent Activity</CardTitle></CardHeader><CardContent>{progress && progress.quizAttempts.length > 0 ? <div className="space-y-3">{progress.quizAttempts.slice(-5).reverse().map((attempt) => <div key={attempt.id} className="flex items-center justify-between text-sm"><div className="flex items-center gap-2"><CheckCircle2 className={`h-4 w-4 ${attempt.percentage >= 80 ? "text-green-500" : attempt.percentage >= 60 ? "text-amber-500" : "text-red-500"}`} /><span className="text-slate-700">{attempt.topic}</span></div><span className="text-slate-500">{attempt.percentage}%</span></div>)}</div> : <p className="text-slate-500 text-center py-4 text-sm">No activity yet. Start a quiz!</p>}</CardContent></Card>
           </div>

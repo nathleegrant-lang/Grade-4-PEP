@@ -129,7 +129,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           .maybeSingle<SupabaseProfileRow>(),
         supabase
           .from("subscriptions")
-          .select("id, parent_id, grade, plan_code, status, starts_at, expires_at, max_students, payment_id")
+          .select("id, parent_id, grade, plan_code, status, starts_at, expires_at, max_students, payment_id, access_source, goodwill_reason, goodwill_authorized_by, beneficiary_student_id")
           .eq("parent_id", authUser.id)
           .eq("grade", "grade4")
           .in("status", ["active", "pending"])

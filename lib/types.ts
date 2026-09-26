@@ -2,7 +2,7 @@ export type AppRole = "admin" | "parent"
 export type GradeProduct = "grade4" | "grade5"
 export type PlanCode = "free" | "standard_weekly" | "standard_monthly" | "premium_family_monthly"
 export type PaymentStatus = "pending" | "verified" | "rejected" | "expired"
-export type SubscriptionStatus = "pending" | "active" | "expired" | "cancelled" | "suspended"
+export type SubscriptionStatus = "pending" | "active" | "expired" | "cancelled" | "suspended"\nexport type AccessSource = "payment" | "goodwill"
 
 export interface StudentRecord {
   id: string

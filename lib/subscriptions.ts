@@ -41,7 +41,7 @@ export function calculateExpiry(planCode: PlanCode): Date | undefined {
   return undefined
 }
 
-export function isSubscriptionActive(subscription: SubscriptionRecord | null | undefined): boolean {
+export function getAccessLabel(subscription: SubscriptionRecord | null | undefined): string {\n  if (subscription?.accessSource === "goodwill") return "Temporary goodwill access"\n  return getPlanLabel(subscription?.planCode ?? "free")\n}\n\nexport function isSubscriptionActive(subscription: SubscriptionRecord | null | undefined): boolean {
   if (!subscription) return false
   if (subscription.status !== "active") return false
   if (!subscription.expiresAt) return false

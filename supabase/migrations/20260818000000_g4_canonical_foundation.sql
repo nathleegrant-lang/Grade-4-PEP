@@ -108,6 +108,13 @@ create policy "admins insert audit log" on public.admin_audit_log for insert
 create policy "admins read audit log" on public.admin_audit_log for select
  using (exists(select 1 from public.profiles p where p.id=auth.uid() and p.role='admin'));
 
+-- Supabase preview branches do not inherit the production project's default
+-- public-schema privileges. Restore only the service_role defaults required so
+-- later restricted historical tables/functions reproduce production access;
+-- anon/authenticated access remains explicitly controlled by each migration.
+alter default privileges for role postgres in schema public grant all on tables to service_role;
+alter default privileges for role postgres in schema public grant execute on functions to service_role;
+
 grant all on public.profiles,public.payments,public.subscriptions,public.students,public.pricing_plans,public.admin_audit_log to anon,authenticated,service_role;
 grant all on public.site_visits to service_role;
 revoke all on public.site_visits from anon,authenticated;

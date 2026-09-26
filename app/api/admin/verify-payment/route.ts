@@ -27,12 +27,12 @@ export async function POST(request: NextRequest) {
   if (planError || !plan) return NextResponse.json({ error: "Pricing plan not found." }, { status: 404 })
   const now = new Date()
   const expiry = calculateExpiry(payment.plan_code)
-  const { data: existingSubscription } = await supabase.from("subscriptions").select("id").eq("parent_id", payment.parent_id).eq("grade", "grade4").in("status", ["pending", "active"]).maybeSingle()
+  const { data: existingSubscription } = await supabase.from("subscriptions").select("id").eq("parent_id", payment.parent_id).eq("grade", "grade4").eq("access_source", "payment").in("status", ["pending", "active"]).maybeSingle()
   if (existingSubscription?.id) {
-    const { error: updateError } = await supabase.from("subscriptions").update({ plan_code: payment.plan_code, status: "active", starts_at: now.toISOString(), expires_at: expiry?.toISOString() ?? null, max_students: plan.max_students, payment_id: payment.id }).eq("id", existingSubscription.id)
+    const { error: updateError } = await supabase.from("subscriptions").update({ plan_code: payment.plan_code, status: "active", starts_at: now.toISOString(), expires_at: expiry?.toISOString() ?? null, max_students: plan.max_students, payment_id: payment.id, access_source: "payment" }).eq("id", existingSubscription.id)
     if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 })
   } else {
-    const { error: insertError } = await supabase.from("subscriptions").insert({ parent_id: payment.parent_id, grade: "grade4", plan_code: payment.plan_code, status: "active", starts_at: now.toISOString(), expires_at: expiry?.toISOString() ?? null, max_students: plan.max_students, payment_id: payment.id })
+    const { error: insertError } = await supabase.from("subscriptions").insert({ parent_id: payment.parent_id, grade: "grade4", plan_code: payment.plan_code, status: "active", starts_at: now.toISOString(), expires_at: expiry?.toISOString() ?? null, max_students: plan.max_students, payment_id: payment.id, access_source: "payment" })
     if (insertError) return NextResponse.json({ error: insertError.message }, { status: 500 })
   }
   const { error: paymentUpdateError } = await supabase.from("payments").update({ status: "verified", verified_at: now.toISOString(), verified_by: adminId }).eq("id", payment.id)

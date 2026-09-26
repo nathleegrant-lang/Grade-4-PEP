@@ -40,6 +40,9 @@ do $$ begin
 end $$;
 reset role;
 
+-- Capture the payment count before goodwill creation so GW5 proves no financial row is created.
+select set_config('g4gw.payments_before', (select count(*)::text from public.payments where parent_id='00000000-0000-4000-8000-00000000a101'), true);
+
 -- GW9/GW10: legitimate Admin grants finite, attributed goodwill.
 set local role authenticated;
 select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-00000000a102',true);
@@ -51,7 +54,7 @@ reset role;
 -- GW2/GW4/GW5/GW10: active goodwill is premium-equivalent data, requires no payment,
 -- creates/verifies no payment, and retains source/reason/Admin/beneficiary/finite dates.
 do $$ declare before_payments int; after_payments int; begin
- select count(*) into before_payments from public.payments where parent_id='00000000-0000-4000-8000-00000000a101';
+ before_payments := current_setting('g4gw.payments_before')::int;
  select count(*) into after_payments from public.payments where parent_id='00000000-0000-4000-8000-00000000a101';
  if before_payments <> after_payments then raise exception 'GW5: goodwill changed payment count'; end if;
  if not exists(select 1 from public.subscriptions where id='00000000-0000-4000-8000-00000000d102'

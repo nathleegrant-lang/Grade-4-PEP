@@ -56,6 +56,10 @@ interface SupabaseSubscriptionRow {
   expires_at: string | null
   max_students: number
   payment_id: string | null
+  access_source: "payment" | "goodwill"
+  goodwill_reason: string | null
+  goodwill_authorized_by: string | null
+  beneficiary_student_id: string | null
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -88,6 +92,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       expiresAt: row.expires_at,
       maxStudents: row.max_students,
       paymentId: row.payment_id,
+      accessSource: row.access_source,
+      goodwillReason: row.goodwill_reason,
+      goodwillAuthorizedBy: row.goodwill_authorized_by,
+      beneficiaryStudentId: row.beneficiary_student_id,
     }
   }
 

@@ -2,7 +2,8 @@ export type AppRole = "admin" | "parent"
 export type GradeProduct = "grade4" | "grade5"
 export type PlanCode = "free" | "standard_weekly" | "standard_monthly" | "premium_family_monthly"
 export type PaymentStatus = "pending" | "verified" | "rejected" | "expired"
-export type SubscriptionStatus = "pending" | "active" | "expired" | "cancelled" | "suspended"\nexport type AccessSource = "payment" | "goodwill"
+export type SubscriptionStatus = "pending" | "active" | "expired" | "cancelled" | "suspended"
+export type AccessSource = "payment" | "goodwill"
 
 export interface StudentRecord {
   id: string
@@ -22,6 +23,10 @@ export interface SubscriptionRecord {
   expiresAt?: string | null
   maxStudents: number
   paymentId?: string | null
+  accessSource: AccessSource
+  goodwillReason?: string | null
+  goodwillAuthorizedBy?: string | null
+  beneficiaryStudentId?: string | null
 }
 
 export interface PaymentRecord {
